@@ -14,4 +14,5 @@ jar {
 		'Class-Path': 'lib/resources.jar'
 	)
 	destinationDir = file("$rootDir")
+	baseName += '-rkhanna33' 
 }
