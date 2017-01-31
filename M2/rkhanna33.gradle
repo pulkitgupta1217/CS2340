@@ -1,7 +1,11 @@
 apply plugin: 'java'
 
+sourceCompatibility = 1.8
+version = '1.0'
+
 dependencies {
 	compile files('lib/resources.jar')
+	testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
 repositories {
@@ -14,5 +18,5 @@ jar {
 		'Class-Path': 'lib/resources.jar'
 	)
 	destinationDir = file("$rootDir")
-	baseName += '-rkhanna33' 
+	baseName += '-rkhanna33'
 }
