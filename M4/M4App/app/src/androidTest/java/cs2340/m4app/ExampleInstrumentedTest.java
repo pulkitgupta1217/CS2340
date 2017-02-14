@@ -1,4 +1,4 @@
-package cs2340.m4;
+package cs2340.m4app;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("cs2340.m4", appContext.getPackageName());
+        assertEquals("cs2340.m4app", appContext.getPackageName());
     }
 }

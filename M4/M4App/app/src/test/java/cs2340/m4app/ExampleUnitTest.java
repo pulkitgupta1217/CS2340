@@ -1,4 +1,4 @@
-package cs2340.m4;
+package cs2340.m4app;
 
 import org.junit.Test;
 
