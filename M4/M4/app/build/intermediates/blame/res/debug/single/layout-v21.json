@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/res/merged/debug/layout-v21/notification_action.xml",
+        "source": "/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/res/merged/debug/layout-v21/notification_action_tombstone.xml",
+        "source": "/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/res/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/res/merged/debug/layout-v21/notification_template_icon_group.xml",
+        "source": "/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/res/merged/debug/layout-v21/notification_template_custom_big.xml",
+        "source": "/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/res/layout-v21/notification_template_custom_big.xml"
+    }
+]

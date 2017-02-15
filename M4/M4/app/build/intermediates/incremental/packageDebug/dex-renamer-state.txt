@@ -1,0 +1,7 @@
+#Tue Feb 14 16:43:46 EST 2017
+base.0=/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_8d8eb71dabf9c284e4ec73845cc2f10d8df51f75
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_c0684e9ddf39f4ce701b2d960a41c5f54bef130e/classes.dex
+base.1=/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_c0684e9ddf39f4ce701b2d960a41c5f54bef130e
+file.0=/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_8d8eb71dabf9c284e4ec73845cc2f10d8df51f75/classes.dex

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="x86"
+    api-level="25"
+    density="xxhdpi"
+    format="8"
+    plugin-version="2.2.3"
+    timestamp="62746943130553"
+    token="-119776163087556386"
+    verifier="FULL_BUILD_REQUESTED" >
+
+    <task
+        name="javac"
+        duration="9004" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="470" />
+    <task
+        name="verifier"
+        duration="67" />
+
+    <artifact
+        location="/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/outputs/apk/app-debug.apk"
+        type="MAIN" />
+
+    <build
+        timestamp="62746943130553"
+        verifier="FULL_BUILD_REQUESTED" >
+        <artifact
+            location="/Volumes/Samsung USB/Google Drive/Work/College/cs2340/cs2340/M4/M4/app/build/outputs/apk/app-debug.apk"
+            type="MAIN" />
+    </build>
+
+</instant-run>
