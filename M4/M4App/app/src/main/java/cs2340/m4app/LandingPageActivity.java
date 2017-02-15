@@ -30,6 +30,7 @@ public class LandingPageActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
+                        //TODO: link to landing page
                         startActivity(new Intent());
 
                     }
@@ -37,6 +38,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
             }
         });
+        //TODO: use registerbutton to link to registerpage and then to loginpage and finally to landing page
 
     }
 }
