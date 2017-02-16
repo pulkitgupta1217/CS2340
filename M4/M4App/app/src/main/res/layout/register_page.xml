@@ -12,10 +12,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Username"
         android:ems="10"
-        android:id="@+id/usernameRegisterInput" />
+        android:id="@+id/usernameRegisterInput"
+        android:hint="username" />
 
     <TextView
         android:text="enter password"
@@ -26,10 +25,10 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Password"
+        android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/passwordRegisterInput" />
+        android:id="@+id/passwordRegisterInput"
+        android:hint="password" />
 
     <Button
         android:text="Complete Registration"
