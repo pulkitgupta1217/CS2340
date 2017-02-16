@@ -10,7 +10,7 @@
         android:id="@+id/landingText" />
 
     <Button
-        android:text="Logoutterm"
+        android:text="Log Out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/logout" />

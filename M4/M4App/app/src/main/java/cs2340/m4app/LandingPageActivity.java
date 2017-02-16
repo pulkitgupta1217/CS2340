@@ -149,6 +149,8 @@ public class LandingPageActivity extends AppCompatActivity {
                 //TODO: link to landing page
                 if (usernameField.getText().toString().equals("") || passwordField.getText().toString().equals(""))
                     Toast.makeText(getApplicationContext(), "please enter a username and password!", Toast.LENGTH_SHORT).show();
+                else if (!users.containsKey(usernameField.getText().toString()))
+                    Toast.makeText(getApplicationContext(), "account not found!", Toast.LENGTH_SHORT).show();
                 else if (users.get(usernameField.getText().toString()).equals(passwordField.getText().toString())) {
                     intent.putExtra("username", usernameField.getText().toString());
                     startActivity(intent);
