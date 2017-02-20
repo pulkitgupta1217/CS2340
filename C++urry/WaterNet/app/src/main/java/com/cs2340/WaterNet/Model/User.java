@@ -6,9 +6,11 @@ package com.cs2340.WaterNet.Model;
 
 public class User {
 
-    public String username, email;
+    private String username, email;
     private static int userCount;
-    public int userId;
+    private int userId;
+    UserType userType = UserType.USER;
+
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -25,4 +27,19 @@ public class User {
         return username + " " + email;
     }
 
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
 }
