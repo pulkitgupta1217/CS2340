@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">WaterNet</string>
     <string name="action_sign_in_short">Register</string>
-    <string name="email">Email (Not Required)</string>
+    <string name="email_not_required">Email (Not Required)</string>
+    <string name="email_or_user">Email (or username if no email provided)</string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
     <string name="auth_failed">Authentication failed, check your email and password or sign up</string>
     <string name="change_email">Change Email</string>
@@ -29,5 +30,12 @@
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
     <string name="username">Username</string>
-    <string name="email_extension">/@Water.Net</string>
+    <string name="email_extension">\@Water.Net</string>
+    <string name="view_profile">View Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="cancel">Cancel</string>
+    <string name="new_name">New Name</string>
+    <string name="new_phone">New Phone</string>
+    <string name="new_address">New Address</string>
 </resources>

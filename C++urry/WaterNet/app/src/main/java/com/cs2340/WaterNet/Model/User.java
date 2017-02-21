@@ -1,12 +1,14 @@
 package com.cs2340.WaterNet.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by rajatkhanna on 2/18/17.
  */
 
-public class User {
+public class User implements Serializable{
 
-    private String username, email;
+    private String username, email, name = "", address = "", phone = "";
     private static int userCount;
     private int userId;
     UserType userType = UserType.USER;
@@ -41,5 +43,37 @@ public class User {
 
     public int getUserId() {
         return userId;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 }

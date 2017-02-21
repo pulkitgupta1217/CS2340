@@ -101,10 +101,12 @@ public class SignupActivity extends AppCompatActivity {
                 }
 
                 if (TextUtils.isEmpty(tempEmail)) {
-                    email = username + R.string.email_extension;
+                    email = username + getString(R.string.email_extension);
                 } else {
                     email = tempEmail;
                 }
+
+                Log.d("***", email);
 
                 if (password.length() < 6) {
                     Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
@@ -126,19 +128,27 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    if (userType == UserType.USER)
+                                    User u = null;
+                                    if (userType == UserType.USER) {
+                                        u = new User(username, email);
                                         database.getReference().child("users").child(auth.getCurrentUser()
-                                            .getUid()).setValue(new User(username, email));
-                                    else if (userType == UserType.MANAGER)
+                                                .getUid()).setValue(u);
+                                    } else if (userType == UserType.MANAGER) {
+                                        u = new Manager(username, email);
                                         database.getReference().child("users").child(auth.getCurrentUser()
-                                                .getUid()).setValue(new Manager(username, email));
-                                    else if (userType == UserType.WORKER)
+                                                .getUid()).setValue(u);
+                                    } else if (userType == UserType.WORKER) {
+                                        u = new Worker(username, email);
                                         database.getReference().child("users").child(auth.getCurrentUser()
-                                                .getUid()).setValue(new Worker(username, email));
-                                    else if (userType == UserType.ADMIN)
+                                                .getUid()).setValue(u);
+                                    } if (userType == UserType.ADMIN) {
+                                        u = new Admin(username, email);
                                         database.getReference().child("users").child(auth.getCurrentUser()
-                                                .getUid()).setValue(new Admin(username, email));
-                                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                                                .getUid()).setValue(u);
+                                    }
+                                    Intent i = new Intent(SignupActivity.this, MainActivity.class);
+                                    i.putExtra("user", u);
+                                    startActivity(i);
                                     finish();
                                 }
                             }
