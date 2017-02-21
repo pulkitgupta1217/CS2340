@@ -26,7 +26,7 @@ package Model {
             }
             this.user = newuser;
         }
-        public void setUser(String newEmail) {
+        public void setEmail(String newEmail) {
             if (newEmail.indexOf("@") < 0) {
                 throw new Exception("invalid email");
             }
@@ -171,11 +171,22 @@ package Model {
             super(user);
         }
     }
+    class HistoricalReport extends Report {
+        public HistoricalReport(String user) {
+            super(user);
+        }
+    }
+    class PurityTrends {
+        String worker;
+        public PurityTrends(String worker) {
+            this.worker = worker;
+        }
+    }
 
 
 
     class Profile {
-        String user, name, email, type;
+        String user, name, email, type, address;
         boolean banned;
         User person;
         public Profile(User person) {
@@ -192,10 +203,12 @@ package Model {
                 person.setEmail(newEmail);
             } catch (Exception e) {
                 toast(exception.getMessage());
+                return false;
             }
             this.user = person.getUser();
             this.name = user;
             this.email = person.getEmail();
+            return true;
         }
 
     }
