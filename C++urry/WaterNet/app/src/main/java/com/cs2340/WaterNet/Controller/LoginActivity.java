@@ -13,11 +13,20 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.cs2340.WaterNet.Model.Numerics;
+import com.cs2340.WaterNet.Model.SecurityLogger;
+import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -25,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+        database = FirebaseDatabase.getInstance();
 
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -88,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     email += getString(R.string.email_extension);
                 }
 
-                Log.d("***", email);
+                final String userEmail = email;
 
                 progressBar.setVisibility(View.VISIBLE);
 
@@ -109,13 +121,61 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    //intent.putExtra("loggedinuser", );
-                                    startActivity(intent);
-                                    finish();
+
+                                    final FirebaseUser firebaseUser = task.getResult().getUser();
+
+                                    final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    String message = userEmail + "logged in!";
+                                    database.getReference().addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
+
+                                            intent.putExtra("user", u);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+//                                    database.getReference().child("securityLog").addChildEventListener(new ChildEventListener() {
+//                                        @Override
+//                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                                            Log.d("***",dataSnapshot.toString());
+//                                            User u = dataSnapshot.get.child("users").child(firebaseUser.getUid()).getValue(User.class);
+//                                            intent.putExtra("user", u);
+//                                            startActivity(intent);
+//                                            finish();
+//                                        }
+//
+//                                        @Override
+//                                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(DatabaseError databaseError) {
+//
+//                                        }
+//                                    });
+                                    SecurityLogger.writeNewSecurityLog(message);
                                 }
                             }
                         });
+
             }
         });
     }

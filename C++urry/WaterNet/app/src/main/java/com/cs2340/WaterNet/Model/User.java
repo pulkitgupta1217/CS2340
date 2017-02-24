@@ -1,5 +1,8 @@
 package com.cs2340.WaterNet.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
@@ -76,4 +79,5 @@ public class User implements Serializable{
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+
 }

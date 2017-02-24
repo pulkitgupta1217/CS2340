@@ -1,10 +1,12 @@
 package com.cs2340.WaterNet.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by rajatkhanna on 2/20/17.
  */
 
-public enum UserType {
+public enum UserType implements Serializable {
     USER("USR"),
     WORKER("WRK"),
     MANAGER("MNG"),
