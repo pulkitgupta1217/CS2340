@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class Report implements Serializable {
     private String creator, dateTime;
-    private int reportID;
+    private Long reportID;
     private Location location;
     private WaterType waterType;
     private WaterCondition waterCondition;
@@ -21,7 +21,7 @@ public class Report implements Serializable {
         dateTime = Singleton.getInstance().getTime();
         reportID = Singleton.getInstance().getReportID();
     }
-    public int getReportID() {
+    public long getReportID() {
         return reportID;
     }
     public double getLng() {

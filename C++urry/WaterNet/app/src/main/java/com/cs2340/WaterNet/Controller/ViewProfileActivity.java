@@ -54,7 +54,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         //get current user
         final FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
         final User user = (User) (getIntent().getSerializableExtra("user"));
-        Log.d("***", user.getUserID() + "");
+//        Log.d("***", user.getUserID() + "");
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override

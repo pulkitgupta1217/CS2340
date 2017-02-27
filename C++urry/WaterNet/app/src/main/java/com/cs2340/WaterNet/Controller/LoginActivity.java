@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
-                                            Log.d("***", u.getUserID() + "  " + firebaseUser.getUid());
+                                            //Log.d("***", u.getUserID() + "  " + firebaseUser.getUid());
                                             intent.putExtra("user", u);
                                             startActivity(intent);
                                             finish();

@@ -3,6 +3,7 @@ package com.cs2340.WaterNet.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.InterruptedIOException;
 import java.io.Serializable;
 
 /**
@@ -14,8 +15,8 @@ public class User implements Serializable{
 
     private String username, email, name = "", address = "", phone = "";
     //private static int userCount;
-    private int userId;
-    private boolean banned;
+    private Long userID;
+    private Boolean banned;
     UserType userType = UserType.USER;
 
 
@@ -31,7 +32,8 @@ public class User implements Serializable{
         name = "no name";
         address = "no address";
         phone = "###-###-####";
-        userId = Singleton.getInstance().getUserID();
+        userID = Singleton.getInstance().getUserID();
+        banned = false;
     }
 
     public String toString() {
@@ -50,8 +52,8 @@ public class User implements Serializable{
         return email;
     }
 
-    public int getUserID() {
-        return userId;
+    public long getUserID() {
+        return userID;
     }
 
     public void setEmail(String email) {
@@ -87,10 +89,10 @@ public class User implements Serializable{
     }
 
     public boolean isBanned() {
-        return banned;
+        return banned.booleanValue();
     }
     public void setBanned(boolean newStatus) {
-        this.banned = newStatus;
+        this.banned = Boolean.valueOf(newStatus);
     }
 
 }
