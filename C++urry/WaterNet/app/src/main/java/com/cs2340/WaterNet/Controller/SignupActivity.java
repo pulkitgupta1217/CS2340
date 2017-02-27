@@ -125,8 +125,6 @@ public class SignupActivity extends AppCompatActivity {
                                 Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                                 //CODE ADDED BY PULKIT FOR SINGLETON
                                 if(task.isSuccessful()) {
-                                    SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + "created user: " + email);
-                                    Singleton.setInstance(null);
                                     //edit this
                                     database.getReference().addValueEventListener(new ValueEventListener() {
                                         @Override
@@ -134,6 +132,9 @@ public class SignupActivity extends AppCompatActivity {
                                             if (dataSnapshot.child("Singleton").child("Singleton").getValue(Singleton.class) == null) {
                                                 database.getReference().child("Singleton").child("Singleton").setValue(Singleton.getInstance());
                                                 Log.d("***", "adding new Singleton");
+                                            } else {
+                                                Singleton.setInstance(dataSnapshot.child("Singleton").child("Singleton").getValue(Singleton.class));
+                                                Log.d("***", "found Singleton during signup");
                                             }
                                             finish();
                                         }

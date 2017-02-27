@@ -12,7 +12,7 @@ public class Singleton implements Serializable{
     private static Singleton instance = null;
 
 
-    private long userID;
+    public long userID;
     private long reportID;
     private long purityReportID;
     private SimpleDateFormat dateTime;
@@ -48,6 +48,9 @@ public class Singleton implements Serializable{
 
     public long getUserID() {
         userID++;
+        return userID;
+    }
+    public long getUserIDNoIncrement() {
         return userID;
     }
     public long getReportID() {
