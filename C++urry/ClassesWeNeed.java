@@ -13,6 +13,7 @@ package Model {
                 email = user + "@emails.com";
             }
             this.email = email;
+            this.banned = false;
             type = UserType.USER;
             setID();
             setProfile();

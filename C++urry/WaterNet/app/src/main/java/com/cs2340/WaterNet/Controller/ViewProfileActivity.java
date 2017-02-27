@@ -15,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs2340.WaterNet.Model.SecurityLogger;
+import com.cs2340.WaterNet.Model.Singleton;
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.R;
@@ -23,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ViewProfileActivity extends AppCompatActivity {
 
@@ -50,6 +53,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         //get current user
         final FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
         final User user = (User) (getIntent().getSerializableExtra("user"));
+        Log.d("***", user.toString());
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -125,19 +129,23 @@ public class ViewProfileActivity extends AppCompatActivity {
 
                 user.setAddress(addressField.getText().toString());
                 user.setName(nameField.getText().toString());
-                user.setEmail(emailField.getText().toString());
-                fireUser.updateEmail(user.getEmail())
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d("***", "User email address updated.");
+                if (emailField.getText().toString().indexOf("@") > 0) {
+                    user.setEmail(emailField.getText().toString());
+                    fireUser.updateEmail(user.getEmail())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("***", "User email address updated.");
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }
                 user.setPhone(phoneField.getText().toString());
                 user.setUserType((UserType) (typeSpinner.getSelectedItem()));
-
+                FirebaseDatabase.getInstance().getReference().child("users").child(auth.getCurrentUser()
+                        .getUid()).setValue(user); //***
+                SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + user.getEmail() + " edited their profile");
                 switchToViews(user);
 
             }
@@ -210,7 +218,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         edit.setVisibility(View.VISIBLE);
         back.setVisibility(View.VISIBLE);
 
-        nameView.setText(user.getName());
+        nameView.setText(user.getName() + "     ID: " + user.getUserID());
         emailView.setText(user.getEmail());
         addressView.setText(user.getAddress());
         phoneView.setText(user.getPhone());

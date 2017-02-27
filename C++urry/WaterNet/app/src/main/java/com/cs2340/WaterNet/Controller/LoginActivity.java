@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.cs2340.WaterNet.Model.Numerics;
 import com.cs2340.WaterNet.Model.SecurityLogger;
+import com.cs2340.WaterNet.Model.Singleton;
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,6 +28,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -125,12 +129,11 @@ public class LoginActivity extends AppCompatActivity {
                                     final FirebaseUser firebaseUser = task.getResult().getUser();
 
                                     final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    String message = userEmail + "logged in!";
+                                    String message = userEmail + " logged in!";
                                     database.getReference().addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
-
                                             intent.putExtra("user", u);
                                             startActivity(intent);
                                             finish();
@@ -171,7 +174,8 @@ public class LoginActivity extends AppCompatActivity {
 //
 //                                        }
 //                                    });
-                                    SecurityLogger.writeNewSecurityLog(message);
+
+                                    SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + message);
                                 }
                             }
                         });

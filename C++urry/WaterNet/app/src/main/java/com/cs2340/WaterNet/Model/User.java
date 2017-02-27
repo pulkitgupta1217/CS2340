@@ -7,13 +7,15 @@ import java.io.Serializable;
 
 /**
  * Created by rajatkhanna on 2/18/17.
+ * Edited by Pulkit Gupta on 2/25/17.
  */
 
 public class User implements Serializable{
 
     private String username, email, name = "", address = "", phone = "";
-    private static int userCount;
+    //private static int userCount;
     private int userId;
+    private boolean banned;
     UserType userType = UserType.USER;
 
 
@@ -24,8 +26,12 @@ public class User implements Serializable{
     public User(String username, String email) {
         this.username = username;
         this.email = email;
-        userCount++;
-        userId = userCount;
+        //userCount++;
+        //userId = userCount;
+        name = "no name";
+        address = "no address";
+        phone = "###-###-####";
+        userId = Singleton.getInstance().getUserID();
     }
 
     public String toString() {
@@ -44,7 +50,7 @@ public class User implements Serializable{
         return email;
     }
 
-    public int getUserId() {
+    public int getUserID() {
         return userId;
     }
 
@@ -78,6 +84,13 @@ public class User implements Serializable{
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public boolean isBanned() {
+        return banned;
+    }
+    public void setBanned(boolean newStatus) {
+        this.banned = newStatus;
     }
 
 }
