@@ -42,6 +42,14 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //pseudocode that needs to be added:
+        /*
+         *  if (firebase.contains(Singleton.class) {
+         *      Singleton.setInstance(Firebase.getSingleton());
+         *  } else {
+         *      firebase.add(Singleton.getInstance();
+         *  }
+         */
         super.onCreate(savedInstanceState);
 
         //Get Firebase auth instance
@@ -134,6 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
+                                            Log.d("***", u.getUserID() + "  " + firebaseUser.getUid());
                                             intent.putExtra("user", u);
                                             startActivity(intent);
                                             finish();

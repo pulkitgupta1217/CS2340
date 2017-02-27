@@ -40,6 +40,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Singleton.setInstance(Firebase.getSingleton());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
@@ -53,7 +54,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         //get current user
         final FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
         final User user = (User) (getIntent().getSerializableExtra("user"));
-        Log.d("***", user.toString());
+        Log.d("***", user.getUserID() + "");
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override

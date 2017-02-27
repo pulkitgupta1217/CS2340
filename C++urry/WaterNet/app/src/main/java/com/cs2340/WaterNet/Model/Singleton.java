@@ -42,6 +42,10 @@ public class Singleton implements Serializable{
         this.instance = fromdb;
     }
 
+    public boolean hasInstance(){
+        return instance != null;
+    }
+
     public int getUserID() {
         userID++;
         return userID;
