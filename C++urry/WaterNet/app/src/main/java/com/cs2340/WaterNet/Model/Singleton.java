@@ -18,7 +18,7 @@ public class Singleton implements Serializable{
     private SimpleDateFormat dateTime;
     private Calendar c;
 
-    private Singleton(){
+    public Singleton(){
         userID = 0;
         reportID = 0;
         purityReportID = 0;
@@ -38,8 +38,8 @@ public class Singleton implements Serializable{
         }
         return instance;
     }
-    public void setInstance(Singleton fromdb) {
-        this.instance = fromdb;
+    public static void setInstance(Singleton fromdb) {
+        instance = fromdb;
     }
 
     public boolean hasInstance(){

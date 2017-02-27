@@ -142,6 +142,8 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
+                                            //CODE ADDED BY PULKIT FOR SINGLETON
+                                            Singleton.setInstance(dataSnapshot.child("Singleton").child("Singleton").getValue(Singleton.class));
                                             //Log.d("***", u.getUserID() + "  " + firebaseUser.getUid());
                                             intent.putExtra("user", u);
                                             startActivity(intent);

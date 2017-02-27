@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.cs2340.WaterNet.Model.Admin;
 import com.cs2340.WaterNet.Model.Manager;
+import com.cs2340.WaterNet.Model.SecurityLogger;
+import com.cs2340.WaterNet.Model.Singleton;
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.Model.Worker;
@@ -121,6 +123,28 @@ public class SignupActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                //CODE ADDED BY PULKIT FOR SINGLETON
+                                if(task.isSuccessful()) {
+                                    SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + "created user: " + email);
+                                    Singleton.setInstance(null);
+                                    //edit this
+                                    database.getReference().addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.child("Singleton").child("Singleton").getValue(Singleton.class) == null) {
+                                                database.getReference().child("Singleton").child("Singleton").setValue(Singleton.getInstance());
+                                                Log.d("***", "adding new Singleton");
+                                            }
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+
                                 progressBar.setVisibility(View.GONE);
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
