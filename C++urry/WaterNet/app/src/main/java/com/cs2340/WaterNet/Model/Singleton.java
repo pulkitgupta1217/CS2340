@@ -1,5 +1,7 @@
 package com.cs2340.WaterNet.Model;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,6 +19,7 @@ public class Singleton implements Serializable{
     private long purityReportID;
     private SimpleDateFormat dateTime;
     private Calendar c;
+    private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
     public Singleton(){
         userID = 0;
@@ -48,6 +51,7 @@ public class Singleton implements Serializable{
 
     public long getUserID() {
         userID++;
+        pushToDatabase();
         return userID;
     }
     public long getUserIDNoIncrement() {
@@ -55,13 +59,19 @@ public class Singleton implements Serializable{
     }
     public long getReportID() {
         reportID++;
+        pushToDatabase();
         return reportID;
     }
     public long getPurityReportID() {
         purityReportID++;
+        pushToDatabase();
         return purityReportID;
     }
     public String getTime() {
         return dateTime.format(c.getTime());
+    }
+
+    private void pushToDatabase() {
+        firebaseDatabase.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());
     }
 }

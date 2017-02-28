@@ -9,12 +9,12 @@ import java.util.List;
 
 public class Pin {
     LinkedList<Report> reportList = new LinkedList<Report>();
-    Location location;
+    Site site;
     LinkedList<PurityReport> purityReportList = new LinkedList<PurityReport>();
 
     public Pin(Report report) {
         reportList.addFirst(report);
-        location = new Location(report.getLat(), report.getLng());
+        site = new Site(report.getLat(), report.getLng());
     }
     public void addReport(Report report) {
         reportList.addFirst(report);

@@ -129,11 +129,11 @@ public class SignupActivity extends AppCompatActivity {
                                     database.getReference().addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
-                                            if (dataSnapshot.child("Singleton").child("Singleton").getValue(Singleton.class) == null) {
-                                                database.getReference().child("Singleton").child("Singleton").setValue(Singleton.getInstance());
+                                            if (dataSnapshot.child("Singleton").getValue(Singleton.class) == null) {
+                                                database.getReference().child("Singleton").setValue(Singleton.getInstance());
                                                 Log.d("***", "adding new Singleton");
                                             } else {
-                                                Singleton.setInstance(dataSnapshot.child("Singleton").child("Singleton").getValue(Singleton.class));
+                                                Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));
                                                 Log.d("***", "found Singleton during signup");
                                             }
                                             finish();

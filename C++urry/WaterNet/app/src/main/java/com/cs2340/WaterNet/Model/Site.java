@@ -6,9 +6,9 @@ import java.io.Serializable;
  * Created by Pulkit Gupta on 2/26/2017.
  */
 
-public class Location implements Serializable{
+public class Site implements Serializable{
     private double lat, lng;
-    public Location(double lat, double lng) {
+    public Site(double lat, double lng) {
         this.lat = lat;
         this.lng = lng;
     }

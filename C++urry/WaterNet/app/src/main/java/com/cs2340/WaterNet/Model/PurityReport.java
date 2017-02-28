@@ -7,7 +7,7 @@ package com.cs2340.WaterNet.Model;
 public class PurityReport {
     private String creator, dateTime;
     private Long purityReportID;
-    private Location location;
+    private Site site;
     private Virus virus;
     private Contaminant contaminant;
     private OverallCondition overallCondition;
@@ -16,7 +16,7 @@ public class PurityReport {
         this.creator = creator;
         dateTime = Singleton.getInstance().getTime();
         purityReportID = Singleton.getInstance().getPurityReportID();
-        location = new Location(lat, lng);
+        site = new Site(lat, lng);
         this.virus = virus;
         this.contaminant = contaminant;
         this.overallCondition = overallCondition;
@@ -62,15 +62,15 @@ public class PurityReport {
         this.overallCondition = overallCondition;
     }
     public void setLng(double lng) {
-        location.setLng(lng);
+        site.setLng(lng);
     }
     public void setLat(double lat) {
-        location.setLat(lat);
+        site.setLat(lat);
     }
     public double getLng() {
-        return location.getLng();
+        return site.getLng();
     }
     public double getLat() {
-        return location.getLat();
+        return site.getLat();
     }
 }

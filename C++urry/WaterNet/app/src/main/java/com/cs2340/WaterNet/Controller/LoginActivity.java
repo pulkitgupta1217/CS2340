@@ -1,6 +1,7 @@
 package com.cs2340.WaterNet.Controller;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -143,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
                                             //CODE ADDED BY PULKIT FOR SINGLETON
-                                            Singleton.setInstance(dataSnapshot.child("Singleton").child("Singleton").getValue(Singleton.class));
+                                            Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));
                                             if (Singleton.getInstance().getUserIDNoIncrement() == 0) {
                                                 Log.d("***", "did not find Singleton at login");
                                             }
