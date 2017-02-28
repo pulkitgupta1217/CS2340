@@ -145,9 +145,9 @@ public class LoginActivity extends AppCompatActivity {
                                             User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
                                             //CODE ADDED BY PULKIT FOR SINGLETON
                                             Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));
-                                            if (Singleton.getInstance().getUserIDNoIncrement() == 0) {
-                                                Log.d("***", "did not find Singleton at login");
-                                            }
+                                            //if (Singleton.getInstance().getUserIDNoIncrement() == 0) {
+                                            //    Log.d("***", "did not find Singleton at login");
+                                            //}
                                             //Log.d("***", u.getUserID() + "  " + firebaseUser.getUid());
                                             intent.putExtra("user", u);
                                             startActivity(intent);

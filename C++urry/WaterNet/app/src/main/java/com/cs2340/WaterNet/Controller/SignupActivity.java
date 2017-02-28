@@ -172,6 +172,8 @@ public class SignupActivity extends AppCompatActivity {
                                         database.getReference().child("users").child(auth.getCurrentUser()
                                                 .getUid()).setValue(u);
                                     }
+                                    //fixed endless loop
+                                    database.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());//edit
                                     Intent i = new Intent(SignupActivity.this, MainActivity.class);
                                     i.putExtra("user", u);
                                     startActivity(i);
