@@ -174,6 +174,7 @@ public class SignupActivity extends AppCompatActivity {
                                     }
                                     //fixed endless loop
                                     database.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());//edit
+                                    SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + email + " Registered on firebase");
                                     Intent i = new Intent(SignupActivity.this, MainActivity.class);
                                     i.putExtra("user", u);
                                     startActivity(i);

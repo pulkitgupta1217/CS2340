@@ -8,9 +8,9 @@ import java.util.List;
  */
 
 public class Pin {
-    LinkedList<Report> reportList = new LinkedList<Report>();
-    Site site;
-    LinkedList<PurityReport> purityReportList = new LinkedList<PurityReport>();
+    private LinkedList<Report> reportList = new LinkedList<Report>();
+    private Site site;
+    private LinkedList<PurityReport> purityReportList = new LinkedList<PurityReport>();
 
     public Pin(Report report) {
         reportList.addFirst(report);
@@ -41,6 +41,12 @@ public class Pin {
         } catch (Exception e) {
             return null;
         }
+    }
+    public double getLng() {
+        return site.getLng();
+    }
+    public double getLat() {
+        return site.getLat();
     }
     public List<Report> getReports() {
         return reportList;
