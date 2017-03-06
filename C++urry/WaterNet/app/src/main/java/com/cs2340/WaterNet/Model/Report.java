@@ -30,6 +30,9 @@ public class Report implements Serializable {
     public double getLat() {
         return site.getLat();
     }
+    public Site getSite() {
+        return site;
+    }
     public String getCreator() {
         return creator;
     }

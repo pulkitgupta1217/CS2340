@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class Site implements Serializable{
     private double lat, lng;
+    private static final double closeEnough = 0.1;
     public Site(double lat, double lng) {
         this.lat = lat;
         this.lng = lng;
@@ -23,5 +24,14 @@ public class Site implements Serializable{
     }
     public double getLng() {
         return lng;
+    }
+
+    public boolean closeTo(Site site) {
+        if (Math.abs(lat - site.getLat()) < closeEnough) {
+            if (Math.abs(lng - site.getLng()) < closeEnough) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,6 +1,8 @@
 package com.cs2340.WaterNet.Model;
 
 /**
+ * the Worker class, a worker hass all of the right and abilities of a User, in addition to the
+ * ability to report on water purity levels
  * Created by rajatkhanna on 2/20/17.
  */
 

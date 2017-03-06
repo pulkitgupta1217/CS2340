@@ -32,6 +32,10 @@ public class Singleton implements Serializable{
         dateTime.format(c.getTime());
     }
 
+    /**
+     * gets the instance of the singleton
+     * @return the instance
+     */
     public static Singleton getInstance(){
         if(instance == null)
         {
@@ -44,29 +48,49 @@ public class Singleton implements Serializable{
         }
         return instance;
     }
+
+    /**
+     * used to set the singleton from the database
+     * @param fromdb the singleton stored in firebase
+     */
     public static void setInstance(Singleton fromdb) {
         instance = fromdb;
     }
 
-    public boolean hasInstance(){
-        return instance != null;
-    }
-
+    /**
+     * get an updated userid from the singleton
+     * @return userid++
+     */
     public long getUserID() {
         //userID++;
         pushToDatabase();
         return userID++;
     }
+
+    /**
+     * get an updated reportid from the singleton
+     * @return reportid++
+     */
     public long getReportID() {
         //reportID++;
         pushToDatabase();
         return reportID++;
     }
+
+    /**
+     * get an updated purityreportid from the singleton
+     * @return purityreportid++
+     */
     public long getPurityReportID() {
         //purityReportID++;
         pushToDatabase();
         return purityReportID++;
     }
+
+    /**
+     * return the datetime as a string
+     * @return calendar.getTime as a string
+     */
     public String getTime() {
         return dateTime.format(c.getTime());
     }
