@@ -9,6 +9,10 @@ import java.io.Serializable;
 public class Site implements Serializable{
     private double lat, lng;
     private static final double closeEnough = 0.1;
+
+    public Site() {
+    }
+
     public Site(double lat, double lng) {
         this.lat = lat;
         this.lng = lng;

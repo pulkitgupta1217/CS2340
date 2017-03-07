@@ -41,6 +41,30 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnSignup, btnLogin, btnReset;
     private FirebaseDatabase database;
 
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public EditText getInputEmail() {
+        return inputEmail;
+    }
+
+    public EditText getInputPassword() {
+        return inputPassword;
+    }
+
+    public Button getBtnSignup() {
+        return btnSignup;
+    }
+
+    public Button getBtnLogin() {
+        return btnLogin;
+    }
+
+    public Button getBtnReset() {
+        return btnReset;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //pseudocode that needs to be added:
@@ -159,36 +183,6 @@ public class LoginActivity extends AppCompatActivity {
 
                                         }
                                     });
-//                                    database.getReference().child("securityLog").addChildEventListener(new ChildEventListener() {
-//                                        @Override
-//                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                                            Log.d("***",dataSnapshot.toString());
-//                                            User u = dataSnapshot.get.child("users").child(firebaseUser.getUid()).getValue(User.class);
-//                                            intent.putExtra("user", u);
-//                                            startActivity(intent);
-//                                            finish();
-//                                        }
-//
-//                                        @Override
-//                                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//                                        }
-//
-//                                        @Override
-//                                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//                                        }
-//
-//                                        @Override
-//                                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//                                        }
-//
-//                                        @Override
-//                                        public void onCancelled(DatabaseError databaseError) {
-//
-//                                        }
-//                                    });
 
                                     SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + message);
                                 }

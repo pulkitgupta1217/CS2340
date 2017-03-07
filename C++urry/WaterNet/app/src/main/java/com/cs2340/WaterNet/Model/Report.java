@@ -13,6 +13,10 @@ public class Report implements Serializable {
     private WaterType waterType;
     private WaterCondition waterCondition;
 
+    public Report() {
+
+    }
+
     public Report(String creator, double lat, double lng, WaterType waterType, WaterCondition waterCondition) {
         this.creator = creator;
         site = new Site(lat, lng);

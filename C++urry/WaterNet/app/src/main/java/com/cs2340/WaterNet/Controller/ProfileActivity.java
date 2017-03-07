@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cs2340.WaterNet.Model.SecurityLogger;
 import com.cs2340.WaterNet.Model.Singleton;
@@ -24,10 +23,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class ViewProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     private Button edit, save, cancel, back;
 
@@ -63,7 +61,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                 if (fuser == null) {
                     // user auth state is changed - user is null
                     // launch login activity
-                    Intent i = new Intent(ViewProfileActivity.this, LoginActivity.class);
+                    Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
                     i.putExtra("user", user);
                     startActivity(i);
                     finish();
@@ -103,7 +101,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ViewProfileActivity.this, MainActivity.class);
+                Intent i = new Intent(ProfileActivity.this, MainActivity.class);
                 i.putExtra("user", user);
                 startActivity(i);
                 finish();

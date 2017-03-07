@@ -37,8 +37,12 @@
             android:label="@string/title_activity_reset_password"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.cs2340.WaterNet.Controller.ViewProfileActivity"
-            android:label="ViewProfuileActivity"
+            android:name="com.cs2340.WaterNet.Controller.ProfileActivity"
+            android:label="ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name="com.cs2340.WaterNet.Controller.ReportActivity"
+            android:label="ReportActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
