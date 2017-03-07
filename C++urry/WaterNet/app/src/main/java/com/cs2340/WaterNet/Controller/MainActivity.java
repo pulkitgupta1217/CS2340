@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cs2340.WaterNet.Model.Report;
+import com.cs2340.WaterNet.Model.Site;
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.Model.WaterCondition;
 import com.cs2340.WaterNet.Model.WaterType;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     private FirebaseDatabase database;
+    private RecyclerView recycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,16 +98,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView recycler = (RecyclerView) findViewById(R.id.ReportRecyclerView);
-        recycler.setHasFixedSize(true);
+        recycler = (RecyclerView) findViewById(R.id.ReportRecyclerView);
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
         recycler.setAdapter(
-                new FirebaseRecyclerAdapter<Report, ReportHolder>(Report.class, android.R.layout.two_line_list_item, ReportHolder.class, database.getReference().child("reports")) {
+                new FirebaseRecyclerAdapter<Report, ReportHolder>(Report.class, R.layout.report_item_layout, ReportHolder.class, database.getReference().child("reports")) {
                     @Override
                     public void populateViewHolder(ReportHolder reportViewHolder, Report report, int position) {
                         reportViewHolder.setWaterConditionTV(report.getWaterCondition().toString());
                         reportViewHolder.setWaterTypeTV(report.getWaterType().toString());
+                        reportViewHolder.setInfoTV(report.getCreator() + "  " + report.getDateTime());
+                        reportViewHolder.setLocationTV(report.getSite().toString());
                     }
                 }
         );
@@ -139,15 +142,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
 
     public static class ReportHolder extends RecyclerView.ViewHolder {
-        private final TextView waterTypeTV;
-        private final TextView waterConditionTV;
+        private final TextView waterTypeTV, waterConditionTV, locationTV, infoTV;
 
         public ReportHolder(View itemView) {
             super(itemView);
-            waterTypeTV = (TextView) itemView.findViewById(android.R.id.text1);
-            waterConditionTV = (TextView) itemView.findViewById(android.R.id.text2);
+            waterTypeTV = (TextView) itemView.findViewById(R.id.watertype_view);
+            waterConditionTV = (TextView) itemView.findViewById(R.id.watercondition_view);
+            locationTV = (TextView) itemView.findViewById(R.id.location_view);
+            infoTV = (TextView) itemView.findViewById(R.id.create_info_view);
         }
 
         public void setWaterTypeTV(String name) {
@@ -157,6 +166,12 @@ public class MainActivity extends AppCompatActivity {
         public void setWaterConditionTV(String text) {
             waterConditionTV.setText(text);
         }
+
+        public void setLocationTV(String text) {
+            locationTV.setText(text);
+        }
+
+        public void setInfoTV(String text) { infoTV.setText(text); }
     }
 
 }

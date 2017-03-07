@@ -38,4 +38,9 @@ public class Site implements Serializable{
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return lat + " " + lng;
+    }
 }
