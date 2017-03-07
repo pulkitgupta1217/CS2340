@@ -8,6 +8,11 @@ package com.cs2340.WaterNet.Model;
 
 public class Worker extends User {
 
+    /**
+     * the constructor for the worker
+     * @param username the worker's username
+     * @param email the worker's email
+     */
     public Worker(String username, String email) {
         super(username, email);
         userType = UserType.WORKER;

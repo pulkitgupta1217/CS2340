@@ -11,6 +11,11 @@ public enum WaterCondition {
     POTABLE("Potable");
 
     private String value;
+
+    /**
+     * the constructor that will make a watercondition based on the string
+     * @param value the string form of the condition
+     */
     WaterCondition(String value) {
         this.value = value;
     }

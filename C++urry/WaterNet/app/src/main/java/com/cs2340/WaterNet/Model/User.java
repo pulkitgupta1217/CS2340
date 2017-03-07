@@ -20,10 +20,18 @@ public class User implements Serializable{
     UserType userType = UserType.USER;
 
 
+    /**
+     * default constructor required for firebase
+     */
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
+    /**
+     * creates a user using these parameters sets some default values using the singleton
+     * @param username the user's username
+     * @param email the user's email
+     */
     public User(String username, String email) {
         this.username = username;
         this.email = email;
@@ -36,61 +44,119 @@ public class User implements Serializable{
         banned = false;
     }
 
+    @Override
     public String toString() {
         return username + " " + email;
     }
 
+    /**
+     * returns the user's type so that certain menus can be restricted
+     * @return userType
+     */
     public UserType getUserType() {
         return userType;
     }
 
+    /**
+     * get the username of the user
+     * @return username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * get the email of the user that is also used for authentication
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * get the userid of the user
+     * @return userid
+     */
     public long getUserID() {
         return userID;
     }
 
+    /**
+     * set a new email for the user
+     * @param email the new email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * get the address of the user
+     * @return address
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * set the new address of the user
+     * @param address the new address
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * get the phone number of the user
+     * @return the phone number
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * set the phone number of the user
+     * @param phone the new phone number
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    /**
+     * get the name of the user
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * set a new name for the user
+     * @param name the new name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * set the usertype of the user
+     * @param userType the new usertype
+     */
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
 
+    /**
+     * check the ban status of the user
+     * @return true if the user is banned, false otherwise
+     */
     public boolean isBanned() {
         return banned.booleanValue();
     }
+
+    /**
+     * reassign the banned status of the user
+     * @param newStatus the new ban status of the user
+     */
     public void setBanned(boolean newStatus) {
         this.banned = Boolean.valueOf(newStatus);
     }

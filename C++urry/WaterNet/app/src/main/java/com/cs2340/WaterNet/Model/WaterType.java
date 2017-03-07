@@ -13,6 +13,11 @@ public enum WaterType {
     OTHER("Other");
 
     private String value;
+
+    /**
+     * constructor to make the enum using the string
+     * @param value the string form of the enum
+     */
     WaterType(String value) {
         this.value = value;
     }

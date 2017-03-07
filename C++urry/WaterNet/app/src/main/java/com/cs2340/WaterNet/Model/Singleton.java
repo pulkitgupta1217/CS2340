@@ -23,6 +23,10 @@ public class Singleton implements Serializable{
     private Calendar c;
     private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
+    /**
+     * the single run constructor that initializes the singleton instance that is stored within
+     * the singleton
+     */
     public Singleton(){
         userID = 1;
         reportID = 1;
