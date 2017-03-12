@@ -145,6 +145,7 @@ public class ReportActivity extends AppCompatActivity {
         // /posts mmvm/$postid simultaneously
         Report post = new Report(u.getUsername(), lat, lng, waterType, waterCondition);
         database.getReference().child("reports").push().setValue(post);
+
     }
 
     //sign out method

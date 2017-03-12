@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.cs2340.WaterNet.Model.Facade;
 import com.cs2340.WaterNet.Model.Numerics;
 import com.cs2340.WaterNet.Model.SecurityLogger;
 import com.cs2340.WaterNet.Model.Singleton;
@@ -183,6 +184,36 @@ public class LoginActivity extends AppCompatActivity {
 
                                         }
                                     });
+//                                    database.getReference().child("securityLog").addChildEventListener(new ChildEventListener() {
+//                                        @Override
+//                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                                            Log.d("***",dataSnapshot.toString());
+//                                            User u = dataSnapshot.get.child("users").child(firebaseUser.getUid()).getValue(User.class);
+//                                            intent.putExtra("user", u);
+//                                            startActivity(intent);
+//                                            finish();
+//                                        }
+//
+//                                        @Override
+//                                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(DatabaseError databaseError) {
+//
+//                                        }
+//                                    });
 
                                     SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + message);
                                 }
@@ -193,4 +224,3 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 }
-

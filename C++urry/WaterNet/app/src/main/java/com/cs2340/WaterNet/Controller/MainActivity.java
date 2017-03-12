@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,11 +21,14 @@ import com.cs2340.WaterNet.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView btnViewProfile, signOut, gotoCreateReportBtn;
+    private TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -64,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         signOut = (TextView) findViewById(R.id.sign_out);
         btnViewProfile = (TextView) findViewById(R.id.view_profile);
         gotoCreateReportBtn = (TextView) findViewById(R.id.create_report_btn);
+        viewMapBtn = (TextView) findViewById(R.id.view_map);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -92,6 +97,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ReportActivity.class);
+                i.putExtra("user", getIntent().getSerializableExtra("user"));
+                startActivity(i);
+                finish();
+            }
+        });
+
+        viewMapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, MapsActivity.class);
                 i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();

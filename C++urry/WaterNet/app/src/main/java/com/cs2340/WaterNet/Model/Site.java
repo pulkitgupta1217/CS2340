@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Pulkit Gupta on 2/26/2017.
  */
 
-public class Site implements Serializable{
+public class Site implements Serializable, Comparable<Site>{
     private double lat, lng;
     private static final double closeEnough = 0.1;
 
@@ -76,4 +76,19 @@ public class Site implements Serializable{
     public String toString() {
         return lat + " " + lng;
     }
+
+    public boolean equals(Site s) {
+        if (closeTo(s)) {
+            return true;
+        }
+        return false;
+    }
+
+    public int compareTo(Site s) {
+        if (equals(s)) {
+            return 0;
+        }
+        return -1;
+    }
+
 }

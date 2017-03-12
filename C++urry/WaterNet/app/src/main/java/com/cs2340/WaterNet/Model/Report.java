@@ -101,4 +101,10 @@ public class Report implements Serializable {
         return waterType;
     }
 
+    public String toString() {
+
+        return creator + " " + dateTime +" " +  waterType.toString() + " " +  waterCondition.toString();
+
+    }
+
 }

@@ -1,5 +1,8 @@
 package com.cs2340.WaterNet.Model;
 
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +16,15 @@ public class Pin {
     private LinkedList<Report> reportList = new LinkedList<Report>();
     private Site site;
     private LinkedList<PurityReport> purityReportList = new LinkedList<PurityReport>();
+    private Marker marker;
+
+    public Marker getMarker() {
+        return marker;
+    }
+
+    public void setMarker(Marker marker) {
+        this.marker = marker;
+    }
 
     /**
      * creates a pin based on the report that was passed in
@@ -110,5 +122,16 @@ public class Pin {
     public List<PurityReport> getPurityReports() {
         return purityReportList;
     }
+
+    public String reportListString() {
+        String s = "";
+        for (Report r: reportList) {
+            s += r.toString() + "\n";
+        }
+
+        return s;
+    }
+
+
 
 }
