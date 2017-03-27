@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.cs2340.WaterNet.Model.Report;
 import com.cs2340.WaterNet.Model.Site;
 import com.cs2340.WaterNet.Model.User;
+import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.Model.WaterCondition;
 import com.cs2340.WaterNet.Model.WaterType;
 import com.cs2340.WaterNet.R;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //Singleton.setInstance(Firebase.getSingleton());
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -112,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        if (((User)(getIntent().getSerializableExtra("user"))).getUserType() == UserType.USER)
+            gotoCreateReportBtn.setVisibility(View.INVISIBLE);
 
         recycler = (RecyclerView) findViewById(R.id.ReportRecyclerView);
         recycler.setLayoutManager(new LinearLayoutManager(this));

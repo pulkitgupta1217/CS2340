@@ -83,11 +83,6 @@ public class LoginActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
 
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        }
-
         // set the view now
         setContentView(R.layout.activity_login);
 
