@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,7 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn;
+    private TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn, gotoCreatePurityReportBtn, viewpReports;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -70,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
         signOut = (TextView) findViewById(R.id.sign_out);
         btnViewProfile = (TextView) findViewById(R.id.view_profile);
         gotoCreateReportBtn = (TextView) findViewById(R.id.create_report_btn);
+        gotoCreatePurityReportBtn = (TextView) findViewById(R.id.create_preport_btn);
         viewMapBtn = (TextView) findViewById(R.id.view_map);
+        viewpReports = (Button) findViewById(R.id.view_preports_button);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -105,6 +108,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        gotoCreatePurityReportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, PReportActivity.class);
+                i.putExtra("user", getIntent().getSerializableExtra("user"));
+                startActivity(i);
+                finish();
+            }
+        });
+
         viewMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,8 +128,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        viewpReports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, ViewPReportsActivity.class);
+                i.putExtra("user", getIntent().getSerializableExtra("user"));
+                startActivity(i);
+                finish();
+            }
+        });
+        if (((User)(getIntent().getSerializableExtra("user"))).getUserType() != UserType.MANAGER)
+            viewpReports.setVisibility(View.INVISIBLE);
+
         if (((User)(getIntent().getSerializableExtra("user"))).getUserType() == UserType.USER)
-            gotoCreateReportBtn.setVisibility(View.INVISIBLE);
+            gotoCreatePurityReportBtn.setVisibility(View.INVISIBLE);
 
         recycler = (RecyclerView) findViewById(R.id.ReportRecyclerView);
         recycler.setLayoutManager(new LinearLayoutManager(this));

@@ -28,46 +28,6 @@
                 android:orientation="horizontal"
                 android:showDividers="end">
 
-                <TextView
-                    android:id="@+id/create_preport_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="New PReport"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/create_report_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/new_report"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/view_map"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/view_map"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/view_profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/view_profile"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/sign_out"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/btn_sign_out"
-                    android:textStyle="bold" />
-
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
@@ -84,19 +44,10 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <Button
-            android:id="@+id/view_preports_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="View Purity Reports"
-            android:textStyle="bold" />
-
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/ReportRecyclerView"/>
+            android:id="@+id/PReportRecyclerView"/>
 
         <ProgressBar
             android:id="@+id/progressBar"

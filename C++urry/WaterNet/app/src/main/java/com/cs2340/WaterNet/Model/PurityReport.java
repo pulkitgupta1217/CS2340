@@ -13,6 +13,13 @@ public class PurityReport {
     private OverallCondition overallCondition;
 
     /**
+     * constructor required for firebase
+     */
+    public PurityReport() {
+
+    }
+
+    /**
      * creates a PurityReport
      * @param creator string containing username of creator
      * @param lat latitude
