@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ProfileActivity.class);
-                i.putExtra("user", getIntent().getSerializableExtra("user"));
+                //TODO: check that this works
+                //i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }

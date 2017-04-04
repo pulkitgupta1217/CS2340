@@ -16,12 +16,11 @@ public class Singleton implements Serializable{
     private static Singleton instance = null;
 
 
-    public long userID;
+    private long userID;
     private long reportID;
     private long purityReportID;
     private SimpleDateFormat dateTime;
     private Calendar c;
-    private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
     /**
      * the single run constructor that initializes the singleton instance that is stored within
@@ -55,10 +54,10 @@ public class Singleton implements Serializable{
 
     /**
      * used to set the singleton from the database
-     * @param fromdb the singleton stored in firebase
+     * @param updated the singleton stored in firebase
      */
-    public static void setInstance(Singleton fromdb) {
-        instance = fromdb;
+    public static void setInstance(Singleton updated) {
+        instance = updated;
     }
 
     /**
@@ -101,5 +100,9 @@ public class Singleton implements Serializable{
 
     private void pushToDatabase() {
         //firebaseDatabase.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());
+    }
+    @Override
+    public String toString() {
+        return "UID: " + userID + " RID: " + reportID + " PRID: " + purityReportID;
     }
 }

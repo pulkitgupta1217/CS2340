@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.cs2340.WaterNet.Model.Facade;
 import com.cs2340.WaterNet.Model.SecurityLogger;
 import com.cs2340.WaterNet.Model.Singleton;
 import com.cs2340.WaterNet.Model.User;
@@ -51,7 +52,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         //get current user
         final FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
-        final User user = (User) (getIntent().getSerializableExtra("user"));
+        //TODO: check this works
+        //final User user = (User) (getIntent().getSerializableExtra("user"));
+        final User user = Facade.getCurrUser();
 //        Log.d("***", user.getUserID() + "");
 
         authListener = new FirebaseAuth.AuthStateListener() {
