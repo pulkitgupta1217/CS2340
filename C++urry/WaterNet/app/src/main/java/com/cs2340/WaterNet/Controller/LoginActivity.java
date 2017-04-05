@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.cs2340.WaterNet.Model.Facade;
 import com.cs2340.WaterNet.Model.LoginNTuple;
 import com.cs2340.WaterNet.Model.Manager;
+import com.cs2340.WaterNet.Model.Consumer;
 import com.cs2340.WaterNet.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -106,26 +107,30 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });*/
-                LoginNTuple authenticated = Facade.validateLogin(email, password, progressBar, new Intent(LoginActivity.this, MainActivity.class), LoginActivity.this);
-                Log.d("ACTIVITY: ", "exited FACADE");
+                Facade.validateLogin(email, password, progressBar, new Consumer<LoginNTuple>() {
+                    public void accept(LoginNTuple tuple) {
+                        Log.d("ACTIVITY: ", "exited FACADE");
                 /*while (!authenticated.isFinished()) {
                     //Log.d("AUTH: ", "authenticating");
                     //Log.d("AUTH: ", "authenticating");
                 }*/
-                Log.d("Activity: ", "finished authentication");
-                //TODO: MAKE THIS WAIT UNTIL FACADE FINISHES
-                String error = authenticated.getErrorMessage();
-                Log.d("Error", error);
-                if (error.length() != 0) {
-                    Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
-                }
-                if (authenticated.getSuccess()) {
-                    Log.d("***", "moving to main activity");
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    //startActivity(authenticated.getIntent());
-                    startActivity(intent);
-                    finish();
-                }
+                        Log.d("Activity: ", "finished authentication");
+                        //TODO: MAKE THIS WAIT UNTIL FACADE FINISHES
+                        String error = tuple.getErrorMessage();
+                        Log.d("Error", error);
+                        if (error.length() != 0) {
+                            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                        }
+                        if (tuple.getSuccess()) {
+                            Log.d("***", "moving to main activity");
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            //startActivity(authenticated.getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+
 
             }
         });

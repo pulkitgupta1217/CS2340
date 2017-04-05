@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.cs2340.WaterNet.Model.Facade;
 import com.cs2340.WaterNet.Model.Report;
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.Model.UserType;
@@ -86,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ProfileActivity.class);
-                //TODO: check that this works
-                //i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }
@@ -97,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ReportActivity.class);
-                i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }
@@ -107,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, PReportActivity.class);
-                i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }
@@ -117,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, MapsActivity.class);
-                i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }
@@ -128,15 +124,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ViewPReportsActivity.class);
-                i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }
         });
-        if (((User)(getIntent().getSerializableExtra("user"))).getUserType() != UserType.MANAGER)
+        if ((Facade.getCurrUser()).getUserType() != UserType.MANAGER)
             viewpReports.setVisibility(View.INVISIBLE);
 
-        if (((User)(getIntent().getSerializableExtra("user"))).getUserType() == UserType.USER)
+        if (Facade.getCurrUser().getUserType() == UserType.USER)
             gotoCreatePurityReportBtn.setVisibility(View.INVISIBLE);
 
         recycler = (RecyclerView) findViewById(R.id.ReportRecyclerView);
