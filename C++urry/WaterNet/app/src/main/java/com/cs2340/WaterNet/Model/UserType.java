@@ -13,7 +13,7 @@ public enum UserType implements Serializable {
     ADMIN("ADM");
 
     private String value;
-    private UserType(String value) {
+    UserType(String value) {
         this.value = value;
     }
 }

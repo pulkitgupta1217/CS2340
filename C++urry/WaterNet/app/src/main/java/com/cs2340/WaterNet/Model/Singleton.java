@@ -99,6 +99,10 @@ public class Singleton implements Serializable{
         return dateTime.format(c.getTime());
     }
 
+    public SimpleDateFormat getDateTimeFormat() {
+        return dateTime;
+    }
+
     private void pushToDatabase() {
         //firebaseDatabase.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());
     }

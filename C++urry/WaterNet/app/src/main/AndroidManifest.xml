@@ -59,6 +59,10 @@
             android:name=".Controller.ViewPReportsActivity"
             android:label="ReportActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Controller.GraphActivity"
+            android:label="GraphActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

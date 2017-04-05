@@ -4,19 +4,22 @@ package com.cs2340.WaterNet.Model;
  * Created by Pulkit Gupta on 2/27/2017.
  */
 
-public enum Virus {
+public class Virus {
 
-    VIRUS("Contaminant", 0);
-    String value;
-    long ppm;
+    private long ppm;
 
     /**
-     * constructor to set the values of the enum
-     * @param value the string value of the virus
+     * empty constructor for recycler view
+     */
+    public Virus() {
+        ppm = 0;
+    }
+
+    /**
+     * constructor to set the values of the object
      * @param ppm the ppm of the virus in the water
      */
-    Virus(String value, long ppm) {
-        this.value = value;
+    public Virus(long ppm) {
         this.ppm = ppm;
     }
 
@@ -24,7 +27,7 @@ public enum Virus {
      * set the ppm of this virus
      * @param ppm the new ppm
      */
-    void setPPM(long ppm) {
+    public void setPPM(long ppm) {
         this.ppm = ppm;
     }
 
@@ -32,15 +35,8 @@ public enum Virus {
      * get the ppm of this virus
      * @return the ppm
      */
-    long getPPM() {
+    public long getPPM() {
         return ppm;
     }
 
-    /**
-     * get the string form of the virus
-     * @return the string value of the virus
-     */
-    String getValue() {
-        return value;
-    }
 }

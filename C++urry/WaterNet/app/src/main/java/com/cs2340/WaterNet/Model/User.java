@@ -1,9 +1,5 @@
 package com.cs2340.WaterNet.Model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.io.InterruptedIOException;
 import java.io.Serializable;
 
 /**
@@ -67,7 +63,7 @@ public class User implements Serializable{
 
     /**
      * get the email of the user that is also used for authentication
-     * @return
+     * @return the email
      */
     public String getEmail() {
         return email;
@@ -158,7 +154,7 @@ public class User implements Serializable{
      * @param newStatus the new ban status of the user
      */
     public void setBanned(boolean newStatus) {
-        this.banned = Boolean.valueOf(newStatus);
+        this.banned = newStatus;
     }
 
 }

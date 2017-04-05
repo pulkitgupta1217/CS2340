@@ -63,7 +63,7 @@ public class Report implements Serializable {
 
     /**
      * get the site object of the report in order to perform site related operations
-     * @return
+     * @return the site
      */
     public Site getSite() {
         return site;

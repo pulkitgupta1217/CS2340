@@ -78,10 +78,7 @@ public class Site implements Serializable, Comparable<Site>{
     }
 
     public boolean equals(Site s) {
-        if (closeTo(s)) {
-            return true;
-        }
-        return false;
+        return closeTo(s);
     }
 
     public int compareTo(Site s) {

@@ -85,6 +85,15 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <Button
+            android:id="@+id/view_graph"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="View Graph"
+            android:textStyle="bold" />
+
+        <Button
             android:id="@+id/view_preports_button"
             style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"

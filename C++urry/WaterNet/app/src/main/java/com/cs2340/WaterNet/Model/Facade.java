@@ -1,11 +1,8 @@
 package com.cs2340.WaterNet.Model;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cs2340.WaterNet.Controller.LoginActivity;
@@ -23,7 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Pulkit Gupta on 2/28/2017.
@@ -38,8 +34,8 @@ public class Facade {
      * returns information to the activity
      */
     private static User currUser = null;
-    private static List<Pin> pinList = new LinkedList<Pin>();
-    private static List<User> userList = new LinkedList<User>();
+    private static List<Pin> pinList = new LinkedList<>();
+    private static List<User> userList = new LinkedList<>();
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private static FirebaseDatabase database;
 
@@ -132,7 +128,7 @@ public class Facade {
 
     public List<Report> getReports() {
         setPinList();
-        List<Report> reports = new LinkedList<Report>();
+        List<Report> reports = new LinkedList<>();
         for (Pin p : pinList) {
             for (Report r : p.getReports()) {
                 reports.add(r);
@@ -144,7 +140,7 @@ public class Facade {
     public List<Report> getReports(double lat, double lng) {
         setPinList();
         Site site = new Site(lat, lng);
-        List<Report> reports = new LinkedList<Report>();
+        List<Report> reports = new LinkedList<>();
         for (Pin p : pinList) {
             for (Report r : p.getReports()) {
                 if (r.getSite().closeTo(site)) {
@@ -161,7 +157,7 @@ public class Facade {
 
     public List<PurityReport> getPurityReports() {
         setPinList();
-        List<PurityReport> purityReports = new LinkedList<PurityReport>();
+        List<PurityReport> purityReports = new LinkedList<>();
         for (Pin p : pinList) {
             for (PurityReport pr : p.getPurityReports()) {
                 purityReports.add(pr);
@@ -173,7 +169,7 @@ public class Facade {
     public List<PurityReport> getPurityReports(double lat, double lng) {
         setPinList();
         Site site = new Site(lat, lng);
-        List<PurityReport> purityReports = new LinkedList<PurityReport>();
+        List<PurityReport> purityReports = new LinkedList<>();
         for (Pin p : pinList) {
             for (PurityReport pr : p.getPurityReports()) {
                 if (pr.getSite().closeTo(site)) {
@@ -192,16 +188,14 @@ public class Facade {
         getMap(pinList);
     }
     public static /* google Maps map with pins */ void getMap(List<Pin> pins) {
-        return /*MapGenerator.getMap(pins)*/;
     }
     public static /*graph*/ void getHistorical(Site site, PurityReport start, PurityReport end) {
         setPinList();
-        List<PurityReport> relevant = new LinkedList<PurityReport>();
+        List<PurityReport> relevant = new LinkedList<>();
         for (Pin p : pinList) {
             for (int i = p.getPurityReports().indexOf(start); i < p.getPurityReports().indexOf(end); i++) {
                 relevant.add(p.getPurityReports().get(i));
             }
         }
-        return /*HistoricalReportGenerator.generate(relevant) */;
     }
 }

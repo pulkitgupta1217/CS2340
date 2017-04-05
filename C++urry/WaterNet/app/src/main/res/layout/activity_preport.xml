@@ -51,17 +51,23 @@
             android:maxLines="1"
             android:singleLine="true" />
 
-        <Spinner
+        <EditText
+            android:id="@+id/vppm_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:id="@+id/virusSpinner" />
+            android:hint="Virus PPM"
+            android:inputType="number"
+            android:maxLines="1"
+            android:singleLine="true" />
 
-        <Spinner
+        <EditText
+            android:id="@+id/cppm_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:id="@+id/contaminantSpinner" />
+            android:hint="Contaminant PPM"
+            android:inputType="number"
+            android:maxLines="1"
+            android:singleLine="true" />
 
         <Spinner
             android:layout_width="match_parent"

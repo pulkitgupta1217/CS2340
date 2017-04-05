@@ -1,7 +1,6 @@
 package com.cs2340.WaterNet.Model;
 
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,9 +12,9 @@ import java.util.List;
  */
 
 public class Pin {
-    private LinkedList<Report> reportList = new LinkedList<Report>();
+    private LinkedList<Report> reportList = new LinkedList<>();
     private Site site;
-    private LinkedList<PurityReport> purityReportList = new LinkedList<PurityReport>();
+    private LinkedList<PurityReport> purityReportList = new LinkedList<>();
     private Marker marker;
 
     public Marker getMarker() {

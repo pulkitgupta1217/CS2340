@@ -7,30 +7,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cs2340.WaterNet.Model.Report;
-import com.cs2340.WaterNet.Model.Site;
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.Model.UserType;
-import com.cs2340.WaterNet.Model.WaterCondition;
-import com.cs2340.WaterNet.Model.WaterType;
 import com.cs2340.WaterNet.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn, gotoCreatePurityReportBtn, viewpReports;
+    private TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn, gotoCreatePurityReportBtn, viewpReports, viewGraphBtn;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -74,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         gotoCreatePurityReportBtn = (TextView) findViewById(R.id.create_preport_btn);
         viewMapBtn = (TextView) findViewById(R.id.view_map);
         viewpReports = (Button) findViewById(R.id.view_preports_button);
+        viewGraphBtn = (Button) findViewById(R.id.view_graph);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -138,8 +132,21 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        if (((User)(getIntent().getSerializableExtra("user"))).getUserType() != UserType.MANAGER)
+
+        viewGraphBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, GraphActivity.class);
+                i.putExtra("user", getIntent().getSerializableExtra("user"));
+                startActivity(i);
+                finish();
+            }
+        });
+
+        if (((User)(getIntent().getSerializableExtra("user"))).getUserType() != UserType.MANAGER) {
             viewpReports.setVisibility(View.INVISIBLE);
+            viewGraphBtn.setVisibility(View.INVISIBLE);
+        }
 
         if (((User)(getIntent().getSerializableExtra("user"))).getUserType() == UserType.USER)
             gotoCreatePurityReportBtn.setVisibility(View.INVISIBLE);
