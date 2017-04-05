@@ -1,5 +1,6 @@
 package com.cs2340.WaterNet.Model;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -10,7 +11,6 @@ import com.cs2340.WaterNet.Controller.LoginActivity;
 import com.cs2340.WaterNet.Controller.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -60,7 +60,7 @@ public class Facade {
     }
 
 
-    public static LoginNTuple validateLogin(String email, final String password, final ProgressBar progressBar) {
+    public static LoginNTuple validateLogin(String email, final String password, final ProgressBar progressBar, Intent i, Context c) {
         Log.d("FACADE: ", Thread.currentThread().getName());
         String errorMessage = "";
         if (email == null || email.length() == 0) {
@@ -86,66 +86,68 @@ public class Facade {
 
 
         progressBar.setVisibility(View.VISIBLE);
-        new Thread(new Runnable() {
-            public void run() {
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(userEmail, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                Log.d("AUTH: ", Thread.currentThread().getName());
-                                progressBar.setVisibility(View.GONE);
 
-                                if (!task.isSuccessful()) {
-                                    // there was an error
-                                    Log.d("***", "there was an error");
-                                    if (password.length() >= 6) {
-                                        tuple.setErrorMessage(tuple.getErrorMessage() + "Authentication failed, check your email and password or sign up");
-                                    } else {
-                                        tuple.setErrorMessage(tuple.getErrorMessage() + "authentication failed");
-                                    }
-                                    tuple.setSuccess(false);
-                                    tuple.setFinished(true);
-                                } else {
-                                    tuple.setSuccess(true);
-                                    final FirebaseUser firebaseUser = task.getResult().getUser();
-                                    Log.d("***", "authenticated!!!");
-                                    String message = userEmail + " logged in!";
-                                    database.getReference().addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
-                                            Log.d("***", ("found user in db: " + (u != null)));
-                                            //CODE ADDED BY PULKIT FOR SINGLETON
-                                            Log.d("singleton Data", dataSnapshot.child("Singleton").getValue(Singleton.class).toString());
-                                            start(dataSnapshot);
-                                            Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));
-                                            //if (Singleton.getInstance().getUserIDNoIncrement() == 0) {
-                                            //    Log.d("***", "did not find Singleton at login");
-                                            //}
-                                            //Log.d("***", u.getUserID() + "  " + firebaseUser.getUid());
-                                            currUser = u;
-                                            tuple.setFinished(true);
-                                        }
-
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                        }
-                                    });
-
-                                    SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + message);
-                                }
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(userEmail, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        Log.d("AUTH: ", Thread.currentThread().getName());
+                        progressBar.setVisibility(View.GONE);
+                        if (!task.isSuccessful()) {
+                            // there was an error
+                            Log.d("***", "there was an error");
+                            if (password.length() >= 6) {
+                                tuple.setErrorMessage(tuple.getErrorMessage() + "Authentication failed, check your email and password or sign up");
+                            } else {
+                                tuple.setErrorMessage(tuple.getErrorMessage() + "authentication failed");
                             }
-                        });
-            }
-        }).start();
+                            tuple.setSuccess(false);
+                            tuple.setFinished(true);
+                        } else {
+                            tuple.setSuccess(true);
+                            final FirebaseUser firebaseUser = task.getResult().getUser();
+                            Log.d("***", "authenticated!!!");
+                            String message = userEmail + " logged in!";
+                            database.getReference().addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
+                                    Log.d("***", ("found user in db: " + (u != null)));
+                                    //CODE ADDED BY PULKIT FOR SINGLETON
+                                    Log.d("singleton Data", dataSnapshot.child("Singleton").getValue(Singleton.class).toString());
+                                    start(dataSnapshot);
+                                    //Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));
+                                    //if (Singleton.getInstance().getUserIDNoIncrement() == 0) {
+                                    //    Log.d("***", "did not find Singleton at login");
+                                    //}
+                                    //Log.d("***", u.getUserID() + "  " + firebaseUser.getUid());
+                                    currUser = u;
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                    tuple.setFinished(true);
+                                    try {
+                                        //c.startActivity(i);
+                                    } catch (Exception e) {
+                                        Log.d("FAILED", "failed to start activity");
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
+
+                            SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + message);
+                        }
+                    }
+                });
         /*try {
             Tasks.await(null);
         } catch (Exception e) {}*/
 
-        while (!tuple.isFinished());
+        //while (!tuple.isFinished());
 
         Log.d("Singleton complete: ", Singleton.getInstance().toString());
         return tuple;

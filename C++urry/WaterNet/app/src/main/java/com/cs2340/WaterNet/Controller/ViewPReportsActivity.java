@@ -12,9 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cs2340.WaterNet.Model.PurityReport;
-import com.cs2340.WaterNet.Model.Report;
-import com.cs2340.WaterNet.Model.User;
-import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;

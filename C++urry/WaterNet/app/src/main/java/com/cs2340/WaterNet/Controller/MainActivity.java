@@ -14,18 +14,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cs2340.WaterNet.Model.Report;
-import com.cs2340.WaterNet.Model.Site;
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.Model.UserType;
-import com.cs2340.WaterNet.Model.WaterCondition;
-import com.cs2340.WaterNet.Model.WaterType;
 import com.cs2340.WaterNet.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {

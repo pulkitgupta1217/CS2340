@@ -13,19 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs2340.WaterNet.Model.Report;
-import com.cs2340.WaterNet.Model.SecurityLogger;
-import com.cs2340.WaterNet.Model.Singleton;
 import com.cs2340.WaterNet.Model.User;
-import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.Model.WaterCondition;
 import com.cs2340.WaterNet.Model.WaterType;
 import com.cs2340.WaterNet.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -41,6 +35,7 @@ public class ReportActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseDatabase database;
 
+    @SuppressWarnings({"unchecked", "all"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Singleton.setInstance(Firebase.getSingleton());

@@ -1,6 +1,5 @@
 package com.cs2340.WaterNet.Model;
 
-import android.content.Intent;
 
 /**
  * Created by pulki on 3/30/2017.

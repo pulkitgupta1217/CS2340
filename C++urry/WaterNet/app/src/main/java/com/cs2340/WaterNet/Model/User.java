@@ -1,9 +1,6 @@
 package com.cs2340.WaterNet.Model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
-import java.io.InterruptedIOException;
 import java.io.Serializable;
 
 /**

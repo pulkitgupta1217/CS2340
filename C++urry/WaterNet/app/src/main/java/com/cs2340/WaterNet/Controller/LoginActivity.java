@@ -15,8 +15,6 @@ import com.cs2340.WaterNet.Model.Facade;
 import com.cs2340.WaterNet.Model.LoginNTuple;
 import com.cs2340.WaterNet.Model.Manager;
 import com.cs2340.WaterNet.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -58,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        Log.d("START", "STARTING APP");
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
@@ -107,9 +106,10 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });*/
-                LoginNTuple authenticated = Facade.validateLogin(email, password, progressBar);
+                LoginNTuple authenticated = Facade.validateLogin(email, password, progressBar, new Intent(LoginActivity.this, MainActivity.class), LoginActivity.this);
                 Log.d("ACTIVITY: ", "exited FACADE");
                 /*while (!authenticated.isFinished()) {
+                    //Log.d("AUTH: ", "authenticating");
                     //Log.d("AUTH: ", "authenticating");
                 }*/
                 Log.d("Activity: ", "finished authentication");
