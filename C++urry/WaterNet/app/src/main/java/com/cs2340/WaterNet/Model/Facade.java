@@ -10,6 +10,7 @@ import com.cs2340.WaterNet.Controller.LoginActivity;
 import com.cs2340.WaterNet.Controller.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -84,8 +85,10 @@ public class Facade {
         Log.d("***", "attempting authentication");
 
 
-                progressBar.setVisibility(View.VISIBLE);
-                auth.signInWithEmailAndPassword(userEmail, password)
+        progressBar.setVisibility(View.VISIBLE);
+        new Thread(new Runnable() {
+            public void run() {
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(userEmail, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -119,7 +122,6 @@ public class Facade {
                                             Log.d("singleton Data", dataSnapshot.child("Singleton").getValue(Singleton.class).toString());
                                             start(dataSnapshot);
                                             Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));
-
                                             //if (Singleton.getInstance().getUserIDNoIncrement() == 0) {
                                             //    Log.d("***", "did not find Singleton at login");
                                             //}
@@ -130,7 +132,6 @@ public class Facade {
 
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
-
                                         }
                                     });
 
@@ -138,10 +139,26 @@ public class Facade {
                                 }
                             }
                         });
+            }
+        }).start();
+        /*try {
+            Tasks.await(null);
+        } catch (Exception e) {}*/
+
+        while (!tuple.isFinished());
 
         Log.d("Singleton complete: ", Singleton.getInstance().toString());
         return tuple;
     }
+
+    /*public static void setOnFinishListener(onFinishListener l) {
+        //throw new RuntimeException("Stub!");
+    }
+
+    public interface onFinishListener {
+        void onFinish();
+    }*/
+
     public static User getCurrUser() {
         return currUser;
     }

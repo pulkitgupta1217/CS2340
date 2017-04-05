@@ -15,6 +15,8 @@ import com.cs2340.WaterNet.Model.Facade;
 import com.cs2340.WaterNet.Model.LoginNTuple;
 import com.cs2340.WaterNet.Model.Manager;
 import com.cs2340.WaterNet.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     public Button getBtnReset() {
         return btnReset;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +101,12 @@ public class LoginActivity extends AppCompatActivity {
                 String email = inputEmail.getText().toString();
                 final String password = inputPassword.getText().toString();
                 Log.d("ACTIVITY: ", "begining Facade");
+                /*Facade.setOnFinishListener(new Facade.onFinishListener() {
+                    public void onFinish() {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });*/
                 LoginNTuple authenticated = Facade.validateLogin(email, password, progressBar);
                 Log.d("ACTIVITY: ", "exited FACADE");
                 /*while (!authenticated.isFinished()) {
