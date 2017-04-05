@@ -5,32 +5,19 @@ package com.cs2340.WaterNet.Model;
  * Created by pulki on 3/30/2017.
  */
 
-public class LoginNTuple {
+public class AuthTuple {
     private boolean success = false;
     private String errorMessage = "";
-    private boolean finished = false;
 
-    public LoginNTuple() {
+    public AuthTuple() {
         this(false, null);
     }
 
-    public LoginNTuple(boolean success, String errorMessage) {
-        this(success, errorMessage, false);
-    }
-
-    public LoginNTuple(boolean success, String errorMessage, boolean finished) {
+    public AuthTuple(boolean success, String errorMessage) {
         this.success = success;
         this.errorMessage = errorMessage;
-        this.finished = finished;
     }
 
-    public boolean isFinished() {
-        return finished;
-    }
-
-    public void setFinished(boolean finished) {
-        this.finished = finished;
-    }
 
     public boolean getSuccess() {
         return success;
@@ -47,10 +34,6 @@ public class LoginNTuple {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
-    /*
-    public Intent getIntent() {
-        return intent;
-    }
-    */
+
 
 }

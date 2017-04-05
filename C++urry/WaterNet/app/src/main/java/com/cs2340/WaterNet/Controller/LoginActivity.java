@@ -12,8 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cs2340.WaterNet.Model.Facade;
-import com.cs2340.WaterNet.Model.LoginNTuple;
-import com.cs2340.WaterNet.Model.Manager;
+import com.cs2340.WaterNet.Model.AuthTuple;
 import com.cs2340.WaterNet.Model.Consumer;
 import com.cs2340.WaterNet.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -107,8 +106,8 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });*/
-                Facade.validateLogin(email, password, progressBar, new Consumer<LoginNTuple>() {
-                    public void accept(LoginNTuple tuple) {
+                Facade.validateLogin(email, password, progressBar, new Consumer<AuthTuple>() {
+                    public void accept(AuthTuple tuple) {
                         Log.d("ACTIVITY: ", "exited FACADE");
                 /*while (!authenticated.isFinished()) {
                     //Log.d("AUTH: ", "authenticating");

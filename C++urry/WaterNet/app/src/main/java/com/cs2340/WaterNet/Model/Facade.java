@@ -1,21 +1,20 @@
 package com.cs2340.WaterNet.Model;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-
-import com.cs2340.WaterNet.Controller.LoginActivity;
-import com.cs2340.WaterNet.Model.Consumer;
+import android.widget.Toast;
 
 import com.cs2340.WaterNet.Controller.MainActivity;
+import com.cs2340.WaterNet.Controller.SignupActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.api.model.StringList;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -62,24 +61,24 @@ public class Facade {
     }
 
 
-    public static void validateLogin(String email, final String password, final ProgressBar progressBar, Consumer<LoginNTuple> callback) {
+    public static void validateLogin(String email, final String password, final ProgressBar progressBar, Consumer<AuthTuple> callback) {
         Log.d("FACADE: ", Thread.currentThread().getName());
         String errorMessage = "";
-        LoginNTuple tuple;
+        AuthTuple tuple;
         if (email == null || email.length() == 0) {
             errorMessage += "Enter email address or username";
-            tuple = new LoginNTuple(false, errorMessage, true);
+            tuple = new AuthTuple(false, errorMessage);
             callback.accept(tuple);
             return;
         } else if (password == null || password.length() == 0) {
             errorMessage += "Enter password!";
-            tuple = new LoginNTuple(false, errorMessage, true);
+            tuple = new AuthTuple(false, errorMessage);
             callback.accept(tuple);
             return;
 
         } else if (password.length() < 6) {
             errorMessage += "Password too short, enter minimum 6 characters!";
-            tuple = new LoginNTuple(false, errorMessage, true);
+            tuple = new AuthTuple(false, errorMessage);
             callback.accept(tuple);
             return;
         } else {
@@ -87,9 +86,8 @@ public class Facade {
             if (email.indexOf("@") == -1) {
                 email += "@water.net";
             }
-            //TODO: UM THIS IS FUCKED
             final String userEmail = email;
-            tuple = new LoginNTuple(false, "");
+            tuple = new AuthTuple(false, "");
             Log.d("***", "attempting authentication");
 
 
@@ -113,7 +111,6 @@ public class Facade {
                                     tuple.setErrorMessage(tuple.getErrorMessage() + "authentication failed");
                                 }
                                 tuple.setSuccess(false);
-                                tuple.setFinished(true);
                                 callback.accept(tuple);
                                 return;
                             } else {
@@ -137,7 +134,6 @@ public class Facade {
                                         //Log.d("***", u.getUserID() + "  " + firebaseUser.getUid());
                                         currUser = u;
 
-                                        tuple.setFinished(true);
                                         callback.accept(tuple);
 
                                     }
@@ -161,13 +157,95 @@ public class Facade {
         Log.d("Singleton complete: ", Singleton.getInstance().toString());
     }
 
-    /*public static void setOnFinishListener(onFinishListener l) {
-        //throw new RuntimeException("Stub!");
-    }
+    public static void createUser(String tempEmail, String username, String password, final UserType userType, final ProgressBar bar,  Consumer<AuthTuple> callback) {
+        //TODO: DO THE THANG
+        String errorMessage = "";
+        String email = null;
+        if (username == null || username.length() == 0) {
+            errorMessage += "Enter username!";
+            callback.accept(new AuthTuple(false, errorMessage));
+            return;
+        } else if (password == null || password.length() == 0) {
+            errorMessage += "Enter password!";
+            callback.accept(new AuthTuple(false, errorMessage));
+            return;
+        } else if (password.length() < 6) {
+            errorMessage += "Password too short, enter minimum 6 characters!";
+            callback.accept(new AuthTuple(false, errorMessage));
+        } else if (tempEmail == null || tempEmail.length() == 0 || !tempEmail.contains("@")) {
+            email = username + "@water.net";
+        } else {
+            email = tempEmail;
+        }
+        final String fullEmail = email;
+        bar.setVisibility(View.VISIBLE);
+        //create user
+        auth.createUserWithEmailAndPassword(fullEmail, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        String error = "";
+                        //CODE ADDED BY PULKIT FOR SINGLETON
+                        if(task.isSuccessful()) {
+                            error += "success!";
+                            //edit this
+                            database.getReference().addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.child("Singleton").getValue(Singleton.class) == null) {
+                                        database.getReference().child("Singleton").setValue(Singleton.getInstance());
+                                        Log.d("***", "adding new Singleton");
+                                    } else {
+                                        start(dataSnapshot);
+                                        Log.d("***", "found Singleton during signup");
+                                    }
+                                    //TODO:
+//                                    callback.accept(null);
+                                }
 
-    public interface onFinishListener {
-        void onFinish();
-    }*/
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+
+                        bar.setVisibility(View.GONE);
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            error += "Authentication failed." + task.getException();
+                            callback.accept(new AuthTuple(false, error));
+                        } else {
+                            User u = null;
+                            if (userType == UserType.USER) {
+                                u = new User(username, fullEmail);
+                                database.getReference().child("users").child(auth.getCurrentUser()
+                                        .getUid()).setValue(u);
+                            } else if (userType == UserType.MANAGER) {
+                                u = new Manager(username, fullEmail);
+                                database.getReference().child("users").child(auth.getCurrentUser()
+                                        .getUid()).setValue(u);
+                            } else if (userType == UserType.WORKER) {
+                                u = new Worker(username, fullEmail);
+                                database.getReference().child("users").child(auth.getCurrentUser()
+                                        .getUid()).setValue(u);
+                            } if (userType == UserType.ADMIN) {
+                                u = new Admin(username, fullEmail);
+                                database.getReference().child("users").child(auth.getCurrentUser()
+                                        .getUid()).setValue(u);
+                            }
+                            currUser = u;
+                            //fixed endless loop
+                            database.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());//edit
+                            SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + fullEmail + " Registered on firebase");
+                            callback.accept(new AuthTuple(true, error));
+
+                        }
+                    }
+                });
+    }
 
     public static User getCurrUser() {
         return currUser;
