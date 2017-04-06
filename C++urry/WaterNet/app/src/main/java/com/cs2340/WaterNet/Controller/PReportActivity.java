@@ -14,7 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.cs2340.WaterNet.Model.Consumer;
 import com.cs2340.WaterNet.Model.Contaminant;
+import com.cs2340.WaterNet.Model.Facade;
 import com.cs2340.WaterNet.Model.OverallCondition;
 import com.cs2340.WaterNet.Model.PurityReport;
 import com.cs2340.WaterNet.Model.User;
@@ -62,7 +64,6 @@ public class PReportActivity extends AppCompatActivity {
                     // user auth state is changed - user is null
                     // launch login activity
                     Intent i = new Intent(PReportActivity.this, LoginActivity.class);
-                    i.putExtra("user", user);
                     startActivity(i);
                     finish();
                 }
@@ -76,17 +77,17 @@ public class PReportActivity extends AppCompatActivity {
         longField = (EditText) findViewById(R.id.longitude_input);
 
         virusSpinner = (Spinner) findViewById(R.id.virusSpinner);
-        ArrayAdapter<String> virusSpinnerAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Virus.values());
+        ArrayAdapter<Virus> virusSpinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, Virus.values());
         virusSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         virusSpinner.setAdapter(virusSpinnerAdapter);
 
         contaminantSpinner = (Spinner) findViewById(R.id.contaminantSpinner);
-        ArrayAdapter<String> conditionTypeAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Contaminant.values());
-        conditionTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        contaminantSpinner.setAdapter(conditionTypeAdapter);
+        ArrayAdapter<Contaminant> contaminantArrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, Contaminant.values());
+        contaminantArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        contaminantSpinner.setAdapter(contaminantArrayAdapter);
 
         overallConditionSpinner = (Spinner) findViewById(R.id.oConditionSpinner);
-        ArrayAdapter<String> overallConditionSpinnerAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, OverallCondition.values());
+        ArrayAdapter<OverallCondition> overallConditionSpinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, OverallCondition.values());
         overallConditionSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         overallConditionSpinner.setAdapter(overallConditionSpinnerAdapter);
 
@@ -100,7 +101,6 @@ public class PReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(PReportActivity.this, MainActivity.class);
-                i.putExtra("user", user);
                 startActivity(i);
                 finish();
             }
@@ -110,30 +110,19 @@ public class PReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String latstring = latField.getText().toString().trim();
-                String longstring = longField.getText().toString().trim();
-
-                if (TextUtils.isEmpty(latstring)) {
-                    Toast.makeText(getApplicationContext(), "Enter latitude!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(longstring)) {
-                    Toast.makeText(getApplicationContext(), "Enter longtitude!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                int latitude = Integer.parseInt(latstring);
-                int longitude = Integer.parseInt(longstring);
-                Virus v = (Virus) (virusSpinner.getSelectedItem());
-                Contaminant c = (Contaminant) (contaminantSpinner.getSelectedItem());
-                OverallCondition oc = (OverallCondition) (overallConditionSpinner.getSelectedItem());
-
-                writeNewPost(user, latitude, longitude, v, oc, c);
-                Intent i = new Intent(PReportActivity.this, MainActivity.class);
-                i.putExtra("user", user);
-                startActivity(i);
-                finish();
+                Facade.createPurityReport(latField.getText().toString().trim(), longField.getText().toString().trim(),
+                        (Virus) virusSpinner.getSelectedItem(), (Contaminant) contaminantSpinner.getSelectedItem(),
+                        (OverallCondition) overallConditionSpinner.getSelectedItem(), new Consumer<String>() {
+                            public void accept(String s) {
+                                if (s.length() != 0) {
+                                    Intent i = new Intent(PReportActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
 
             }
         });

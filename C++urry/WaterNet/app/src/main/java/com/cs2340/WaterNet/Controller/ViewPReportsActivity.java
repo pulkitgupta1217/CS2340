@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cs2340.WaterNet.Model.PurityReport;
+import com.cs2340.WaterNet.Model.PurityReportHolder;
 import com.cs2340.WaterNet.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +29,6 @@ public class ViewPReportsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Singleton.setInstance(Firebase.getSingleton());
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_view_preport);
@@ -113,36 +113,5 @@ public class ViewPReportsActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-
-    public static class PurityReportHolder extends RecyclerView.ViewHolder {
-        private final TextView contaminantTV, overallconditionTV, virusTV, locationTV, infoTV;
-
-        public PurityReportHolder(View itemView) {
-            super(itemView);
-            contaminantTV = (TextView) itemView.findViewById(R.id.contaminant_view);
-            virusTV = (TextView) itemView.findViewById(R.id.virus_view);
-            overallconditionTV = (TextView) itemView.findViewById(R.id.overallcondition_view);
-            locationTV = (TextView) itemView.findViewById(R.id.plocation_view);
-            infoTV = (TextView) itemView.findViewById(R.id.pcreate_info_view);
-        }
-
-        public void setOverallConditionTV(String name) {
-            overallconditionTV.setText(name);
-        }
-
-        public void setVirusTV(String text) {
-            virusTV.setText(text);
-        }
-
-        public void setContaminantTV(String text) {
-            contaminantTV.setText(text);
-        }
-
-        public void setLocationTV(String text) {
-            locationTV.setText(text);
-        }
-
-        public void setInfoTV(String text) { infoTV.setText(text); }
-    }
 
 }

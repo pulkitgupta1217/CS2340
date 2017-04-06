@@ -24,7 +24,7 @@ public class Singleton implements Serializable{
 
     /**
      * the single run constructor that initializes the singleton instance that is stored within
-     * the singleton
+     * the singleton and is required for firebase
      */
     public Singleton(){
         userID = 1;
@@ -66,7 +66,6 @@ public class Singleton implements Serializable{
      */
     public long getUserID() {
         //userID++;
-        pushToDatabase();
         return userID++;
     }
 
@@ -76,7 +75,6 @@ public class Singleton implements Serializable{
      */
     public long getReportID() {
         //reportID++;
-        pushToDatabase();
         return reportID++;
     }
 
@@ -86,7 +84,6 @@ public class Singleton implements Serializable{
      */
     public long getPurityReportID() {
         //purityReportID++;
-        pushToDatabase();
         return purityReportID++;
     }
 
@@ -98,9 +95,6 @@ public class Singleton implements Serializable{
         return dateTime.format(c.getTime());
     }
 
-    private void pushToDatabase() {
-        //firebaseDatabase.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());
-    }
     @Override
     public String toString() {
         return "UID: " + userID + " RID: " + reportID + " PRID: " + purityReportID;

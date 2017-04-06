@@ -33,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Singleton.setInstance(Firebase.getSingleton());
         super.onCreate(savedInstanceState);
+
+
 
         TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn, gotoCreatePurityReportBtn, viewpReports;
         FirebaseDatabase database;
@@ -131,7 +132,9 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        if ((Facade.getCurrUser()).getUserType() != UserType.MANAGER)
+
+        //TODO: should this be user?
+        if (Facade.getCurrUser().getUserType() != UserType.MANAGER)
             viewpReports.setVisibility(View.INVISIBLE);
 
         if (Facade.getCurrUser().getUserType() == UserType.USER)

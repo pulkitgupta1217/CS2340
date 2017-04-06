@@ -21,46 +21,17 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
-    private FirebaseAuth auth;
     private ProgressBar progressBar;
-    public static Button btnSignup, btnLogin, btnReset;
-    private FirebaseDatabase database;
-
-    public ProgressBar getProgressBar() {
-        return progressBar;
-    }
-
-    public EditText getInputEmail() {
-        return inputEmail;
-    }
-
-    public EditText getInputPassword() {
-        return inputPassword;
-    }
-
-    public Button getBtnSignup() {
-        return btnSignup;
-    }
-
-    public Button getBtnLogin() {
-        return btnLogin;
-    }
-
-    public Button getBtnReset() {
-        return btnReset;
-    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        Facade.start();
         super.onCreate(savedInstanceState);
 
         Log.d("START", "STARTING APP");
         //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
-
-        database = FirebaseDatabase.getInstance();
 
         // set the view now
         setContentView(R.layout.activity_login);
@@ -68,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Button btnSignup, btnLogin, btnReset;
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -75,8 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
 
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,33 +65,19 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Activity: ", Thread.currentThread().getName());
-                Log.d("Starting", "starting");
+
                 String email = inputEmail.getText().toString();
                 final String password = inputPassword.getText().toString();
-                Log.d("ACTIVITY: ", "begining Facade");
-                /*Facade.setOnFinishListener(new Facade.onFinishListener() {
-                    public void onFinish() {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    }
-                });*/
+
                 Facade.validateLogin(email, password, progressBar, new Consumer<AuthTuple>() {
                     public void accept(AuthTuple tuple) {
-                        Log.d("ACTIVITY: ", "exited FACADE");
-                /*while (!authenticated.isFinished()) {
-                    //Log.d("AUTH: ", "authenticating");
-                    //Log.d("AUTH: ", "authenticating");
-                }*/
-                        Log.d("Activity: ", "finished authentication");
-                        //TODO: MAKE THIS WAIT UNTIL FACADE FINISHES
+
                         String error = tuple.getErrorMessage();
                         Log.d("Error", error);
                         if (error.length() != 0) {
                             Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
                         }
                         if (tuple.getSuccess()) {
-                            Log.d("***", "moving to main activity");
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             //startActivity(authenticated.getIntent());
                             startActivity(intent);

@@ -37,10 +37,8 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
 
-    @SuppressWarnings("all")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Singleton.setInstance(Firebase.getSingleton());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
@@ -51,12 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        //get current user
-        final FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
-        //TODO: check this works
-        //final User user = (User) (getIntent().getSerializableExtra("user"));
         final User user = Facade.getCurrUser();
-//        Log.d("***", user.getUserID() + "");
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -66,7 +59,6 @@ public class ProfileActivity extends AppCompatActivity {
                     // user auth state is changed - user is null
                     // launch login activity
                     Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
-                    i.putExtra("user", user);
                     startActivity(i);
                     finish();
                 }
@@ -90,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
         typeView = (TextView) findViewById(R.id.type_view);
 
         typeSpinner = (Spinner) findViewById(R.id.profileSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, UserType.values());
+        ArrayAdapter<UserType> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, UserType.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(adapter);
 
@@ -106,7 +98,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ProfileActivity.this, MainActivity.class);
-                i.putExtra("user", user);
                 startActivity(i);
                 finish();
             }
@@ -130,25 +121,10 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                user.setAddress(addressField.getText().toString());
-                user.setName(nameField.getText().toString());
-                if (emailField.getText().toString().indexOf("@") > 0) {
-                    user.setEmail(emailField.getText().toString());
-                    fireUser.updateEmail(user.getEmail())
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d("***", "User email address updated.");
-                                    }
-                                }
-                            });
-                }
-                user.setPhone(phoneField.getText().toString());
-                user.setUserType((UserType) (typeSpinner.getSelectedItem()));
-                FirebaseDatabase.getInstance().getReference().child("users").child(auth.getCurrentUser()
-                        .getUid()).setValue(user); //***
-                SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + user.getEmail() + " edited their profile");
+                Facade.updateUser(addressField.getText().toString(), nameField.getText().toString(),
+                        emailField.getText().toString(), phoneField.getText().toString(),
+                        (UserType) typeSpinner.getSelectedItem());
+
                 switchToViews(user);
 
             }

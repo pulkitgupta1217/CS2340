@@ -45,7 +45,6 @@ public class SignupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Singleton.setInstance(Firebase.getSingleton());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
@@ -88,7 +87,6 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final String email;
                 String tempEmail = inputEmail.getText().toString().trim();
                 final String password = inputPassword.getText().toString().trim();
                 final String username = inputUsername.getText().toString().trim();

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cs2340.WaterNet.Model.Facade;
 import com.cs2340.WaterNet.Model.Pin;
 import com.cs2340.WaterNet.Model.Report;
 import com.cs2340.WaterNet.Model.Site;
@@ -32,10 +33,6 @@ import java.util.TreeMap;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
-    private FirebaseAuth auth;
-    private FirebaseDatabase database;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +42,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        database = FirebaseDatabase.getInstance();
     }
 
 
@@ -60,7 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        GoogleMap mMap = googleMap;
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
@@ -90,86 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        displayLocations();
-
-    }
-
-    private void displayLocations() {
-
-
-        database.getReference().child("reports").addChildEventListener(new ChildEventListener() {
-            LatLngBounds bounds;
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            TreeMap<Site, Pin> map = new TreeMap<Site, Pin>();
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                Report r = dataSnapshot.getValue(Report.class);
-                Pin p;
-                if (map.get(r.getSite()) == null) {
-                    p = new Pin(r);
-                    map.put(r.getSite(), p);
-
-                    double latitude = p.getLat();
-                    double longitude = p.getLng();
-
-                    // Create LatLng for each locations
-                    LatLng mLatlng = new LatLng(latitude, longitude);
-
-                    // Make sure the map boundary contains the location
-                    builder.include(mLatlng);
-                    bounds = builder.build();
-
-                    // Add a marker for each logged location
-                    MarkerOptions mMarkerOption = new MarkerOptions()
-                            .position(mLatlng)
-                            .snippet(p.reportListString())
-                            .title(p.getLat() + " " + p.getLng());
-
-                    Marker m = mMap.addMarker(mMarkerOption);
-                    p.setMarker(m);
-
-
-                } else {
-                    p = map.get(r.getSite());
-                    p.addReport(r);
-                    p.getMarker().setSnippet(p.reportListString());
-
-
-                }
-
-                // Zoom map to the boundary that contains every logged location
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
-                        100));
-
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        Facade.getLocations(mMap);
 
     }
 

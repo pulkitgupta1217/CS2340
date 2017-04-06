@@ -9,12 +9,19 @@ import android.widget.Toast;
 
 import com.cs2340.WaterNet.Controller.MainActivity;
 import com.cs2340.WaterNet.Controller.SignupActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.api.model.StringList;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -22,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Created by Pulkit Gupta on 2/28/2017.
@@ -40,24 +48,27 @@ public class Facade {
     private static List<User> userList = new LinkedList<User>();
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private static boolean isUpdated = false;
 
 
     private Facade(){
     }
 
-    private static void start(DataSnapshot dataSnapshot) {
-        Singleton s = dataSnapshot.child("Singleton").getValue(Singleton.class);
-        if (s.getUserID() < Singleton.getInstance().getUserID()
-                || s.getReportID() < Singleton.getInstance().getReportID()
-                || s.getPurityReportID() < Singleton.getInstance().getPurityReportID()) {
-            Log.d("*******", "need to update local singleton");
-            reset(dataSnapshot);
-        }
-        Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));
-        //TODO: update Singleton
+    public static void start() {
+        database.getReference().child("Singleton").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Singleton.setInstance(dataSnapshot.getValue(Singleton.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
-    private static void reset(DataSnapshot dataSnapshot) {
+
+    private static void reset() {
         database.getReference().child("Singleton").setValue(Singleton.getInstance());
     }
 
@@ -70,21 +81,18 @@ public class Facade {
             errorMessage += "Enter email address or username";
             tuple = new AuthTuple(false, errorMessage);
             callback.accept(tuple);
-            return;
         } else if (password == null || password.length() == 0) {
             errorMessage += "Enter password!";
             tuple = new AuthTuple(false, errorMessage);
             callback.accept(tuple);
-            return;
 
         } else if (password.length() < 6) {
             errorMessage += "Password too short, enter minimum 6 characters!";
             tuple = new AuthTuple(false, errorMessage);
             callback.accept(tuple);
-            return;
         } else {
 
-            if (email.indexOf("@") == -1) {
+            if (!email.contains("@")) {
                 email += "@water.net";
             }
             final String userEmail = email;
@@ -101,11 +109,9 @@ public class Facade {
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
-                            Log.d("AUTH: ", Thread.currentThread().getName());
                             progressBar.setVisibility(View.GONE);
                             if (!task.isSuccessful()) {
                                 // there was an error
-                                Log.d("***", "there was an error");
                                 if (password.length() >= 6) {
                                     tuple.setErrorMessage(tuple.getErrorMessage() + "Authentication failed, check your email and password or sign up");
                                 } else {
@@ -113,26 +119,17 @@ public class Facade {
                                 }
                                 tuple.setSuccess(false);
                                 callback.accept(tuple);
-                                return;
                             } else {
                                 tuple.setSuccess(true);
                                 final FirebaseUser firebaseUser = task.getResult().getUser();
-                                Log.d("***", "authenticated!!!");
                                 String message = userEmail + " logged in!";
                                 SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + message);
-                                database.getReference().addValueEventListener(new ValueEventListener() {
+                                database.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
-                                        Log.d("***", ("found user in db: " + (u != null)));
-                                        //CODE ADDED BY PULKIT FOR SINGLETON
-                                        Log.d("singleton Data", dataSnapshot.child("Singleton").getValue(Singleton.class).toString());
-                                        start(dataSnapshot);
-                                        //Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));
-                                        //if (Singleton.getInstance().getUserIDNoIncrement() == 0) {
-                                        //    Log.d("***", "did not find Singleton at login");
-                                        //}
-                                        //Log.d("***", u.getUserID() + "  " + firebaseUser.getUid());
+                                        reset();
+
                                         currUser = u;
 
                                         callback.accept(tuple);
@@ -144,18 +141,11 @@ public class Facade {
                                     }
                                 });
 
-
                             }
                         }
                     });
         }
-        /*try {
-            Tasks.await(null);
-        } catch (Exception e) {}*/
 
-        //while (!tuple.isFinished());
-
-        Log.d("Singleton complete: ", Singleton.getInstance().toString());
     }
 
     public static void createUser(String tempEmail, String username, String password, final UserType userType, final ProgressBar bar,  Consumer<AuthTuple> callback) {
@@ -189,17 +179,20 @@ public class Facade {
                         //CODE ADDED BY PULKIT FOR SINGLETON
                         if(task.isSuccessful()) {
                             error += "success!";
+
                             //edit this
-                            database.getReference().addValueEventListener(new ValueEventListener() {
+                            database.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.child("Singleton").getValue(Singleton.class) == null) {
+                                    Log.d("calling", "start(dataSnapshot)");
+                                    reset();
+                                    /*if (dataSnapshot.child("Singleton").getValue(Singleton.class) == null) {
                                         database.getReference().child("Singleton").setValue(Singleton.getInstance());
                                         Log.d("***", "adding new Singleton");
                                     } else {
                                         start(dataSnapshot);
                                         Log.d("***", "found Singleton during signup");
-                                    }
+                                    }*/
                                     //TODO:
 //                                    callback.accept(null);
                                 }
@@ -238,8 +231,9 @@ public class Facade {
                                         .getUid()).setValue(u);
                             }
                             currUser = u;
+                            Log.d("***", "singleton should be updated");
                             //fixed endless loop
-                            database.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());//edit
+                            //database.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());//edit
                             SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + fullEmail + " Registered on firebase");
                             callback.accept(new AuthTuple(true, error));
 
@@ -347,5 +341,137 @@ public class Facade {
             }
         }
         return /*HistoricalReportGenerator.generate(relevant) */;
+    }
+
+    public static void updateUser(String address, String name, String email, String phone, UserType userType) {
+        currUser.setAddress(address);
+        currUser.setName(name);
+        currUser.setEmail(email);
+        currUser.setPhone(phone);
+        currUser.setUserType(userType);
+        if (email.contains("@")) {
+            currUser.setEmail(email);
+            FirebaseAuth.getInstance().getCurrentUser().updateEmail(currUser.getEmail())
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("***", "User email address updated.");
+                            }
+                        }
+                    });
+        }
+        FirebaseDatabase.getInstance().getReference().child("users").child(auth.getCurrentUser()
+                .getUid()).setValue(currUser); //***
+        SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + currUser.getEmail() + " edited their profile");
+    }
+
+    public static void createReport(String latitude, String longitude, WaterType wt,
+                                    WaterCondition wc, Consumer<String> callback) {
+        String error = "";
+        if (latitude == null || latitude.length() == 0) {
+            error += "Enter latitude!";
+            callback.accept(error);
+        } else if (longitude == null || longitude.length() == 0) {
+            error += "Enter longtitude!";
+            callback.accept(error);
+        } else {
+            int lat = Integer.parseInt(latitude);
+            int lng = Integer.parseInt(longitude);
+            Report post = new Report(currUser.getUsername(), lat, lng, wt, wc);
+            database.getReference().child("reports").push().setValue(post);
+            callback.accept(error);
+        }
+    }
+
+    public static void createPurityReport(String latitude, String longitude, Virus v,
+                                          Contaminant c, OverallCondition oc,
+                                          Consumer<String> callback) {
+        String error = "";
+        if (latitude == null || latitude.length() == 0) {
+            error += "Enter latitude!";
+            callback.accept(error);
+        } else if (longitude == null || longitude.length() == 0) {
+            error += "Enter longtitude!";
+            callback.accept(error);
+        } else {
+            int lat = Integer.parseInt(latitude);
+            int lng = Integer.parseInt(longitude);
+            PurityReport post = new PurityReport(currUser.getUsername(), lat, lng, v, c, oc);
+            database.getReference().child("purity_reports").push().setValue(post);
+            callback.accept(error);
+        }
+    }
+
+    public static void getLocations(GoogleMap mMap) {
+        database.getReference().child("reports").addChildEventListener(new ChildEventListener() {
+            LatLngBounds bounds;
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            TreeMap<Site, Pin> map = new TreeMap<Site, Pin>();
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                Report r = dataSnapshot.getValue(Report.class);
+                Pin p;
+                if (map.get(r.getSite()) == null) {
+                    p = new Pin(r);
+                    map.put(r.getSite(), p);
+
+                    double latitude = p.getLat();
+                    double longitude = p.getLng();
+
+                    // Create LatLng for each locations
+                    LatLng mLatlng = new LatLng(latitude, longitude);
+
+                    // Make sure the map boundary contains the location
+                    builder.include(mLatlng);
+                    bounds = builder.build();
+
+                    // Add a marker for each logged location
+                    MarkerOptions mMarkerOption = new MarkerOptions()
+                            .position(mLatlng)
+                            .snippet(p.reportListString())
+                            .title(p.getLat() + " " + p.getLng());
+
+                    Marker m = mMap.addMarker(mMarkerOption);
+                    p.setMarker(m);
+
+
+                } else {
+                    p = map.get(r.getSite());
+                    p.addReport(r);
+                    p.getMarker().setSnippet(p.reportListString());
+
+
+                }
+
+                // Zoom map to the boundary that contains every logged location
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
+                        100));
+
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
