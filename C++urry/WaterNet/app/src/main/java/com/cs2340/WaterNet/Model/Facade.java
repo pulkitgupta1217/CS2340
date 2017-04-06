@@ -51,6 +51,7 @@ public class Facade {
         if (s.getUserID() < Singleton.getInstance().getUserID()
                 || s.getReportID() < Singleton.getInstance().getReportID()
                 || s.getPurityReportID() < Singleton.getInstance().getPurityReportID()) {
+            Log.d("*******", "need to update local singleton");
             reset(dataSnapshot);
         }
         Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));

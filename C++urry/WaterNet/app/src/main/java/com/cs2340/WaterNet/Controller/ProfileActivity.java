@@ -154,32 +154,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-//        save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                progressBar.setVisibility(View.VISIBLE);
-//                if (fireUser != null && !newEmail.getText().toString().trim().equals("")) {
-//                    fireUser.updateEmail(newEmail.getText().toString().trim())
-//                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    if (task.isSuccessful()) {
-//                                        Toast.makeText(MainActivity.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
-//                                        signOut();
-//                                        progressBar.setVisibility(View.GONE);
-//                                    } else {
-//                                        Toast.makeText(MainActivity.this, "Failed to update email!", Toast.LENGTH_LONG).show();
-//                                        progressBar.setVisibility(View.GONE);
-//                                    }
-//                                }
-//                            });
-//                } else if (newEmail.getText().toString().trim().equals("")) {
-//                    newEmail.setError("Enter email");
-//                    progressBar.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-
     }
 
     private void switchToFields(User user) {
