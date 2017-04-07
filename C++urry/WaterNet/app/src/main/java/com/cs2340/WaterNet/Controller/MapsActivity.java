@@ -1,5 +1,6 @@
 package com.cs2340.WaterNet.Controller;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
@@ -9,26 +10,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.cs2340.WaterNet.Model.Facade;
-import com.cs2340.WaterNet.Model.Pin;
-import com.cs2340.WaterNet.Model.Report;
-import com.cs2340.WaterNet.Model.Site;
+import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.TreeMap;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -86,6 +73,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         Facade.getLocations(mMap);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        startActivity(new Intent(MapsActivity.this, MainActivity.class));
+        finish();
     }
 
 }

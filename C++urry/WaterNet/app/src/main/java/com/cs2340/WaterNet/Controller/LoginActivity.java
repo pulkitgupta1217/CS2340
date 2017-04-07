@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,20 +11,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.cs2340.WaterNet.Model.SecurityLogger;
-import com.cs2340.WaterNet.Model.Singleton;
-import com.cs2340.WaterNet.Model.User;
-import com.cs2340.WaterNet.Model.Facade;
+import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Model.AuthTuple;
 import com.cs2340.WaterNet.Model.Consumer;
 import com.cs2340.WaterNet.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 
 public class LoginActivity extends AppCompatActivity {
 

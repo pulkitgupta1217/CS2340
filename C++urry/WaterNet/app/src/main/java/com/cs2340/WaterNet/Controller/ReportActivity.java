@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,15 +14,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.cs2340.WaterNet.Model.Consumer;
-import com.cs2340.WaterNet.Model.Facade;
-import com.cs2340.WaterNet.Model.Report;
-import com.cs2340.WaterNet.Model.User;
+import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Model.WaterCondition;
 import com.cs2340.WaterNet.Model.WaterType;
 import com.cs2340.WaterNet.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class ReportActivity extends AppCompatActivity {
 
@@ -50,8 +46,6 @@ public class ReportActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         //get current user
-        final FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
-        final User user = Facade.getCurrUser();
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -79,7 +73,7 @@ public class ReportActivity extends AppCompatActivity {
         waterTypeSpinner.setAdapter(waterTypeAdapter);
 
         conditionTypeSpinner = (Spinner) findViewById(R.id.conditionTypeSpinner);
-        ArrayAdapter<String> conditionTypeAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, WaterCondition.values());
+        ArrayAdapter<WaterCondition> conditionTypeAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, WaterCondition.values());
         conditionTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         conditionTypeSpinner.setAdapter(conditionTypeAdapter);
 

@@ -1,13 +1,28 @@
-package com.cs2340.WaterNet.Model;
+package com.cs2340.WaterNet.Facade;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.cs2340.WaterNet.Controller.MainActivity;
-import com.cs2340.WaterNet.Controller.SignupActivity;
+import com.cs2340.WaterNet.Model.Admin;
+import com.cs2340.WaterNet.Model.AuthTuple;
+import com.cs2340.WaterNet.Model.Consumer;
+import com.cs2340.WaterNet.Model.Contaminant;
+import com.cs2340.WaterNet.Model.Manager;
+import com.cs2340.WaterNet.Model.OverallCondition;
+import com.cs2340.WaterNet.Model.Pin;
+import com.cs2340.WaterNet.Model.PurityReport;
+import com.cs2340.WaterNet.Model.Report;
+import com.cs2340.WaterNet.Model.SecurityLogger;
+import com.cs2340.WaterNet.Model.Singleton;
+import com.cs2340.WaterNet.Model.Site;
+import com.cs2340.WaterNet.Model.User;
+import com.cs2340.WaterNet.Model.UserType;
+import com.cs2340.WaterNet.Model.Virus;
+import com.cs2340.WaterNet.Model.WaterCondition;
+import com.cs2340.WaterNet.Model.WaterType;
+import com.cs2340.WaterNet.Model.Worker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -19,7 +34,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.api.model.StringList;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -381,8 +395,8 @@ public class Facade {
         }
     }
 
-    public static void createPurityReport(String latitude, String longitude, Virus v,
-                                          Contaminant c, OverallCondition oc,
+    public static void createPurityReport(String latitude, String longitude, String v,
+                                          String c, OverallCondition oc,
                                           Consumer<String> callback) {
         String error = "";
         if (latitude == null || latitude.length() == 0) {
@@ -391,10 +405,18 @@ public class Facade {
         } else if (longitude == null || longitude.length() == 0) {
             error += "Enter longtitude!";
             callback.accept(error);
+        } if (v == null || v.length() == 0) {
+            error += "Enter virus ppm!";
+            callback.accept(error);
+        } else if (c == null || c.length() == 0) {
+            error += "Enter virus ppm!";
+            callback.accept(error);
         } else {
             int lat = Integer.parseInt(latitude);
             int lng = Integer.parseInt(longitude);
-            PurityReport post = new PurityReport(currUser.getUsername(), lat, lng, v, c, oc);
+            long vppm = Long.parseLong(v);
+            long cppm = Long.parseLong(c);
+            PurityReport post = new PurityReport(currUser.getUsername(), lat, lng, new Virus(vppm), new Contaminant(cppm), oc);
             database.getReference().child("purity_reports").push().setValue(post);
             callback.accept(error);
         }

@@ -30,18 +30,11 @@ import java.text.ParseException;
 public class GraphActivity extends AppCompatActivity {
 
 
-    private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
-    private FirebaseAuth auth;
-    private FirebaseDatabase database;
-    private RecyclerView recycler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
-
-        auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -99,7 +92,7 @@ public class GraphActivity extends AppCompatActivity {
             }
         };
 
-        database.getReference().child("purity_reports").addValueEventListener(postListener);
+        FirebaseDatabase.getInstance().getReference().child("purity_reports").addValueEventListener(postListener);
 
     }
 

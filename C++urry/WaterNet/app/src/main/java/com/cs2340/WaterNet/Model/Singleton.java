@@ -2,8 +2,6 @@ package com.cs2340.WaterNet.Model;
 
 import android.util.Log;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

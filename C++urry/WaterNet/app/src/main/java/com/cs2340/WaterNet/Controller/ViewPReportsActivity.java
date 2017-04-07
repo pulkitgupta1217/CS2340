@@ -9,10 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.cs2340.WaterNet.Model.PurityReport;
-import com.cs2340.WaterNet.Model.PurityReportHolder;
+import com.cs2340.WaterNet.Helper.PurityReportHolder;
 import com.cs2340.WaterNet.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
