@@ -16,16 +16,15 @@ public class Singleton implements Serializable{
     private static Singleton instance = null;
 
 
-    public long userID;
+    private long userID;
     private long reportID;
     private long purityReportID;
     private SimpleDateFormat dateTime;
     private Calendar c;
-    private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
     /**
      * the single run constructor that initializes the singleton instance that is stored within
-     * the singleton
+     * the singleton and is required for firebase
      */
     public Singleton(){
         userID = 1;
@@ -55,10 +54,10 @@ public class Singleton implements Serializable{
 
     /**
      * used to set the singleton from the database
-     * @param fromdb the singleton stored in firebase
+     * @param updated the singleton stored in firebase
      */
-    public static void setInstance(Singleton fromdb) {
-        instance = fromdb;
+    public static void setInstance(Singleton updated) {
+        instance = updated;
     }
 
     /**
@@ -67,7 +66,6 @@ public class Singleton implements Serializable{
      */
     public long getUserID() {
         //userID++;
-        pushToDatabase();
         return userID++;
     }
 
@@ -77,7 +75,6 @@ public class Singleton implements Serializable{
      */
     public long getReportID() {
         //reportID++;
-        pushToDatabase();
         return reportID++;
     }
 
@@ -87,7 +84,6 @@ public class Singleton implements Serializable{
      */
     public long getPurityReportID() {
         //purityReportID++;
-        pushToDatabase();
         return purityReportID++;
     }
 
@@ -103,7 +99,8 @@ public class Singleton implements Serializable{
         return dateTime;
     }
 
-    private void pushToDatabase() {
-        //firebaseDatabase.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());
+    @Override
+    public String toString() {
+        return "UID: " + userID + " RID: " + reportID + " PRID: " + purityReportID;
     }
 }

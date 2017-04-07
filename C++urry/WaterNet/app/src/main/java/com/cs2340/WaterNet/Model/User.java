@@ -157,4 +157,7 @@ public class User implements Serializable{
         this.banned = newStatus;
     }
 
+    public void setUserID(long userID) {
+        this.userID = userID;
+    }
 }

@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.cs2340.WaterNet.Model.Consumer;
+import com.cs2340.WaterNet.Model.Facade;
 import com.cs2340.WaterNet.Model.Report;
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.Model.WaterCondition;
@@ -25,20 +27,20 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ReportActivity extends AppCompatActivity {
 
-    private Button create, cancel;
 
     private EditText latField, longField;
     private Spinner waterTypeSpinner, conditionTypeSpinner;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
-    private FirebaseDatabase database;
 
+    @SuppressWarnings({"unchecked", "all"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Singleton.setInstance(Firebase.getSingleton());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
+
+        Button create, cancel;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
@@ -46,12 +48,10 @@ public class ReportActivity extends AppCompatActivity {
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
 
         //get current user
         final FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
-        final User user = (User) (getIntent().getSerializableExtra("user"));
-//        Log.d("***", user.getUserID() + "");
+        final User user = Facade.getCurrUser();
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -61,7 +61,6 @@ public class ReportActivity extends AppCompatActivity {
                     // user auth state is changed - user is null
                     // launch login activity
                     Intent i = new Intent(ReportActivity.this, LoginActivity.class);
-                    i.putExtra("user", user);
                     startActivity(i);
                     finish();
                 }
@@ -75,7 +74,7 @@ public class ReportActivity extends AppCompatActivity {
         longField = (EditText) findViewById(R.id.longitude_input);
 
         waterTypeSpinner = (Spinner) findViewById(R.id.waterTypeSpinner);
-        ArrayAdapter<String> waterTypeAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, WaterType.values());
+        ArrayAdapter<WaterType> waterTypeAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, WaterType.values());
         waterTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         waterTypeSpinner.setAdapter(waterTypeAdapter);
 
@@ -94,7 +93,6 @@ public class ReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ReportActivity.this, MainActivity.class);
-                i.putExtra("user", user);
                 startActivity(i);
                 finish();
             }
@@ -104,40 +102,24 @@ public class ReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String latstring = latField.getText().toString().trim();
-                String longstring = longField.getText().toString().trim();
+                Facade.createReport(latField.getText().toString().trim(), longField.getText().toString().trim(),
+                        (WaterType) waterTypeSpinner.getSelectedItem(), (WaterCondition) conditionTypeSpinner.getSelectedItem(), new Consumer<String>() {
+                            public void accept(String s) {
+                                if (s.length() != 0) {
+                                    Toast.makeText(getApplicationContext(), "success!", Toast.LENGTH_SHORT).show();
+                                    Intent i = new Intent(ReportActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
 
-                if (TextUtils.isEmpty(latstring)) {
-                    Toast.makeText(getApplicationContext(), "Enter latitude!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                if (TextUtils.isEmpty(longstring)) {
-                    Toast.makeText(getApplicationContext(), "Enter longtitude!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                int latitude = Integer.parseInt(latstring);
-                int longitude = Integer.parseInt(longstring);
-                WaterType wt = (WaterType) (waterTypeSpinner.getSelectedItem());
-                WaterCondition wc = (WaterCondition) (conditionTypeSpinner.getSelectedItem());
-
-                writeNewPost(user, latitude, longitude, wt, wc);
-                Intent i = new Intent(ReportActivity.this, MainActivity.class);
-                i.putExtra("user", user);
-                startActivity(i);
-                finish();
 
             }
         });
-
-    }
-
-    private void writeNewPost(User u, double lat, double lng, WaterType waterType, WaterCondition waterCondition) {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts mmvm/$postid simultaneously
-        Report post = new Report(u.getUsername(), lat, lng, waterType, waterCondition);
-        database.getReference().child("reports").push().setValue(post);
 
     }
 
