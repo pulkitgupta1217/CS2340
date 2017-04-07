@@ -13,7 +13,7 @@ public class HistoricalReportGenerator {
     List<Pin> pins;
 
     /**
-     * creates a generator object preloaded with a set of relevant pins
+     * creates a generator object from a list of relevant pins
      * @param pins the list of relevant pins to the location at which a graph was requested
      */
     public HistoricalReportGenerator(List<Pin> pins) {
@@ -25,7 +25,7 @@ public class HistoricalReportGenerator {
      * @return a graph/image that is the trend line
      */
     public /*Graph*/ Object generateHistoricalReport() {
-        return generateHistoricalReportfromPins(pins);
+        return generateHistoricalReportFromPins(pins);
     }
 
     /**
@@ -33,7 +33,7 @@ public class HistoricalReportGenerator {
      * @param data the set of pins from which to generate a report
      * @return a graph/image that is the trend line
      */
-    public static /*Graph*/ Object generateHistoricalReportfromPins(List<Pin> data) {
+    public static /*Graph*/ Object generateHistoricalReportFromPins(List<Pin> data) {
         //some stuff
         return null;
     }

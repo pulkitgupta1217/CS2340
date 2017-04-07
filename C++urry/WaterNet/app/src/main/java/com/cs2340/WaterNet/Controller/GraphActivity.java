@@ -60,14 +60,14 @@ public class GraphActivity extends AppCompatActivity {
         };
 
         final GraphView graph = (GraphView) findViewById(R.id.graph);
-        final LineGraphSeries<DataPoint> vseries = new LineGraphSeries<>();
-        final LineGraphSeries<DataPoint> cseries = new LineGraphSeries<>();
+        final LineGraphSeries<DataPoint> virusSeries = new LineGraphSeries<>();
+        final LineGraphSeries<DataPoint> contaminantSeries = new LineGraphSeries<>();
 
         graph.setTitle("PPM Over Time Graph");
         graph.getLegendRenderer().setVisible(true);
-        vseries.setTitle("Virus");
-        cseries.setTitle("Contaminant");
-        cseries.setColor(Color.RED);
+        virusSeries.setTitle("Virus");
+        contaminantSeries.setTitle("Contaminant");
+        contaminantSeries.setColor(Color.RED);
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
 
         ValueEventListener postListener = new ValueEventListener() {
@@ -75,22 +75,22 @@ public class GraphActivity extends AppCompatActivity {
             int index = 0;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                vseries.resetData(new DataPoint[]{});
-                cseries.resetData(new DataPoint[]{});
+                virusSeries.resetData(new DataPoint[]{});
+                contaminantSeries.resetData(new DataPoint[]{});
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
                     index++;
                     PurityReport pr = ds.getValue(PurityReport.class);
 
                     try {
-                        vseries.appendData(new DataPoint(Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()), pr.getVirus().getPPM()),true, 100);
-                        cseries.appendData(new DataPoint(Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()), pr.getContaminant().getPPM()),true, 100);
+                        virusSeries.appendData(new DataPoint(Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()), pr.getVirus().getPPM()),true, 100);
+                        contaminantSeries.appendData(new DataPoint(Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()), pr.getContaminant().getPPM()),true, 100);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
                 graph.removeAllSeries();
-                graph.addSeries(vseries);
-                graph.addSeries(cseries);
+                graph.addSeries(virusSeries);
+                graph.addSeries(contaminantSeries);
             }
 
             @Override

@@ -3,7 +3,7 @@ package com.cs2340.WaterNet.Model;
 import java.io.Serializable;
 
 /**
- * Created by rajatkhanna on 2/18/17.
+ * Created by Rajat Khanna on 2/18/17.
  * Edited by Pulkit Gupta on 2/25/17.
  */
 
@@ -70,8 +70,8 @@ public class User implements Serializable{
     }
 
     /**
-     * get the userid of the user
-     * @return userid
+     * get the userID of the user
+     * @return userID
      */
     public long getUserID() {
         return userID;
@@ -134,8 +134,8 @@ public class User implements Serializable{
     }
 
     /**
-     * set the usertype of the user
-     * @param userType the new usertype
+     * set the userType of the user
+     * @param userType the new userType
      */
     public void setUserType(UserType userType) {
         this.userType = userType;

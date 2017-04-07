@@ -31,7 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword, inputUsername;
     private Button btnSignIn, btnSignUp, btnResetPassword;
@@ -70,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
+                startActivity(new Intent(SignUpActivity.this, ResetPasswordActivity.class));
             }
         });
 
@@ -117,10 +117,10 @@ public class SignupActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 //create user
                 auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                                 //CODE ADDED BY PULKIT FOR SINGLETON
                                 if(task.isSuccessful()) {
                                     //edit this
@@ -132,7 +132,7 @@ public class SignupActivity extends AppCompatActivity {
                                                 Log.d("***", "adding new Singleton");
                                             } else {
                                                 Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));
-                                                Log.d("***", "found Singleton during signup");
+                                                Log.d("***", "found Singleton during sign up");
                                             }
                                             finish();
                                         }
@@ -149,7 +149,7 @@ public class SignupActivity extends AppCompatActivity {
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
+                                    Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     User u = null;
@@ -173,7 +173,7 @@ public class SignupActivity extends AppCompatActivity {
                                     //fixed endless loop
                                     database.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());//edit
                                     SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + email + " Registered on firebase");
-                                    Intent i = new Intent(SignupActivity.this, MainActivity.class);
+                                    Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                                     i.putExtra("user", u);
                                     startActivity(i);
                                     finish();

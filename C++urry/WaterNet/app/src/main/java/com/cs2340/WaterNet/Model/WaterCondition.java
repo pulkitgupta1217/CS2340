@@ -1,7 +1,7 @@
 package com.cs2340.WaterNet.Model;
 
 /**
- * Created by pulki on 2/26/2017.
+ * Created by Pulkit on 2/26/2017.
  */
 
 public enum WaterCondition {
@@ -13,7 +13,7 @@ public enum WaterCondition {
     private String value;
 
     /**
-     * the constructor that will make a watercondition based on the string
+     * the constructor that will make a waterCondition based on the string
      * @param value the string form of the condition
      */
     WaterCondition(String value) {
