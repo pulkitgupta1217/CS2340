@@ -18,7 +18,7 @@ import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.R;
 
 
-public class SignupActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword, inputUsername;
     private Spinner spinner;
@@ -50,7 +50,7 @@ public class SignupActivity extends AppCompatActivity {
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
+                startActivity(new Intent(SignUpActivity.this, ResetPasswordActivity.class));
             }
         });
 
@@ -88,7 +88,72 @@ public class SignupActivity extends AppCompatActivity {
 
                 });
 
+                progressBar.setVisibility(View.VISIBLE);
+                //create user
+                auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                //CODE ADDED BY PULKIT FOR SINGLETON
+                                if(task.isSuccessful()) {
+                                    //edit this
+                                    database.getReference().addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.child("Singleton").getValue(Singleton.class) == null) {
+                                                database.getReference().child("Singleton").setValue(Singleton.getInstance());
+                                                Log.d("***", "adding new Singleton");
+                                            } else {
+                                                Singleton.setInstance(dataSnapshot.child("Singleton").getValue(Singleton.class));
+                                                Log.d("***", "found Singleton during sign up");
+                                            }
+                                            finish();
+                                        }
 
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+
+                                progressBar.setVisibility(View.GONE);
+                                // If sign in fails, display a message to the user. If sign in succeeds
+                                // the auth state listener will be notified and logic to handle the
+                                // signed in user can be handled in the listener.
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
+                                            Toast.LENGTH_SHORT).show();
+                                } else {
+                                    User u = null;
+                                    if (userType == UserType.USER) {
+                                        u = new User(username, email);
+                                        database.getReference().child("users").child(auth.getCurrentUser()
+                                                .getUid()).setValue(u);
+                                    } else if (userType == UserType.MANAGER) {
+                                        u = new Manager(username, email);
+                                        database.getReference().child("users").child(auth.getCurrentUser()
+                                                .getUid()).setValue(u);
+                                    } else if (userType == UserType.WORKER) {
+                                        u = new Worker(username, email);
+                                        database.getReference().child("users").child(auth.getCurrentUser()
+                                                .getUid()).setValue(u);
+                                    } if (userType == UserType.ADMIN) {
+                                        u = new Admin(username, email);
+                                        database.getReference().child("users").child(auth.getCurrentUser()
+                                                .getUid()).setValue(u);
+                                    }
+                                    //fixed endless loop
+                                    database.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());//edit
+                                    SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + email + " Registered on firebase");
+                                    Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+                                    i.putExtra("user", u);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            }
+                        });
 
             }
         });

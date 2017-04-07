@@ -27,7 +27,7 @@ public class Site implements Serializable, Comparable<Site>{
 
     /**
      * set the latitude of this site if it needs to be changed
-     * @param lat the new latitde
+     * @param lat the new latitude
      */
     public void setLat(double lat) {
         this.lat = lat;

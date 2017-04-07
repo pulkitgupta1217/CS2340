@@ -3,7 +3,7 @@ package com.cs2340.WaterNet.Model;
 /**
  * the manager class, a manager has all of the rights and abilities of a Worker in
  * addition to viewing historical reports, view trends, delete reports
- * Created by rajatkhanna on 2/20/17.
+ * Created by Rajat Khanna on 2/20/17.
  */
 
 public class Manager extends Worker {

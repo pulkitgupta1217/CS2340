@@ -5,7 +5,7 @@ import android.util.Log;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * Created by rajatkhanna on 2/23/17.
+ * Created by Rajat Khanna on 2/23/17.
  */
 
 public class SecurityLogger {

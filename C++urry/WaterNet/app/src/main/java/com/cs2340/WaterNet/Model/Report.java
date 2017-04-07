@@ -26,7 +26,7 @@ public class Report implements Serializable {
      * @param lat the latitude of the water source being reported on
      * @param lng the longitude of the water source being reported on
      * @param waterType the enum representing the type of water
-     * @param waterCondition the enum representing the wate condition
+     * @param waterCondition the enum representing the water condition
      */
     public Report(String creator, double lat, double lng, WaterType waterType, WaterCondition waterCondition) {
         this.creator = creator;
