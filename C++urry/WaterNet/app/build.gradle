@@ -6,11 +6,11 @@ android {
 
     defaultConfig {
         applicationId "com.cs2340.WaterNet"
-        minSdkVersion 20
+        minSdkVersion 23
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
+        //multiDexEnabled true
 
 //        jackOptions {
 //            enabled true

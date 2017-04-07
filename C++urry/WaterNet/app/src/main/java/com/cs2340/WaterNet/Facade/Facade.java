@@ -37,6 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -81,15 +82,17 @@ public class Facade {
 
     }
 
-    private static void reset() {
+    public static void reset() {
+        Log.d("RESET", Singleton.getInstance().toString());
         database.getReference().child("Singleton").setValue(Singleton.getInstance());
+        //com.google.firebase.database.DatabaseReference.setValue();
     }
 
 
-    public static void validateLogin(String email, final String password, final ProgressBar progressBar, Consumer<AuthTuple> callback) {
+    public static void validateLogin(String email, final String password, final ProgressBar progressBar, final Consumer<AuthTuple> callback) {
         Log.d("FACADE: ", Thread.currentThread().getName());
         String errorMessage = "";
-        AuthTuple tuple;
+        final AuthTuple tuple;
         if (email == null || email.length() == 0) {
             errorMessage += "Enter email address or username";
             tuple = new AuthTuple(false, errorMessage);
@@ -141,7 +144,6 @@ public class Facade {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
-                                        reset();
 
                                         currUser = u;
 
@@ -161,7 +163,9 @@ public class Facade {
 
     }
 
-    public static void createUser(String tempEmail, String username, String password, final UserType userType, final ProgressBar bar, Consumer<AuthTuple> callback) {
+    public static void createUser(String tempEmail, final String username, String password,
+                                  final UserType userType, final ProgressBar bar,
+                                  final Consumer<AuthTuple> callback) {
         //TODO: DO THE THANG
         String errorMessage = "";
         String email = null;
@@ -192,20 +196,19 @@ public class Facade {
                         //CODE ADDED BY PULKIT FOR SINGLETON
                         if(task.isSuccessful()) {
                             error += "success!";
-
+                            reset();
                             //edit this
-                            database.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+                            /*database.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Log.d("calling", "start(dataSnapshot)");
-                                    reset();
-                                    /*if (dataSnapshot.child("Singleton").getValue(Singleton.class) == null) {
+
+                                    *//*if (dataSnapshot.child("Singleton").getValue(Singleton.class) == null) {
                                         database.getReference().child("Singleton").setValue(Singleton.getInstance());
                                         Log.d("***", "adding new Singleton");
                                     } else {
                                         start(dataSnapshot);
                                         Log.d("***", "found Singleton during signup");
-                                    }*/
+                                    }*//*
                                     //TODO:
 //                                    callback.accept(null);
                                 }
@@ -214,7 +217,7 @@ public class Facade {
                                 public void onCancelled(DatabaseError databaseError) {
 
                                 }
-                            });
+                            });*/
                         }
 
                         bar.setVisibility(View.GONE);
@@ -422,7 +425,7 @@ public class Facade {
         }
     }
 
-    public static void getLocations(GoogleMap mMap) {
+    public static void getLocations(final GoogleMap mMap) {
         database.getReference().child("reports").addChildEventListener(new ChildEventListener() {
             LatLngBounds bounds;
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
