@@ -38,6 +38,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -72,6 +73,7 @@ public class Facade {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Singleton.setInstance(dataSnapshot.getValue(Singleton.class));
+                Log.d("Singleton", Singleton.getInstance().toString());
             }
 
             @Override
@@ -84,7 +86,10 @@ public class Facade {
 
     public static void reset() {
         Log.d("RESET", Singleton.getInstance().toString());
-        database.getReference().child("Singleton").setValue(Singleton.getInstance());
+        DatabaseReference child = FirebaseDatabase.getInstance().getReference().child("Singleton");
+        child.child("userID").setValue(Singleton.getInstance().userID);
+        child.child("reportID").setValue(Singleton.getInstance().reportID);
+        child.child("purityReportID").setValue(Singleton.getInstance().purityReportID);
         //com.google.firebase.database.DatabaseReference.setValue();
     }
 
@@ -194,31 +199,6 @@ public class Facade {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         String error = "";
                         //CODE ADDED BY PULKIT FOR SINGLETON
-                        if(task.isSuccessful()) {
-                            error += "success!";
-                            reset();
-                            //edit this
-                            /*database.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                    *//*if (dataSnapshot.child("Singleton").getValue(Singleton.class) == null) {
-                                        database.getReference().child("Singleton").setValue(Singleton.getInstance());
-                                        Log.d("***", "adding new Singleton");
-                                    } else {
-                                        start(dataSnapshot);
-                                        Log.d("***", "found Singleton during signup");
-                                    }*//*
-                                    //TODO:
-//                                    callback.accept(null);
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });*/
-                        }
 
                         bar.setVisibility(View.GONE);
                         // If sign in fails, display a message to the user. If sign in succeeds
@@ -228,6 +208,8 @@ public class Facade {
                             error += "Authentication failed." + task.getException();
                             callback.accept(new AuthTuple(false, error));
                         } else {
+                            error += "success!";
+                            start();
                             User u = null;
                             if (userType == UserType.USER) {
                                 u = new User(username, fullEmail);
@@ -246,6 +228,7 @@ public class Facade {
                                 database.getReference().child("users").child(auth.getCurrentUser()
                                         .getUid()).setValue(u);
                             }
+                            reset();
                             currUser = u;
                             Log.d("***", "singleton should be updated");
                             //fixed endless loop

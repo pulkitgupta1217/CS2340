@@ -14,9 +14,9 @@ public class Singleton implements Serializable{
     private static Singleton instance = null;
 
 
-    private long userID;
-    private long reportID;
-    private long purityReportID;
+    public long userID;
+    public long reportID;
+    public long purityReportID;
     private SimpleDateFormat dateTime;
     private Calendar c;
 
