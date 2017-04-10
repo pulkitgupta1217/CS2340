@@ -8,8 +8,7 @@ import java.io.Serializable;
 
 public class Site implements Serializable, Comparable<Site>{
     private double lat, lng;
-    private static final double closeEnough = 0.1;
-
+    private static final double closeEnough = 1.0/3600;
     /**
      * default constructor required by firebase
      */

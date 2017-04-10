@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,16 +13,14 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.cs2340.WaterNet.Model.SecurityLogger;
-import com.cs2340.WaterNet.Model.Singleton;
+import com.cs2340.WaterNet.Facade.Facade;
+
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -38,7 +35,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Singleton.setInstance(Firebase.getSingleton());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
@@ -49,10 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        //get current user
-        final FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
-        final User user = (User) (getIntent().getSerializableExtra("user"));
-//        Log.d("***", user.getUserID() + "");
+        final User user = Facade.getCurrUser();
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -62,7 +55,6 @@ public class ProfileActivity extends AppCompatActivity {
                     // user auth state is changed - user is null
                     // launch login activity
                     Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
-                    i.putExtra("user", user);
                     startActivity(i);
                     finish();
                 }
@@ -86,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
         typeView = (TextView) findViewById(R.id.type_view);
 
         typeSpinner = (Spinner) findViewById(R.id.profileSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, UserType.values());
+        ArrayAdapter<UserType> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, UserType.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(adapter);
 
@@ -102,7 +94,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ProfileActivity.this, MainActivity.class);
-                i.putExtra("user", user);
                 startActivity(i);
                 finish();
             }
@@ -126,55 +117,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                user.setAddress(addressField.getText().toString());
-                user.setName(nameField.getText().toString());
-                if (emailField.getText().toString().indexOf("@") > 0) {
-                    user.setEmail(emailField.getText().toString());
-                    fireUser.updateEmail(user.getEmail())
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d("***", "User email address updated.");
-                                    }
-                                }
-                            });
-                }
-                user.setPhone(phoneField.getText().toString());
-                user.setUserType((UserType) (typeSpinner.getSelectedItem()));
-                FirebaseDatabase.getInstance().getReference().child("users").child(auth.getCurrentUser()
-                        .getUid()).setValue(user); //***
-                SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + user.getEmail() + " edited their profile");
+                Facade.updateUser(addressField.getText().toString(), nameField.getText().toString(),
+                        emailField.getText().toString(), phoneField.getText().toString(),
+                        (UserType) typeSpinner.getSelectedItem());
+
                 switchToViews(user);
 
             }
         });
-
-//        save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                progressBar.setVisibility(View.VISIBLE);
-//                if (fireUser != null && !newEmail.getText().toString().trim().equals("")) {
-//                    fireUser.updateEmail(newEmail.getText().toString().trim())
-//                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    if (task.isSuccessful()) {
-//                                        Toast.makeText(MainActivity.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
-//                                        signOut();
-//                                        progressBar.setVisibility(View.GONE);
-//                                    } else {
-//                                        Toast.makeText(MainActivity.this, "Failed to update email!", Toast.LENGTH_LONG).show();
-//                                        progressBar.setVisibility(View.GONE);
-//                                    }
-//                                }
-//                            });
-//                } else if (newEmail.getText().toString().trim().equals("")) {
-//                    newEmail.setError("Enter email");
-//                    progressBar.setVisibility(View.GONE);
-//                }
-//            }
-//        });
 
     }
 

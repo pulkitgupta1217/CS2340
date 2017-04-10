@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,11 +13,10 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.cs2340.WaterNet.Model.Contaminant;
+import com.cs2340.WaterNet.Model.Consumer;
+import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Model.OverallCondition;
-import com.cs2340.WaterNet.Model.PurityReport;
 import com.cs2340.WaterNet.Model.User;
-import com.cs2340.WaterNet.Model.Virus;
 import com.cs2340.WaterNet.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +27,7 @@ public class PReportActivity extends AppCompatActivity {
     private Button create, cancel;
 
     private EditText latField, longField, cppmField, vppmField;
-    private Spinner virusSpinner, contaminantSpinner, overallConditionSpinner;
+    private Spinner overallConditionSpinner;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -62,7 +60,6 @@ public class PReportActivity extends AppCompatActivity {
                     // user auth state is changed - user is null
                     // launch login activity
                     Intent i = new Intent(PReportActivity.this, LoginActivity.class);
-                    i.putExtra("user", user);
                     startActivity(i);
                     finish();
                 }
@@ -78,7 +75,7 @@ public class PReportActivity extends AppCompatActivity {
         cppmField = (EditText) findViewById(R.id.cppm_input);
 
         overallConditionSpinner = (Spinner) findViewById(R.id.oConditionSpinner);
-        ArrayAdapter<String> overallConditionSpinnerAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, OverallCondition.values());
+        ArrayAdapter<OverallCondition> overallConditionSpinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, OverallCondition.values());
         overallConditionSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         overallConditionSpinner.setAdapter(overallConditionSpinnerAdapter);
 
@@ -92,7 +89,6 @@ public class PReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(PReportActivity.this, MainActivity.class);
-                i.putExtra("user", user);
                 startActivity(i);
                 finish();
             }
@@ -102,53 +98,22 @@ public class PReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String latstring = latField.getText().toString().trim();
-                String longstring = longField.getText().toString().trim();
-                String vppmstring = vppmField.getText().toString().trim();
-                String cppmstring = cppmField.getText().toString().trim();
-
-                if (TextUtils.isEmpty(latstring)) {
-                    Toast.makeText(getApplicationContext(), "Enter latitude!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(longstring)) {
-                    Toast.makeText(getApplicationContext(), "Enter longtitude!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(vppmstring)) {
-                    Toast.makeText(getApplicationContext(), "Enter Virus PPM!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(cppmstring)) {
-                    Toast.makeText(getApplicationContext(), "Enter Contaminant PPM!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                int latitude = Integer.parseInt(latstring);
-                int longitude = Integer.parseInt(longstring);
-                long vppm = Long.parseLong(vppmstring);
-                long cppm = Long.parseLong(cppmstring);
-                OverallCondition oc = (OverallCondition) (overallConditionSpinner.getSelectedItem());
-
-                writeNewPost(user, latitude, longitude, new Virus(vppm), oc, new Contaminant(cppm));
-                Intent i = new Intent(PReportActivity.this, MainActivity.class);
-                i.putExtra("user", user);
-                startActivity(i);
-                finish();
+                Facade.createPurityReport(latField.getText().toString().trim(), longField.getText().toString().trim(),
+                        vppmField.getText().toString().trim(), cppmField.getText().toString().trim(),
+                        (OverallCondition) overallConditionSpinner.getSelectedItem(), new Consumer<String>() {
+                            public void accept(String s) {
+                                if (s.length() != 0) {
+                                    Intent i = new Intent(PReportActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
 
             }
         });
-
-    }
-
-    private void writeNewPost(User u, double lat, double lng, Virus v, OverallCondition oc, Contaminant c) {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts mmvm/$postid simultaneously
-        PurityReport post = new PurityReport(u.getUsername(), lat, lng, v, c, oc);
-        database.getReference().child("purity_reports").push().setValue(post);
 
     }
 
