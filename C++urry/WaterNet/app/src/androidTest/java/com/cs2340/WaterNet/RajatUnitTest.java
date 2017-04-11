@@ -8,21 +8,26 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-/*import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;*/
+import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.*;
+
+import java.util.concurrent.Callable;
+import static org.awaitility.Awaitility.*;
+import static org.awaitility.Duration.*;
 /**
  * Created by Pulkit Gupta on 4/11/2017.
  */
 
-public class PulkitTest {
+public class RajatUnitTest {
+
+    private boolean finished;
 
     @Before
     public void start() {
         FirebaseAuth.getInstance().signOut();
         Facade.start();
+        finished = false;
     }
 
     @After
@@ -30,6 +35,7 @@ public class PulkitTest {
         try {
             FirebaseAuth.getInstance().getCurrentUser().delete();
         } catch (Exception e) {}
+        finished = false;
 
     }
 
@@ -37,7 +43,12 @@ public class PulkitTest {
      * a second test
      */
     @Test
-    public void createUserTest() {
+    public void createUser() {
+        await().until(new Callable<Boolean>() {
+            public Boolean call() throws Exception {
+                return true;
+            }
+        });
         //Test for valid user creation
         Facade.createUser("", "unitTestUser", "password", UserType.USER, new Consumer<AuthTuple>() {
             public void accept(AuthTuple tuple) {

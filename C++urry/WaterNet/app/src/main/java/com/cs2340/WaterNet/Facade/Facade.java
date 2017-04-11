@@ -167,7 +167,7 @@ public class Facade {
                                   final UserType userType, final Consumer<AuthTuple> callback) {
         //TODO: DO THE THANG
         String errorMessage = "";
-        String email = null;
+        final String email;
         if (username == null || username.length() == 0) {
             errorMessage += "Enter username!";
             callback.accept(new AuthTuple(false, errorMessage));
@@ -180,10 +180,12 @@ public class Facade {
             errorMessage += "Password too short, enter minimum 6 characters!";
             callback.accept(new AuthTuple(false, errorMessage));
             return;
-        } else if (tempEmail == null || tempEmail.length() == 0 || !tempEmail.contains("@")) {
-            email = username + "@water.net";
         } else {
-            email = tempEmail;
+            if (tempEmail == null || tempEmail.length() == 0 || !tempEmail.contains("@")) {
+                email = username + "@water.net";
+            } else {
+                email = tempEmail;
+            }
         }
         final String fullEmail = email;
         //create user
@@ -337,23 +339,32 @@ public class Facade {
     }
 
     public static void updateUser(String address, String name, String email, String phone, UserType userType) {
-        currUser.setAddress(address);
-        currUser.setName(name);
-        currUser.setEmail(email);
-        currUser.setPhone(phone);
-        currUser.setUserType(userType);
-        if (email.contains("@")) {
-            currUser.setEmail(email);
-            FirebaseAuth.getInstance().getCurrentUser().updateEmail(currUser.getEmail())
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d("***", "User email address updated.");
-                            }
-                        }
-                    });
+        if (address != null && address.length() != 0) {
+            currUser.setAddress(address);
         }
+        if (name != null && name.length() != 0) {
+            currUser.setName(name);
+        }
+        if (email != null && email.length() != 0) {
+            if (email.contains("@")) {
+                currUser.setEmail(email);
+                FirebaseAuth.getInstance().getCurrentUser().updateEmail(currUser.getEmail())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d("***", "User email address updated.");
+                                }
+                            }
+                        });
+            }
+        }
+        if (phone != null && phone.length() != 0) {
+            currUser.setPhone(phone);
+        }
+
+        currUser.setUserType(userType);
+
         FirebaseDatabase.getInstance().getReference().child("users").child(auth.getCurrentUser()
                 .getUid()).setValue(currUser); //***
         SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + currUser.getEmail() + " edited their profile");

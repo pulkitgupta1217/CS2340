@@ -8,7 +8,7 @@ import com.cs2340.WaterNet.Model.User;
 
 public class AuthTuple {
     private boolean success = false;
-    private String errorMessage = "";
+    private String errorMessage = null;
     private User u;
 
     public AuthTuple() {
