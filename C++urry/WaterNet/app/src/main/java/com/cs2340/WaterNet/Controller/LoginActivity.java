@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Model.AuthTuple;
+import com.cs2340.WaterNet.Facade.AuthTuple;
 import com.cs2340.WaterNet.Model.Consumer;
 import com.cs2340.WaterNet.R;
 
@@ -67,9 +67,12 @@ public class LoginActivity extends AppCompatActivity {
                 String email = inputEmail.getText().toString();
                 final String password = inputPassword.getText().toString();
 
-                Facade.validateLogin(email, password, progressBar, new Consumer<AuthTuple>() {
+                progressBar.setVisibility(View.VISIBLE);
+
+                Facade.validateLogin(email, password, new Consumer<AuthTuple>() {
                     public void accept(AuthTuple tuple) {
 
+                        progressBar.setVisibility(View.GONE);
                         String error = tuple.getErrorMessage();
                         Log.d("Error", error);
                         if (error.length() != 0) {

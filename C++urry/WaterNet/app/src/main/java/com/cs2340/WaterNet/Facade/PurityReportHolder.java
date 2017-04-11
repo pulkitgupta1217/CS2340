@@ -1,4 +1,4 @@
-package com.cs2340.WaterNet.Helper;
+package com.cs2340.WaterNet.Facade;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

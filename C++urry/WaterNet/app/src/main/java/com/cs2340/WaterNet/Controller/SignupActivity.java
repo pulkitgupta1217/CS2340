@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.cs2340.WaterNet.Model.AuthTuple;
+import com.cs2340.WaterNet.Facade.AuthTuple;
 import com.cs2340.WaterNet.Model.Consumer;
 import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Model.UserType;
@@ -70,9 +70,12 @@ public class SignupActivity extends AppCompatActivity {
                 final String username = inputUsername.getText().toString().trim();
                 final UserType userType = (UserType) (spinner.getSelectedItem());
 
-                Facade.createUser(tempEmail, username, password, userType, progressBar, new Consumer<AuthTuple>() {
+                progressBar.setVisibility(View.VISIBLE);
+
+                Facade.createUser(tempEmail, username, password, userType, new Consumer<AuthTuple>() {
 
                     public void accept(AuthTuple tuple) {
+                        progressBar.setVisibility(View.GONE);
                         if (tuple.getErrorMessage().length() != 0) {
                             Toast.makeText(getApplicationContext(), tuple.getErrorMessage(), Toast.LENGTH_SHORT).show();
                         }

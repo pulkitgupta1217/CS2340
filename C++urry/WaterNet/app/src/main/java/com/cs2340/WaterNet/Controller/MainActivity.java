@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Model.Report;
 import com.cs2340.WaterNet.Model.UserType;
-import com.cs2340.WaterNet.Helper.ReportHolder;
+import com.cs2340.WaterNet.Facade.ReportHolder;
 import com.cs2340.WaterNet.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;

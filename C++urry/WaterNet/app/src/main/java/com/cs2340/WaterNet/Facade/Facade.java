@@ -1,12 +1,12 @@
 package com.cs2340.WaterNet.Facade;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.cs2340.WaterNet.Model.Admin;
-import com.cs2340.WaterNet.Model.AuthTuple;
 import com.cs2340.WaterNet.Model.Consumer;
 import com.cs2340.WaterNet.Model.Contaminant;
 import com.cs2340.WaterNet.Model.Manager;
@@ -37,7 +37,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -94,7 +93,7 @@ public class Facade {
     }
 
 
-    public static void validateLogin(String email, final String password, final ProgressBar progressBar, final Consumer<AuthTuple> callback) {
+    public static void validateLogin(String email, final String password, final Consumer<AuthTuple> callback) {
         Log.d("FACADE: ", Thread.currentThread().getName());
         String errorMessage = "";
         final AuthTuple tuple;
@@ -120,9 +119,6 @@ public class Facade {
             tuple = new AuthTuple(false, "");
             Log.d("***", "attempting authentication");
 
-
-            progressBar.setVisibility(View.VISIBLE);
-
             FirebaseAuth.getInstance().signInWithEmailAndPassword(userEmail, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -130,7 +126,6 @@ public class Facade {
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
-                            progressBar.setVisibility(View.GONE);
                             if (!task.isSuccessful()) {
                                 // there was an error
                                 if (password.length() >= 6) {
@@ -149,7 +144,7 @@ public class Facade {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
-
+                                        tuple.setUser(u);
                                         currUser = u;
 
                                         callback.accept(tuple);
@@ -169,8 +164,7 @@ public class Facade {
     }
 
     public static void createUser(String tempEmail, final String username, String password,
-                                  final UserType userType, final ProgressBar bar,
-                                  final Consumer<AuthTuple> callback) {
+                                  final UserType userType, final Consumer<AuthTuple> callback) {
         //TODO: DO THE THANG
         String errorMessage = "";
         String email = null;
@@ -191,7 +185,6 @@ public class Facade {
             email = tempEmail;
         }
         final String fullEmail = email;
-        bar.setVisibility(View.VISIBLE);
         //create user
         auth.createUserWithEmailAndPassword(fullEmail, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -200,7 +193,7 @@ public class Facade {
                         String error = "";
                         //CODE ADDED BY PULKIT FOR SINGLETON
 
-                        bar.setVisibility(View.GONE);
+
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -230,11 +223,13 @@ public class Facade {
                             }
                             reset();
                             currUser = u;
+                            AuthTuple tuple = new AuthTuple(true, error);
+                            tuple.setUser(u);
                             Log.d("***", "singleton should be updated");
                             //fixed endless loop
                             //database.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());//edit
                             SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + fullEmail + " Registered on firebase");
-                            callback.accept(new AuthTuple(true, error));
+                            callback.accept(tuple);
 
                         }
                     }

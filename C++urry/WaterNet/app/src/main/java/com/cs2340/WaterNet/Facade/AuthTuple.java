@@ -1,5 +1,6 @@
-package com.cs2340.WaterNet.Model;
+package com.cs2340.WaterNet.Facade;
 
+import com.cs2340.WaterNet.Model.User;
 
 /**
  * Created by pulki on 3/30/2017.
@@ -8,6 +9,7 @@ package com.cs2340.WaterNet.Model;
 public class AuthTuple {
     private boolean success = false;
     private String errorMessage = "";
+    private User u;
 
     public AuthTuple() {
         this(false, null);
@@ -33,6 +35,15 @@ public class AuthTuple {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+
+    public User getUser() {
+        return u;
+    }
+
+    public void setUser(User u) {
+        this.u = u;
     }
 
 

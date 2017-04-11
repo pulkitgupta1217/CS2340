@@ -1,5 +1,7 @@
 package com.cs2340.WaterNet.Model;
 
+import android.support.design.widget.CoordinatorLayout;
+
 import java.io.Serializable;
 
 /**
@@ -159,5 +161,21 @@ public class User implements Serializable{
 
     public void setUserID(long userID) {
         this.userID = userID;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        try {
+            User other = (User) o;
+            if (other.getUsername().equals(username) && other.getEmail().equals(email)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ClassCastException c) {
+            return false;
+        }
     }
 }

@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.cs2340.WaterNet.Model.PurityReport;
-import com.cs2340.WaterNet.Helper.PurityReportHolder;
+import com.cs2340.WaterNet.Facade.PurityReportHolder;
 import com.cs2340.WaterNet.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,6 +65,7 @@ public class ViewPReportsActivity extends AppCompatActivity {
         recycler = (RecyclerView) findViewById(R.id.PReportRecyclerView);
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
+        //TODO: move to Facade
         recycler.setAdapter(
                 new FirebaseRecyclerAdapter<PurityReport, PurityReportHolder>(PurityReport.class, R.layout.preport_item_layout, PurityReportHolder.class, database.getReference().child("purity_reports")) {
                     @Override

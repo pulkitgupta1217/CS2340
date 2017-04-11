@@ -60,7 +60,7 @@ public class Singleton implements Serializable{
 
     /**
      * get an updated userid from the singleton
-     * @return userid++
+     * @return userID++
      */
     public long getUserID() {
         //userID++;
