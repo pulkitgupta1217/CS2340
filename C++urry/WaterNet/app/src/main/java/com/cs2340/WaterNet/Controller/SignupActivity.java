@@ -18,7 +18,7 @@ import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.R;
 
 
-public class SignupActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword, inputUsername;
     private Spinner spinner;
@@ -50,7 +50,7 @@ public class SignupActivity extends AppCompatActivity {
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
+                startActivity(new Intent(SignUpActivity.this, ResetPasswordActivity.class));
             }
         });
 
@@ -80,7 +80,7 @@ public class SignupActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), tuple.getErrorMessage(), Toast.LENGTH_SHORT).show();
                         }
                         if (tuple.getSuccess()) {
-                            Intent i = new Intent(SignupActivity.this, MainActivity.class);
+                            Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                             startActivity(i);
                             finish();
                         }

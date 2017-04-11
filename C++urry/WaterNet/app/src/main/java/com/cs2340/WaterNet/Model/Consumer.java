@@ -5,8 +5,6 @@ package com.cs2340.WaterNet.Model;
  * imported in current versions of android studio
  * Created by Pulkit Gupta on 4/5/2017.
  */
-
-@FunctionalInterface
 public interface Consumer<T> {
     void accept(T t);
 }

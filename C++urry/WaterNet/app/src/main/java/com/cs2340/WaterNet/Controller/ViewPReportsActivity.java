@@ -23,8 +23,6 @@ public class ViewPReportsActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
-    private FirebaseDatabase database;
-    private RecyclerView recycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +36,9 @@ public class ViewPReportsActivity extends AppCompatActivity {
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -62,19 +59,19 @@ public class ViewPReportsActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
         }
 
-        recycler = (RecyclerView) findViewById(R.id.PReportRecyclerView);
+        RecyclerView recycler = (RecyclerView) findViewById(R.id.PReportRecyclerView);
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
         //TODO: move to Facade
         recycler.setAdapter(
                 new FirebaseRecyclerAdapter<PurityReport, PurityReportHolder>(PurityReport.class, R.layout.preport_item_layout, PurityReportHolder.class, database.getReference().child("purity_reports")) {
                     @Override
-                    public void populateViewHolder(PurityReportHolder preportViewHolder, PurityReport preport, int position) {
-                        preportViewHolder.setOverallConditionTV(preport.getOverallCondition().toString());
-                        preportViewHolder.setInfoTV(preport.getCreator() + "  " + preport.getDateTime());
-                        preportViewHolder.setLocationTV(preport.getSite().toString());
-                        preportViewHolder.setContaminantppmTV("Contaminant PPM: " + preport.getContaminant().getPPM());
-                        preportViewHolder.setVirusppmTV("Virus PPM: " + preport.getVirus().getPPM());
+                    public void populateViewHolder(PurityReportHolder purityReportViewHolder, PurityReport purityReport, int position) {
+                        purityReportViewHolder.setOverallConditionTV(purityReport.getOverallCondition().toString());
+                        purityReportViewHolder.setInfoTV(purityReport.getCreator() + "  " + purityReport.getDateTime());
+                        purityReportViewHolder.setLocationTV(purityReport.getSite().toString());
+                        purityReportViewHolder.setContaminant_PPM_TV("Contaminant PPM: " + purityReport.getContaminant().getPPM());
+                        purityReportViewHolder.setVirus_PPM_TV("Virus PPM: " + purityReport.getVirus().getPPM());
                     }
                 }
         );

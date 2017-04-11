@@ -12,7 +12,7 @@ public enum UserType implements Serializable {
     MANAGER("MNG"),
     ADMIN("ADM");
 
-    private String value;
+    private final String value;
     UserType(String value) {
         this.value = value;
     }

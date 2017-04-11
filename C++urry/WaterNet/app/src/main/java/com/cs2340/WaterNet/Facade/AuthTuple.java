@@ -11,9 +11,6 @@ public class AuthTuple {
     private String errorMessage = null;
     private User u;
 
-    public AuthTuple() {
-        this(false, null);
-    }
 
     public AuthTuple(boolean success, String errorMessage) {
         this.success = success;

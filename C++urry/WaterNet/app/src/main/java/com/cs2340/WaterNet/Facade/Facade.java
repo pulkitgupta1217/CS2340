@@ -1,10 +1,7 @@
 package com.cs2340.WaterNet.Facade;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.cs2340.WaterNet.Model.Admin;
 import com.cs2340.WaterNet.Model.Consumer;
@@ -52,7 +49,7 @@ import java.util.TreeMap;
 public class Facade {
     /**
      * goes between controller and model objects, contains the current user and is populated with the pin list,
-     * updated on signin and when necessary
+     * updated on sign in and when necessary
      * basically the ultimate information holder and interfacer.
      * activities only communicate with this and this communicates with the rest of model and
      * returns information to the activity
@@ -83,7 +80,7 @@ public class Facade {
 
     }
 
-    public static void reset() {
+    private static void reset() {
         Log.d("RESET", Singleton.getInstance().toString());
         DatabaseReference child = FirebaseDatabase.getInstance().getReference().child("Singleton");
         child.child("userID").setValue(Singleton.getInstance().userID);
@@ -165,7 +162,7 @@ public class Facade {
 
     public static void createUser(String tempEmail, final String username, String password,
                                   final UserType userType, final Consumer<AuthTuple> callback) {
-        //TODO: DO THE THANG
+
         String errorMessage = "";
         final String email;
         if (username == null || username.length() == 0) {
@@ -252,91 +249,6 @@ public class Facade {
         return pinList;
     }
 
-    public static void setPinList() {
-        //firebase grab pins from db
-    }
-
-    public static List<User> getUserList() {
-        setUserList();
-        return userList;
-    }
-
-    public static void setUserList() {
-        //firebase grab users from db and filter out admins etc.
-    }
-
-    public List<Report> getReports() {
-        setPinList();
-        List<Report> reports = new LinkedList<>();
-        for (Pin p : pinList) {
-            for (Report r : p.getReports()) {
-                reports.add(r);
-            }
-        }
-        return reports;
-    }
-
-    public List<Report> getReports(double lat, double lng) {
-        setPinList();
-        Site site = new Site(lat, lng);
-        List<Report> reports = new LinkedList<>();
-        for (Pin p : pinList) {
-            for (Report r : p.getReports()) {
-                if (r.getSite().closeTo(site)) {
-                    reports.add(r);
-                }
-            }
-        }
-        return reports;
-    }
-
-    public List<Report> getReports(Site site) {
-        return getReports(site.getLat(), site.getLng());
-    }
-
-    public List<PurityReport> getPurityReports() {
-        setPinList();
-        List<PurityReport> purityReports = new LinkedList<>();
-        for (Pin p : pinList) {
-            for (PurityReport pr : p.getPurityReports()) {
-                purityReports.add(pr);
-            }
-        }
-        return purityReports;
-    }
-
-    public List<PurityReport> getPurityReports(double lat, double lng) {
-        setPinList();
-        Site site = new Site(lat, lng);
-        List<PurityReport> purityReports = new LinkedList<>();
-        for (Pin p : pinList) {
-            for (PurityReport pr : p.getPurityReports()) {
-                if (pr.getSite().closeTo(site)) {
-                    purityReports.add(pr);
-                }
-            }
-        }
-        return purityReports;
-    }
-
-    public List<PurityReport> getPurityReports(Site site) {
-        return getPurityReports(site.getLat(), site.getLng());
-    }
-
-    public static /* google Maps map with pins */ void getMap() {
-        getMap(pinList);
-    }
-    public static /* google Maps map with pins */ void getMap(List<Pin> pins) {
-    }
-    public static /*graph*/ void getHistorical(Site site, PurityReport start, PurityReport end) {
-        setPinList();
-        List<PurityReport> relevant = new LinkedList<>();
-        for (Pin p : pinList) {
-            for (int i = p.getPurityReports().indexOf(start); i < p.getPurityReports().indexOf(end); i++) {
-                relevant.add(p.getPurityReports().get(i));
-            }
-        }
-    }
 
     public static void updateUser(String address, String name, String email, String phone, UserType userType) {
         if (address != null && address.length() != 0) {
@@ -377,7 +289,7 @@ public class Facade {
             error += "Enter latitude!";
             callback.accept(error);
         } else if (longitude == null || longitude.length() == 0) {
-            error += "Enter longtitude!";
+            error += "Enter longititude!";
             callback.accept(error);
         } else {
             int lat = Integer.parseInt(latitude);
@@ -396,7 +308,7 @@ public class Facade {
             error += "Enter latitude!";
             callback.accept(error);
         } else if (longitude == null || longitude.length() == 0) {
-            error += "Enter longtitude!";
+            error += "Enter longititude!";
             callback.accept(error);
         } if (v == null || v.length() == 0) {
             error += "Enter virus ppm!";
@@ -407,9 +319,9 @@ public class Facade {
         } else {
             int lat = Integer.parseInt(latitude);
             int lng = Integer.parseInt(longitude);
-            long vppm = Long.parseLong(v);
-            long cppm = Long.parseLong(c);
-            PurityReport post = new PurityReport(currUser.getUsername(), lat, lng, new Virus(vppm), new Contaminant(cppm), oc);
+            long virus_ppm = Long.parseLong(v);
+            long containment_ppm = Long.parseLong(c);
+            PurityReport post = new PurityReport(currUser.getUsername(), lat, lng, new Virus(virus_ppm), new Contaminant(containment_ppm), oc);
             database.getReference().child("purity_reports").push().setValue(post);
             callback.accept(error);
         }

@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SecurityLogger {
 
-    private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private final static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
     /**
      * writes new security log entry to firebase

@@ -12,7 +12,7 @@ public enum WaterType {
     SPRING("Spring"),
     OTHER("Other");
 
-    private String value;
+    private final String value;
 
     /**
      * constructor to make the enum using the string

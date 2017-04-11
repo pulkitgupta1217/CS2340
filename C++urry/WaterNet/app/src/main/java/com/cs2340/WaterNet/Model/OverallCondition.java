@@ -11,7 +11,7 @@ public enum OverallCondition {
     TREATABLE("Treatable"),
     UNSAFE("Unsafe");
 
-    String value;
+    final String value;
 
     /**
      * creates a overallcondition

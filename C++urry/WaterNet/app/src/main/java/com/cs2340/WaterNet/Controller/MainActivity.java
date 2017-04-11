@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
-        //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         gotoCreateReportBtn = (TextView) findViewById(R.id.create_report_btn);
         gotoCreatePurityReportBtn = (TextView) findViewById(R.id.create_preport_btn);
         viewMapBtn = (TextView) findViewById(R.id.view_map);
-        viewpReports = (Button) findViewById(R.id.view_preports_button);
+        viewpReports = (Button) findViewById(R.id.view_purity_reports_button);
         viewGraphBtn = (Button) findViewById(R.id.view_graph);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //sign out method
-    public void signOut() {
+    private void signOut() {
         auth.signOut();
     }
 

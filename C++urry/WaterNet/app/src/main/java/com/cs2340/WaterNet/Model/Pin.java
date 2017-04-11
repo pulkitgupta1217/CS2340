@@ -12,9 +12,9 @@ import java.util.List;
  */
 
 public class Pin {
-    private LinkedList<Report> reportList = new LinkedList<>();
-    private Site site;
-    private LinkedList<PurityReport> purityReportList = new LinkedList<>();
+    private final LinkedList<Report> reportList = new LinkedList<>();
+    private final Site site;
+    private final LinkedList<PurityReport> purityReportList = new LinkedList<>();
     private Marker marker;
 
     public Marker getMarker() {

@@ -5,9 +5,6 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.ProgressBar;
 
 import com.cs2340.WaterNet.Model.PurityReport;
 import com.cs2340.WaterNet.Model.Singleton;
@@ -19,7 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -30,7 +26,7 @@ import java.text.ParseException;
 public class GraphActivity extends AppCompatActivity {
 
 
-    private FirebaseAuth.AuthStateListener authListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +35,7 @@ public class GraphActivity extends AppCompatActivity {
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        authListener = new FirebaseAuth.AuthStateListener() {
+        FirebaseAuth.AuthStateListener authListener; = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -54,13 +50,13 @@ public class GraphActivity extends AppCompatActivity {
 
         final GraphView graph = (GraphView) findViewById(R.id.graph);
         final LineGraphSeries<DataPoint> vseries = new LineGraphSeries<>();
-        final LineGraphSeries<DataPoint> cseries = new LineGraphSeries<>();
+        final LineGraphSeries<DataPoint> containment_series = new LineGraphSeries<>();
 
         graph.setTitle("PPM Over Time Graph");
         graph.getLegendRenderer().setVisible(true);
         vseries.setTitle("Virus");
-        cseries.setTitle("Contaminant");
-        cseries.setColor(Color.RED);
+        containment_series.setTitle("Contaminant");
+        containment_series.setColor(Color.RED);
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
 
         ValueEventListener postListener = new ValueEventListener() {
@@ -69,21 +65,21 @@ public class GraphActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 vseries.resetData(new DataPoint[]{});
-                cseries.resetData(new DataPoint[]{});
+                containment_series.resetData(new DataPoint[]{});
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
                     index++;
                     PurityReport pr = ds.getValue(PurityReport.class);
 
                     try {
                         vseries.appendData(new DataPoint(Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()), pr.getVirus().getPPM()),true, 100);
-                        cseries.appendData(new DataPoint(Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()), pr.getContaminant().getPPM()),true, 100);
+                        containment_series.appendData(new DataPoint(Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()), pr.getContaminant().getPPM()),true, 100);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
                 graph.removeAllSeries();
                 graph.addSeries(vseries);
-                graph.addSeries(cseries);
+                graph.addSeries(containment_series);
             }
 
             @Override

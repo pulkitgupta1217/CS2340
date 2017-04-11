@@ -1,6 +1,5 @@
 package com.cs2340.WaterNet.Model;
 
-import android.support.design.widget.CoordinatorLayout;
 
 import java.io.Serializable;
 
@@ -72,8 +71,8 @@ public class User implements Serializable{
     }
 
     /**
-     * get the userid of the user
-     * @return userid
+     * get the user id of the user
+     * @return user id
      */
     public long getUserID() {
         return userID;
@@ -136,8 +135,8 @@ public class User implements Serializable{
     }
 
     /**
-     * set the usertype of the user
-     * @param userType the new usertype
+     * set the user type of the user
+     * @param userType the new user type
      */
     public void setUserType(UserType userType) {
         this.userType = userType;
@@ -163,18 +162,14 @@ public class User implements Serializable{
         this.userID = userID;
     }
 
-    public boolean equals(Object o) {
+    public boolean equals(User o) {
         if (this == o) {
             return true;
         }
         try {
-            User other = (User) o;
-            if (other.getUsername().equals(username) && other.getEmail().equals(email)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (ClassCastException c) {
+            User other = o;
+            return other.getUsername().equals(username) && other.getEmail().equals(email);
+        } catch (ClassCastException e) {
             return false;
         }
     }

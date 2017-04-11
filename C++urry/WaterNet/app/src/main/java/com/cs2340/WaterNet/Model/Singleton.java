@@ -17,8 +17,8 @@ public class Singleton implements Serializable{
     public long userID;
     public long reportID;
     public long purityReportID;
-    private SimpleDateFormat dateTime;
-    private Calendar c;
+    private final SimpleDateFormat dateTime;
+    private final Calendar c;
 
     /**
      * the single run constructor that initializes the singleton instance that is stored within
@@ -59,7 +59,7 @@ public class Singleton implements Serializable{
     }
 
     /**
-     * get an updated userid from the singleton
+     * get an updated user id from the singleton
      * @return userID++
      */
     public long getUserID() {
@@ -68,8 +68,8 @@ public class Singleton implements Serializable{
     }
 
     /**
-     * get an updated reportid from the singleton
-     * @return reportid++
+     * get an updated report id from the singleton
+     * @return report id++
      */
     public long getReportID() {
         //reportID++;
@@ -77,8 +77,8 @@ public class Singleton implements Serializable{
     }
 
     /**
-     * get an updated purityreportid from the singleton
-     * @return purityreportid++
+     * get an updated purity report id from the singleton
+     * @return purity report id++
      */
     public long getPurityReportID() {
         //purityReportID++;

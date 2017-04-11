@@ -8,9 +8,9 @@ import java.util.List;
  * Created by Pulkit Gupta on 2/28/2017.
  */
 
-public class MapGenerator {
+class MapGenerator {
     //GoogleMap map
-    private static List<Pin> pins;
+    private List<Pin> pins;
     /**
      * creates a MapGenerator object that has a list of pins
      * @param pins the list of all pins that the map will hold

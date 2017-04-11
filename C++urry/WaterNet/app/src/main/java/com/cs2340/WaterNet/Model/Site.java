@@ -27,7 +27,7 @@ public class Site implements Serializable, Comparable<Site>{
 
     /**
      * set the latitude of this site if it needs to be changed
-     * @param lat the new latitde
+     * @param lat the new latitude
      */
     public void setLat(double lat) {
         this.lat = lat;
@@ -62,7 +62,7 @@ public class Site implements Serializable, Comparable<Site>{
      * @param site the site to compare to
      * @return true if the site is within closeEnough variable
      */
-    public boolean closeTo(Site site) {
+    private boolean closeTo(Site site) {
         if (Math.abs(lat - site.getLat()) < closeEnough) {
             if (Math.abs(lng - site.getLng()) < closeEnough) {
                 return true;
@@ -76,10 +76,15 @@ public class Site implements Serializable, Comparable<Site>{
         return lat + " " + lng;
     }
 
-    public boolean equals(Site s) {
+    private boolean equals(Site s) {
         return closeTo(s);
     }
 
+    /**
+     * default compareTo method
+     * @param s object being compared
+     * @return the result of comparison
+     */
     public int compareTo(Site s) {
         if (equals(s)) {
             return 0;

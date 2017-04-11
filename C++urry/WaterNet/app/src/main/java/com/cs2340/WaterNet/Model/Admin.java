@@ -4,7 +4,7 @@ package com.cs2340.WaterNet.Model;
  * the admin class, an admin has all the rights and abilities of a manager in addition to
  * deleting accounts, ban users from submitting reports, can unblock locked accounts,
  * and view the security log
- * Created by rajatkhanna on 2/20/17.
+ * Created by rajat khanna on 2/20/17.
  */
 
 public class Admin extends Manager {
