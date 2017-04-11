@@ -17,7 +17,6 @@ import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.R;
 
-
 public class SignUpActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword, inputUsername;
