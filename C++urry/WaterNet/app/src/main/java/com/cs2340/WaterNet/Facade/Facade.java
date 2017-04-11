@@ -179,6 +179,7 @@ public class Facade {
         } else if (password.length() < 6) {
             errorMessage += "Password too short, enter minimum 6 characters!";
             callback.accept(new AuthTuple(false, errorMessage));
+            return;
         } else if (tempEmail == null || tempEmail.length() == 0 || !tempEmail.contains("@")) {
             email = username + "@water.net";
         } else {
