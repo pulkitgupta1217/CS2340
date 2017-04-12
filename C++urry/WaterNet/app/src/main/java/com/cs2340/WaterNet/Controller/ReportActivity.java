@@ -99,8 +99,8 @@ public class ReportActivity extends AppCompatActivity {
                 Facade.createReport(latField.getText().toString().trim(), longField.getText().toString().trim(),
                         (WaterType) waterTypeSpinner.getSelectedItem(), (WaterCondition) conditionTypeSpinner.getSelectedItem(), new Consumer<String>() {
                             public void accept(String s) {
-                                if (s.length() != 0) {
-                                    Toast.makeText(getApplicationContext(), "success!", Toast.LENGTH_SHORT).show();
+                                if (s.equals("success!")) {
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                                     Intent i = new Intent(ReportActivity.this, MainActivity.class);
                                     startActivity(i);
                                     finish();

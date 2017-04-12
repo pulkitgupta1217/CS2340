@@ -129,7 +129,7 @@ public class Facade {
                             if (!task.isSuccessful()) {
                                 // there was an error
                                 if (password.length() >= 6) {
-                                    tuple.setErrorMessage(tuple.getErrorMessage() + "Authentication failed, check your email and password or sign up");
+                                    tuple.setErrorMessage(tuple.getErrorMessage() + "Authentication failed, check your email and password or sign up " + task.getException());
                                 } else {
                                     tuple.setErrorMessage(tuple.getErrorMessage() + "authentication failed");
                                 }
@@ -341,9 +341,13 @@ public class Facade {
     public static void updateUser(String address, String name, String email, String phone, UserType userType) {
         if (address != null && address.length() != 0) {
             currUser.setAddress(address);
+        } else {
+            currUser.setAddress("no address");
         }
         if (name != null && name.length() != 0) {
             currUser.setName(name);
+        } else {
+            currUser.setName("no name");
         }
         if (email != null && email.length() != 0) {
             if (email.contains("@")) {
@@ -361,6 +365,8 @@ public class Facade {
         }
         if (phone != null && phone.length() != 0) {
             currUser.setPhone(phone);
+        } else {
+            currUser.setPhone("###-###-####");
         }
 
         currUser.setUserType(userType);
@@ -377,11 +383,12 @@ public class Facade {
             error += "Enter latitude!";
             callback.accept(error);
         } else if (longitude == null || longitude.length() == 0) {
-            error += "Enter longtitude!";
+            error += "Enter longitude!";
             callback.accept(error);
         } else {
-            int lat = Integer.parseInt(latitude);
-            int lng = Integer.parseInt(longitude);
+            error += "success!";
+            double lat = Double.parseDouble(latitude);
+            double lng = Double.parseDouble(longitude);
             Report post = new Report(currUser.getUsername(), lat, lng, wt, wc);
             database.getReference().child("reports").push().setValue(post);
             callback.accept(error);
@@ -396,15 +403,16 @@ public class Facade {
             error += "Enter latitude!";
             callback.accept(error);
         } else if (longitude == null || longitude.length() == 0) {
-            error += "Enter longtitude!";
+            error += "Enter longitude!";
             callback.accept(error);
         } if (v == null || v.length() == 0) {
             error += "Enter virus ppm!";
             callback.accept(error);
         } else if (c == null || c.length() == 0) {
-            error += "Enter virus ppm!";
+            error += "Enter contaminant ppm!";
             callback.accept(error);
         } else {
+            error += "success!";
             int lat = Integer.parseInt(latitude);
             int lng = Integer.parseInt(longitude);
             long vppm = Long.parseLong(v);

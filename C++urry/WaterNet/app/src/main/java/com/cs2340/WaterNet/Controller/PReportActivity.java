@@ -102,7 +102,7 @@ public class PReportActivity extends AppCompatActivity {
                         vppmField.getText().toString().trim(), cppmField.getText().toString().trim(),
                         (OverallCondition) overallConditionSpinner.getSelectedItem(), new Consumer<String>() {
                             public void accept(String s) {
-                                if (s.length() != 0) {
+                                if (s.equals("success!")) {
                                     Intent i = new Intent(PReportActivity.this, MainActivity.class);
                                     startActivity(i);
                                     finish();
