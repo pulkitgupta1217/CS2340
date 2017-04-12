@@ -7,12 +7,17 @@ import android.widget.TextView;
 import com.cs2340.WaterNet.R;
 
 /**
- * Created by pulki on 4/5/2017.
+ *
+ * Created by Pulkit Gupta on 4/5/2017.
  */
 
 public class ReportHolder extends RecyclerView.ViewHolder {
     private final TextView waterTypeTV, waterConditionTV, locationTV, infoTV;
 
+    /**
+     * constructor
+     * @param itemView thing that holds the text fields
+     */
     public ReportHolder(View itemView) {
         super(itemView);
         waterTypeTV = (TextView) itemView.findViewById(R.id.watertype_view);

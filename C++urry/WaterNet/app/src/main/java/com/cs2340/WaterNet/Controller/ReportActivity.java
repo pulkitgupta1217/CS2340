@@ -21,6 +21,9 @@ import com.cs2340.WaterNet.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * report activity
+ */
 public class ReportActivity extends AppCompatActivity {
 
 
@@ -117,7 +120,9 @@ public class ReportActivity extends AppCompatActivity {
 
     }
 
-    //sign out method
+    /**
+     * sign out from firebase
+     */
     public void signOut() {
         auth.signOut();
     }

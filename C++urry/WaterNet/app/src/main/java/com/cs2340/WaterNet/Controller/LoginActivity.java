@@ -16,6 +16,9 @@ import com.cs2340.WaterNet.Facade.AuthTuple;
 import com.cs2340.WaterNet.Model.Consumer;
 import com.cs2340.WaterNet.R;
 
+/**
+ * login activity
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
@@ -37,16 +40,16 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button btnSignup, btnLogin, btnReset;
+        Button btnSignUp, btnLogin, btnReset;
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnSignup = (Button) findViewById(R.id.btn_sign_upignup);
+        btnSignUp = (Button) findViewById(R.id.btn_sign_up);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
 
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
@@ -70,13 +73,15 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 Facade.validateLogin(email, password, new Consumer<AuthTuple>() {
+                    @Override
                     public void accept(AuthTuple tuple) {
 
                         progressBar.setVisibility(View.GONE);
                         String error = tuple.getErrorMessage();
                         Log.d("Error", error);
                         if (error.length() != 0) {
-                            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT)
+                                    .show();
                         }
                         if (tuple.getSuccess()) {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

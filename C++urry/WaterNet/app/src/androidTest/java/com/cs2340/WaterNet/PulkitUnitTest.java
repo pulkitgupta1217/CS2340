@@ -3,20 +3,19 @@ package com.cs2340.WaterNet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.theories.internal.BooleanSupplier;
 
 import com.cs2340.WaterNet.Facade.*;
 import com.cs2340.WaterNet.Model.*;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.*;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
+ * created by Pulkit Gupta
  */
 public class PulkitUnitTest  {
 
@@ -106,7 +105,7 @@ public class PulkitUnitTest  {
     }
 
     @Test
-    public void testPasssword() {
+    public void testPassword() {
         //test null password
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {

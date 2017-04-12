@@ -1,5 +1,7 @@
 package com.cs2340.WaterNet.Model;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -85,7 +87,8 @@ public class Site implements Serializable, Comparable<Site>{
      * @param s object being compared
      * @return the result of comparison
      */
-    public int compareTo(Site s) {
+    @Override
+    public int compareTo(@NonNull Site s) {
         if (equals(s)) {
             return 0;
         }

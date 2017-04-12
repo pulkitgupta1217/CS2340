@@ -22,6 +22,9 @@ import com.cs2340.WaterNet.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * profile activity
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     private Button edit, save, cancel, back;
@@ -78,7 +81,9 @@ public class ProfileActivity extends AppCompatActivity {
         typeView = (TextView) findViewById(R.id.type_view);
 
         typeSpinner = (Spinner) findViewById(R.id.profileSpinner);
-        ArrayAdapter<UserType> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, UserType.values());
+        ArrayAdapter<UserType> adapter =
+                new ArrayAdapter<>(getApplicationContext(),
+                        android.R.layout.simple_spinner_item, UserType.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(adapter);
 
@@ -181,7 +186,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    //sign out method
+    /**
+     * sign out
+     */
     public void signOut() {
         auth.signOut();
     }

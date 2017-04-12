@@ -22,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * main activity/landing page
+ */
 public class MainActivity extends AppCompatActivity {
 
 
@@ -36,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn, gotoCreatePurityReportBtn, viewpReports, viewGraphBtn;
+        TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn,
+                gotoCreatePurityReportBtn, viewPurityReports, viewGraphBtn;
         FirebaseDatabase database;
         RecyclerView recycler;
 
@@ -68,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         signOut = (TextView) findViewById(R.id.sign_out);
         btnViewProfile = (TextView) findViewById(R.id.view_profile);
         gotoCreateReportBtn = (TextView) findViewById(R.id.create_report_btn);
-        gotoCreatePurityReportBtn = (TextView) findViewById(R.id.create_preport_btn);
+        gotoCreatePurityReportBtn = (TextView) findViewById(R.id.create_purity_report_btn);
         viewMapBtn = (TextView) findViewById(R.id.view_map);
-        viewpReports = (Button) findViewById(R.id.view_purity_reports_button);
+        viewPurityReports = (Button) findViewById(R.id.view_purity_reports_button);
         viewGraphBtn = (Button) findViewById(R.id.view_graph);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        viewpReports.setOnClickListener(new View.OnClickListener() {
+        viewPurityReports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ViewPReportsActivity.class);
@@ -142,24 +146,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //TODO: should this be user?
-        if (Facade.getCurrUser().getUserType() != UserType.MANAGER) {
-            viewpReports.setVisibility(View.INVISIBLE);
+        if (Facade.getCurrUser().getUserType() == UserType.MANAGER) {
+            viewPurityReports.setVisibility(View.INVISIBLE);
             viewGraphBtn.setVisibility(View.INVISIBLE);
         }
 
-        if (Facade.getCurrUser().getUserType() == UserType.USER)
+        if (Facade.getCurrUser().getUserType() == UserType.USER) {
             gotoCreatePurityReportBtn.setVisibility(View.INVISIBLE);
+        }
 
         recycler = (RecyclerView) findViewById(R.id.ReportRecyclerView);
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
         recycler.setAdapter(
-                new FirebaseRecyclerAdapter<Report, ReportHolder>(Report.class, R.layout.report_item_layout, ReportHolder.class, database.getReference().child("reports")) {
+                new FirebaseRecyclerAdapter<Report, ReportHolder>(Report.class,
+                        R.layout.report_item_layout, ReportHolder.class, database.getReference().child("reports")) {
                     @Override
-                    public void populateViewHolder(ReportHolder reportViewHolder, Report report, int position) {
+                    public void populateViewHolder(ReportHolder reportViewHolder, Report report,
+                                                   int position) {
                         reportViewHolder.setWaterConditionTV(report.getWaterCondition().toString());
                         reportViewHolder.setWaterTypeTV(report.getWaterType().toString());
-                        reportViewHolder.setInfoTV(report.getCreator() + "  " + report.getDateTime());
+                        reportViewHolder.setInfoTV(report.getCreator() + "  "
+                                + report.getDateTime());
                         reportViewHolder.setLocationTV(report.getSite().toString());
                     }
                 }

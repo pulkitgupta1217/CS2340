@@ -14,7 +14,7 @@ public enum OverallCondition {
     final String value;
 
     /**
-     * creates a overallcondition
+     * creates a OverallCondition
      * @param value the string value of the overall condition
      */
     OverallCondition(String value) {

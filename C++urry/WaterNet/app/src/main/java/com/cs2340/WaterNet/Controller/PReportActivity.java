@@ -20,6 +20,9 @@ import com.cs2340.WaterNet.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * purity report activity
+ */
 public class PReportActivity extends AppCompatActivity {
 
 
@@ -63,8 +66,8 @@ public class PReportActivity extends AppCompatActivity {
             }
         };
 
-        private Button create = (Button) findViewById(R.id.push_report_button);
-        private Button cancel = (Button) findViewById(R.id.cancel_report_button);
+        Button create = (Button) findViewById(R.id.push_report_button);
+        Button cancel = (Button) findViewById(R.id.cancel_report_button);
 
         latField = (EditText) findViewById(R.id.latitude_input);
         longField = (EditText) findViewById(R.id.longitude_input);
@@ -72,8 +75,11 @@ public class PReportActivity extends AppCompatActivity {
         cPPMField = (EditText) findViewById(R.id.contaminant_ppm_input);
 
         overallConditionSpinner = (Spinner) findViewById(R.id.oConditionSpinner);
-        ArrayAdapter<OverallCondition> overallConditionSpinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, OverallCondition.values());
-        overallConditionSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<OverallCondition> overallConditionSpinnerAdapter =
+                new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,
+                        OverallCondition.values());
+        overallConditionSpinnerAdapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
         overallConditionSpinner.setAdapter(overallConditionSpinnerAdapter);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -95,16 +101,21 @@ public class PReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Facade.createPurityReport(latField.getText().toString().trim(), longField.getText().toString().trim(),
-                        vPPMField.getText().toString().trim(), cPPMField.getText().toString().trim(),
-                        (OverallCondition) overallConditionSpinner.getSelectedItem(), new Consumer<String>() {
+                Facade.createPurityReport(latField.getText().toString().trim(),
+                        longField.getText().toString().trim(),
+                        vPPMField.getText().toString().trim(),
+                        cPPMField.getText().toString().trim(),
+                        (OverallCondition) overallConditionSpinner.getSelectedItem(),
+                        new Consumer<String>() {
+                            @Override
                             public void accept(String s) {
                                 if (s.length() != 0) {
                                     Intent i = new Intent(PReportActivity.this, MainActivity.class);
                                     startActivity(i);
                                     finish();
                                 } else {
-                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT)
+                                            .show();
                                 }
                             }
                         });
@@ -114,7 +125,9 @@ public class PReportActivity extends AppCompatActivity {
 
     }
 
-    //sign out method
+    /**
+     * sign out
+     */
     public void signOut() {
         auth.signOut();
     }

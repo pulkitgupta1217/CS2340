@@ -1,7 +1,7 @@
 package com.cs2340.WaterNet.Model;
 
 /**
- * Created by pulki on 2/26/2017.
+ * Created by Pulkit Gupta on 2/26/2017.
  */
 
 public enum WaterType {

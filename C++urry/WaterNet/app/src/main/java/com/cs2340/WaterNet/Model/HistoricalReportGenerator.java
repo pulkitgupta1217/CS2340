@@ -25,7 +25,7 @@ class HistoricalReportGenerator {
      * @return a graph/image that is the trend line
      */
     public /*Graph*/ Object generateHistoricalReport() {
-        return generateHistoricalReportfromPins(pins);
+        return generateHistoricalReportFromPins(pins);
     }
 
     /**
@@ -33,7 +33,7 @@ class HistoricalReportGenerator {
      * @param data the set of pins from which to generate a report
      * @return a graph/image that is the trend line
      */
-    private static /*Graph*/ Object generateHistoricalReportfromPins(List<Pin> data) {
+    private static /*Graph*/ Object generateHistoricalReportFromPins(List<Pin> data) {
         //some stuff
         return null;
     }

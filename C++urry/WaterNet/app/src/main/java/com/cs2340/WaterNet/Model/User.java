@@ -1,10 +1,9 @@
 package com.cs2340.WaterNet.Model;
 
-
 import java.io.Serializable;
 
 /**
- * Created by rajatkhanna on 2/18/17.
+ * Created by Rajat Khanna on 2/18/17.
  * Edited by Pulkit Gupta on 2/25/17.
  */
 
@@ -147,7 +146,7 @@ public class User implements Serializable{
      * @return true if the user is banned, false otherwise
      */
     public boolean isBanned() {
-        return banned.booleanValue();
+        return banned;
     }
 
     /**
@@ -162,12 +161,13 @@ public class User implements Serializable{
         this.userID = userID;
     }
 
-    public boolean equals(User o) {
+    @Override
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
         try {
-            User other = o;
+            User other = (User) o;
             return other.getUsername().equals(username) && other.getEmail().equals(email);
         } catch (ClassCastException e) {
             return false;

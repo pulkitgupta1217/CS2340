@@ -8,15 +8,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
 import java.util.concurrent.Callable;
 import static org.awaitility.Awaitility.*;
-import static org.awaitility.Duration.*;
 /**
- * Created by Pulkit Gupta on 4/11/2017.
+ * Created by Rajat Khanna on 4/11/2017.
  */
 
 public class RajatUnitTest {
@@ -56,7 +54,7 @@ public class RajatUnitTest {
                 assertTrue(tuple.getErrorMessage().equals("success!"));
                 User u = tuple.getUser();
                 assertTrue(u.equals(new User("unitTestUser", "unitTestUser@water.net")));
-                assertNotNull(u);;
+                assertNotNull(u);
                 assertNotNull(FirebaseAuth.getInstance().getCurrentUser());
                 try {
                     FirebaseAuth.getInstance().getCurrentUser().delete();
@@ -74,7 +72,7 @@ public class RajatUnitTest {
                 assertFalse(tuple.getSuccess());
                 assertTrue(tuple.getErrorMessage().equals("Enter username!"));
                 User u = tuple.getUser();
-                assertNull(u);;
+                assertNull(u);
                 assertNull(FirebaseAuth.getInstance().getCurrentUser());
                 try {
                     FirebaseAuth.getInstance().getCurrentUser().delete();
@@ -91,7 +89,7 @@ public class RajatUnitTest {
                 assertFalse(tuple.getSuccess());
                 assertTrue(tuple.getErrorMessage().equals("Enter username!"));
                 User u = tuple.getUser();
-                assertNull(u);;
+                assertNull(u);
                 assertNull(FirebaseAuth.getInstance().getCurrentUser());
                 try {
                     FirebaseAuth.getInstance().getCurrentUser().delete();
@@ -109,7 +107,7 @@ public class RajatUnitTest {
                 assertFalse(tuple.getSuccess());
                 assertTrue(tuple.getErrorMessage().equals("Enter password!"));
                 User u = tuple.getUser();
-                assertNull(u);;
+                assertNull(u);
                 assertNull(FirebaseAuth.getInstance().getCurrentUser());
                 try {
                     FirebaseAuth.getInstance().getCurrentUser().delete();
@@ -126,7 +124,7 @@ public class RajatUnitTest {
                 assertFalse(tuple.getSuccess());
                 assertTrue(tuple.getErrorMessage().equals("Enter password!"));
                 User u = tuple.getUser();
-                assertNull(u);;
+                assertNull(u);
                 assertNull(FirebaseAuth.getInstance().getCurrentUser());
                 try {
                     FirebaseAuth.getInstance().getCurrentUser().delete();
@@ -143,7 +141,7 @@ public class RajatUnitTest {
                 assertFalse(tuple.getSuccess());
                 assertTrue(tuple.getErrorMessage().equals("Password too short, enter minimum 6 characters!"));
                 User u = tuple.getUser();
-                assertNull(u);;
+                assertNull(u);
                 assertNull(FirebaseAuth.getInstance().getCurrentUser());
                 try {
                     FirebaseAuth.getInstance().getCurrentUser().delete();

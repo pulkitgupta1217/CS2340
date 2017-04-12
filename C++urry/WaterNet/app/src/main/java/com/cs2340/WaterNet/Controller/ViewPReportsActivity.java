@@ -64,14 +64,21 @@ public class ViewPReportsActivity extends AppCompatActivity {
 
         //TODO: move to Facade
         recycler.setAdapter(
-                new FirebaseRecyclerAdapter<PurityReport, PurityReportHolder>(PurityReport.class, R.layout.preport_item_layout, PurityReportHolder.class, database.getReference().child("purity_reports")) {
+                new FirebaseRecyclerAdapter<PurityReport, PurityReportHolder>(PurityReport.class,
+                        R.layout.preport_item_layout, PurityReportHolder.class,
+                        database.getReference().child("purity_reports")) {
                     @Override
-                    public void populateViewHolder(PurityReportHolder purityReportViewHolder, PurityReport purityReport, int position) {
-                        purityReportViewHolder.setOverallConditionTV(purityReport.getOverallCondition().toString());
-                        purityReportViewHolder.setInfoTV(purityReport.getCreator() + "  " + purityReport.getDateTime());
+                    public void populateViewHolder(PurityReportHolder purityReportViewHolder,
+                                                   PurityReport purityReport, int position) {
+                        purityReportViewHolder.setOverallConditionTV(
+                                purityReport.getOverallCondition().toString());
+                        purityReportViewHolder.setInfoTV(purityReport.getCreator() + "  "
+                                + purityReport.getDateTime());
                         purityReportViewHolder.setLocationTV(purityReport.getSite().toString());
-                        purityReportViewHolder.setContaminant_PPM_TV("Contaminant PPM: " + purityReport.getContaminant().getPPM());
-                        purityReportViewHolder.setVirus_PPM_TV("Virus PPM: " + purityReport.getVirus().getPPM());
+                        purityReportViewHolder.setContaminant_PPM_TV("Contaminant PPM: "
+                                + purityReport.getContaminant().getPPM());
+                        purityReportViewHolder.setVirus_PPM_TV("Virus PPM: "
+                                + purityReport.getVirus().getPPM());
                     }
                 }
         );

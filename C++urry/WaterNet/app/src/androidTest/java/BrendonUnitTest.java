@@ -25,7 +25,6 @@ public class BrendonUnitTest {
         Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
-                System.out.println("finished setup");
                 u = authTuple.getUser();
             }
         });
@@ -43,9 +42,9 @@ public class BrendonUnitTest {
         Facade.updateUser("5555 new address ct,\n city, state, zip",
                 "newName", "", "555-555-5555", UserType.USER);
         u = Facade.getCurrUser();
-        assertTrue(u.getAddress().equals("5555 new address ct,\n city, state, zip"));
-        assertTrue(u.getName().equals("newName"));
-        assertTrue(u.getPhone().equals("555-555-5555"));
+        assertTrue("5555 new address ct,\n city, state, zip".equals(u.getAddress()));
+        assertTrue("newName".equals(u.getName()));
+        assertTrue("555-555-5555".equals(u.getPhone()));
         assertTrue(u.getUserType() == UserType.USER);
     }
 }

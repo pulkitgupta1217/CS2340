@@ -28,7 +28,8 @@ public class Report implements Serializable {
      * @param waterType the enum representing the type of water
      * @param waterCondition the enum representing the water condition
      */
-    public Report(String creator, double lat, double lng, WaterType waterType, WaterCondition waterCondition) {
+    public Report(String creator, double lat, double lng, WaterType waterType,
+                  WaterCondition waterCondition) {
         this.creator = creator;
         site = new Site(lat, lng);
         this.waterType = waterType;
@@ -103,7 +104,8 @@ public class Report implements Serializable {
 
     public String toString() {
 
-        return creator + " " + dateTime +" " +  waterType.toString() + " " +  waterCondition.toString();
+        return creator + " " + dateTime +" " +  waterType.toString() + " "
+                +  waterCondition.toString();
 
     }
 

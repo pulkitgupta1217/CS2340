@@ -42,7 +42,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         spinner = (Spinner) findViewById(R.id.spinner);
 
-        ArrayAdapter<UserType> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, UserType.values());
+        ArrayAdapter<UserType> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, UserType.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -72,12 +73,15 @@ public class SignUpActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                Facade.createUser(tempEmail, username, password, userType, new Consumer<AuthTuple>() {
+                Facade.createUser(tempEmail, username, password, userType,
+                        new Consumer<AuthTuple>() {
 
+                    @Override
                     public void accept(AuthTuple tuple) {
                         progressBar.setVisibility(View.GONE);
                         if (tuple.getErrorMessage().length() != 0) {
-                            Toast.makeText(getApplicationContext(), tuple.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), tuple.getErrorMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                         if (tuple.getSuccess()) {
                             Intent i = new Intent(SignUpActivity.this, MainActivity.class);

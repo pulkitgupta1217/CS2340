@@ -6,5 +6,9 @@ package com.cs2340.WaterNet.Model;
  * Created by Pulkit Gupta on 4/5/2017.
  */
 public interface Consumer<T> {
+    /**
+     * accept
+     * @param t the returned item necessary for callback
+     */
     void accept(T t);
 }
