@@ -272,9 +272,13 @@ public final class Facade {
                                   UserType userType) {
         if (address != null && !address.isEmpty()) {
             currUser.setAddress(address);
+        } else {
+            currUser.setAddress("no address");
         }
         if (name != null && !name.isEmpty()) {
             currUser.setName(name);
+        } else {
+            currUser.setName("no name");
         }
         if (email != null && !email.isEmpty()) {
             if (email.contains("@")) {
@@ -292,6 +296,8 @@ public final class Facade {
         }
         if (phone != null && !phone.isEmpty()) {
             currUser.setPhone(phone);
+        } else {
+            currUser.setPhone("###-###-####");
         }
 
         currUser.setUserType(userType);
@@ -320,8 +326,9 @@ public final class Facade {
             error += "Enter longitude!";
             callback.accept(error);
         } else {
-            int lat = Integer.parseInt(latitude);
-            int lng = Integer.parseInt(longitude);
+            error += "success!";
+            double lat = Double.parseDouble(latitude);
+            double lng = Double.parseDouble(longitude);
             Report post = new Report(currUser.getUsername(), lat, lng, wt, wc);
             database.getReference().child("reports").push().setValue(post);
             callback.accept(error);
@@ -351,9 +358,10 @@ public final class Facade {
             error += "Enter virus ppm!";
             callback.accept(error);
         } else if (c == null || c.isEmpty()) {
-            error += "Enter virus ppm!";
+            error += "Enter contaminant ppm!";
             callback.accept(error);
         } else {
+            error += "success!";
             int lat = Integer.parseInt(latitude);
             int lng = Integer.parseInt(longitude);
             long virus_ppm = Long.parseLong(v);

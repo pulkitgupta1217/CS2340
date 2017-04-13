@@ -109,7 +109,7 @@ public class PReportActivity extends AppCompatActivity {
                         new Consumer<String>() {
                             @Override
                             public void accept(String s) {
-                                if (s.length() != 0) {
+                                if (s.equals("success!")) {
                                     Intent i = new Intent(PReportActivity.this, MainActivity.class);
                                     startActivity(i);
                                     finish();
