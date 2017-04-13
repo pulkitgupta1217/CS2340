@@ -1,9 +1,11 @@
 package com.cs2340.WaterNet.Facade;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.cs2340.WaterNet.Model.*;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,7 +23,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -447,5 +454,96 @@ public final class Facade {
 
             }
         });
+    }
+
+    public static RecyclerView.Adapter createReportAdapter(int report_item_layout) {
+        return new FirebaseRecyclerAdapter<Report, ReportHolder>(Report.class,
+                report_item_layout, ReportHolder.class, FirebaseDatabase.getInstance().getReference().child("reports")) {
+            @Override
+            public void populateViewHolder(ReportHolder reportViewHolder, Report report,
+                                           int position) {
+                reportViewHolder.setWaterConditionTV(report.getWaterCondition().toString());
+                reportViewHolder.setWaterTypeTV(report.getWaterType().toString());
+                reportViewHolder.setInfoTV(report.getCreator() + "  "
+                        + report.getDateTime());
+                reportViewHolder.setLocationTV(report.getSite().toString());
+            }
+        };
+    }
+
+    public static void sendResetInstructions(String email, final Consumer<String> callback) {
+        if (email == null || email.isEmpty()) {
+            callback.accept("Enter your registered email id");
+        } else {
+            auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                callback.accept("We have sent you instructions "
+                                        + "to reset your password!");
+                            } else {
+                                callback.accept("Failed to send reset email!");
+                            }
+                        }
+                    });
+        }
+    }
+
+    public static void setGraphListener(final LineGraphSeries<DataPoint> virus_series, final LineGraphSeries<DataPoint> containment_series, final GraphView graph) {
+        FirebaseDatabase.getInstance().getReference().child("purity_reports")
+                .addValueEventListener(
+            new ValueEventListener() {
+
+                int index = 0;
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    virus_series.resetData(new DataPoint[]{});
+                    containment_series.resetData(new DataPoint[]{});
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                        index++;
+                        PurityReport pr = ds.getValue(PurityReport.class);
+
+                        try {
+                            virus_series.appendData(new DataPoint(
+                                    Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()),
+                                    pr.getVirus().getPPM()),true, 100);
+                            containment_series.appendData(new DataPoint(
+                                    Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()),
+                                    pr.getContaminant().getPPM()),true, 100);
+                        } catch (ParseException e) {
+                            Log.d("***", Arrays.toString(e.getStackTrace()));
+                        }
+                    }
+                    graph.removeAllSeries();
+                    graph.addSeries(virus_series);
+                    graph.addSeries(containment_series);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+    }
+
+    public static RecyclerView.Adapter createPurityReportAdapter(int preport_item_layout) {
+        return new FirebaseRecyclerAdapter<PurityReport, PurityReportHolder>(PurityReport.class,
+                preport_item_layout, PurityReportHolder.class,
+                database.getReference().child("purity_reports")) {
+            @Override
+            public void populateViewHolder(PurityReportHolder purityReportViewHolder,
+                                           PurityReport purityReport, int position) {
+                purityReportViewHolder.setOverallConditionTV(
+                        purityReport.getOverallCondition().toString());
+                purityReportViewHolder.setInfoTV(purityReport.getCreator() + "  "
+                        + purityReport.getDateTime());
+                purityReportViewHolder.setLocationTV(purityReport.getSite().toString());
+                purityReportViewHolder.setContaminant_PPM_TV("Contaminant PPM: "
+                        + purityReport.getContaminant().getPPM());
+                purityReportViewHolder.setVirus_PPM_TV("Virus PPM: "
+                        + purityReport.getVirus().getPPM());
+            }
+        };
     }
 }

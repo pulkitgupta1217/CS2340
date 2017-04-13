@@ -13,14 +13,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Model.Report;
 import com.cs2340.WaterNet.Model.UserType;
-import com.cs2340.WaterNet.Facade.ReportHolder;
 import com.cs2340.WaterNet.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * main activity/landing page
@@ -41,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn,
                 gotoCreatePurityReportBtn, viewPurityReports, viewGraphBtn;
-        FirebaseDatabase database;
         RecyclerView recycler;
 
         setContentView(R.layout.activity_main);
@@ -52,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-
 
 
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -146,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //TODO: should this be user?
-        if (Facade.getCurrUser().getUserType() == UserType.MANAGER) {
+        if (Facade.getCurrUser().getUserType() != UserType.MANAGER) {
             viewPurityReports.setVisibility(View.INVISIBLE);
             viewGraphBtn.setVisibility(View.INVISIBLE);
         }
@@ -158,20 +151,7 @@ public class MainActivity extends AppCompatActivity {
         recycler = (RecyclerView) findViewById(R.id.ReportRecyclerView);
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        recycler.setAdapter(
-                new FirebaseRecyclerAdapter<Report, ReportHolder>(Report.class,
-                        R.layout.report_item_layout, ReportHolder.class, database.getReference().child("reports")) {
-                    @Override
-                    public void populateViewHolder(ReportHolder reportViewHolder, Report report,
-                                                   int position) {
-                        reportViewHolder.setWaterConditionTV(report.getWaterCondition().toString());
-                        reportViewHolder.setWaterTypeTV(report.getWaterType().toString());
-                        reportViewHolder.setInfoTV(report.getCreator() + "  "
-                                + report.getDateTime());
-                        reportViewHolder.setLocationTV(report.getSite().toString());
-                    }
-                }
-        );
+        recycler.setAdapter( Facade.createReportAdapter(R.layout.report_item_layout));
 
     }
 

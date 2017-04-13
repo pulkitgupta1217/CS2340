@@ -110,6 +110,8 @@ public class PReportActivity extends AppCompatActivity {
                             @Override
                             public void accept(String s) {
                                 if (s.equals("success!")) {
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT)
+                                            .show();
                                     Intent i = new Intent(PReportActivity.this, MainActivity.class);
                                     startActivity(i);
                                     finish();

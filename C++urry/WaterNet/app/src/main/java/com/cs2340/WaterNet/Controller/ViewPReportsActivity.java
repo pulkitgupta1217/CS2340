@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Model.PurityReport;
 import com.cs2340.WaterNet.Facade.PurityReportHolder;
 import com.cs2340.WaterNet.R;
@@ -62,26 +63,8 @@ public class ViewPReportsActivity extends AppCompatActivity {
         RecyclerView recycler = (RecyclerView) findViewById(R.id.PReportRecyclerView);
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        //TODO: move to Facade
-        recycler.setAdapter(
-                new FirebaseRecyclerAdapter<PurityReport, PurityReportHolder>(PurityReport.class,
-                        R.layout.preport_item_layout, PurityReportHolder.class,
-                        database.getReference().child("purity_reports")) {
-                    @Override
-                    public void populateViewHolder(PurityReportHolder purityReportViewHolder,
-                                                   PurityReport purityReport, int position) {
-                        purityReportViewHolder.setOverallConditionTV(
-                                purityReport.getOverallCondition().toString());
-                        purityReportViewHolder.setInfoTV(purityReport.getCreator() + "  "
-                                + purityReport.getDateTime());
-                        purityReportViewHolder.setLocationTV(purityReport.getSite().toString());
-                        purityReportViewHolder.setContaminant_PPM_TV("Contaminant PPM: "
-                                + purityReport.getContaminant().getPPM());
-                        purityReportViewHolder.setVirus_PPM_TV("Virus PPM: "
-                                + purityReport.getVirus().getPPM());
-                    }
-                }
-        );
+        recycler.setAdapter(Facade.createPurityReportAdapter(R.layout.preport_item_layout));
+
 
     }
 
