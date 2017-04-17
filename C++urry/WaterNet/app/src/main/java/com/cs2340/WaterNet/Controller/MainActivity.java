@@ -140,12 +140,12 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO: should this be user?
         if (Facade.getCurrUser().getUserType() != UserType.MANAGER) {
-            viewPurityReports.setVisibility(View.INVISIBLE);
-            viewGraphBtn.setVisibility(View.INVISIBLE);
+            viewPurityReports.setVisibility(View.GONE);
+            viewGraphBtn.setVisibility(View.GONE);
         }
 
         if (Facade.getCurrUser().getUserType() == UserType.USER) {
-            gotoCreatePurityReportBtn.setVisibility(View.INVISIBLE);
+            gotoCreatePurityReportBtn.setVisibility(View.GONE);
         }
 
         recycler = (RecyclerView) findViewById(R.id.ReportRecyclerView);
