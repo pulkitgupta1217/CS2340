@@ -1,28 +1,11 @@
 package com.cs2340.WaterNet.Facade;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
-import com.cs2340.WaterNet.Model.Admin;
-import com.cs2340.WaterNet.Model.Consumer;
-import com.cs2340.WaterNet.Model.Contaminant;
-import com.cs2340.WaterNet.Model.Manager;
-import com.cs2340.WaterNet.Model.OverallCondition;
-import com.cs2340.WaterNet.Model.Pin;
-import com.cs2340.WaterNet.Model.PurityReport;
-import com.cs2340.WaterNet.Model.Report;
-import com.cs2340.WaterNet.Model.SecurityLogger;
-import com.cs2340.WaterNet.Model.Singleton;
-import com.cs2340.WaterNet.Model.Site;
-import com.cs2340.WaterNet.Model.User;
-import com.cs2340.WaterNet.Model.UserType;
-import com.cs2340.WaterNet.Model.Virus;
-import com.cs2340.WaterNet.Model.WaterCondition;
-import com.cs2340.WaterNet.Model.WaterType;
-import com.cs2340.WaterNet.Model.Worker;
+import com.cs2340.WaterNet.Model.*;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -40,33 +23,39 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.text.ParseException;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
  * Created by Pulkit Gupta on 2/28/2017.
  */
 
-public class Facade {
-    /**
-     * goes between controller and model objects, contains the current user and is populated with the pin list,
-     * updated on signin and when necessary
+public final class Facade {
+    /*
+     * goes between controller and model objects,
+     * contains the current user and is populated with the pin list,
+     * updated on sign in and when necessary
      * basically the ultimate information holder and interfacer.
      * activities only communicate with this and this communicates with the rest of model and
      * returns information to the activity
      */
     private static User currUser = null;
-    private static List<Pin> pinList = new LinkedList<>();
-    private static List<User> userList = new LinkedList<>();
-    private static FirebaseAuth auth = FirebaseAuth.getInstance();
-    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static final FirebaseAuth auth = FirebaseAuth.getInstance();
+    private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
     private Facade(){
     }
 
+    /**
+     * sets up singleton
+     */
     public static void start() {
         database.getReference().child("Singleton").addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,7 +72,10 @@ public class Facade {
 
     }
 
-    public static void reset() {
+    /**
+     * reset singleton
+     */
+    private static void reset() {
         Log.d("RESET", Singleton.getInstance().toString());
         DatabaseReference child = FirebaseDatabase.getInstance().getReference().child("Singleton");
         child.child("userID").setValue(Singleton.getInstance().userID);
@@ -93,15 +85,22 @@ public class Facade {
     }
 
 
-    public static void validateLogin(String email, final String password, final Consumer<AuthTuple> callback) {
+    /**
+     * validate login
+     * @param email email/usernamee
+     * @param password password
+     * @param callback callback
+     */
+    public static void validateLogin(String email, final String password,
+                                     final Consumer<AuthTuple> callback) {
         Log.d("FACADE: ", Thread.currentThread().getName());
         String errorMessage = "";
         final AuthTuple tuple;
-        if (email == null || email.length() == 0) {
+        if (email == null || email.isEmpty()) {
             errorMessage += "Enter email address or username";
             tuple = new AuthTuple(false, errorMessage);
             callback.accept(tuple);
-        } else if (password == null || password.length() == 0) {
+        } else if (password == null || password.isEmpty()) {
             errorMessage += "Enter password!";
             tuple = new AuthTuple(false, errorMessage);
             callback.accept(tuple);
@@ -129,9 +128,12 @@ public class Facade {
                             if (!task.isSuccessful()) {
                                 // there was an error
                                 if (password.length() >= 6) {
-                                    tuple.setErrorMessage(tuple.getErrorMessage() + "Authentication failed, check your email and password or sign up " + task.getException());
+                                    tuple.setErrorMessage(tuple.getErrorMessage()
+                                            + "Authentication failed, check your email "
+                                            + "and password or sign up");
                                 } else {
-                                    tuple.setErrorMessage(tuple.getErrorMessage() + "authentication failed");
+                                    tuple.setErrorMessage(tuple.getErrorMessage()
+                                            + "authentication failed");
                                 }
                                 tuple.setSuccess(false);
                                 callback.accept(tuple);
@@ -139,11 +141,14 @@ public class Facade {
                                 tuple.setSuccess(true);
                                 final FirebaseUser firebaseUser = task.getResult().getUser();
                                 String message = userEmail + " logged in!";
-                                SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + message);
-                                database.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+                                SecurityLogger.writeNewSecurityLog(
+                                        Singleton.getInstance().getTime() + " :: " + message);
+                                database.getReference().addListenerForSingleValueEvent(
+                                        new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
-                                        User u = dataSnapshot.child("users").child(firebaseUser.getUid()).getValue(User.class);
+                                        User u = dataSnapshot.child("users").child(
+                                                firebaseUser.getUid()).getValue(User.class);
                                         tuple.setUser(u);
                                         currUser = u;
 
@@ -163,16 +168,24 @@ public class Facade {
 
     }
 
+    /**
+     * create a user
+     * @param tempEmail email to be set
+     * @param username entered username
+     * @param password password
+     * @param userType type of user
+     * @param callback callback
+     */
     public static void createUser(String tempEmail, final String username, String password,
                                   final UserType userType, final Consumer<AuthTuple> callback) {
-        //TODO: DO THE THANG
+
         String errorMessage = "";
         final String email;
-        if (username == null || username.length() == 0) {
+        if (username == null || username.isEmpty()) {
             errorMessage += "Enter username!";
             callback.accept(new AuthTuple(false, errorMessage));
             return;
-        } else if (password == null || password.length() == 0) {
+        } else if (password == null || password.isEmpty()) {
             errorMessage += "Enter password!";
             callback.accept(new AuthTuple(false, errorMessage));
             return;
@@ -181,15 +194,14 @@ public class Facade {
             callback.accept(new AuthTuple(false, errorMessage));
             return;
         } else {
-            if (tempEmail == null || tempEmail.length() == 0 || !tempEmail.contains("@")) {
+            if (tempEmail == null || tempEmail.isEmpty() || !tempEmail.contains("@")) {
                 email = username + "@water.net";
             } else {
                 email = tempEmail;
             }
         }
-        final String fullEmail = email;
         //create user
-        auth.createUserWithEmailAndPassword(fullEmail, password)
+        auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -208,19 +220,19 @@ public class Facade {
                             start();
                             User u = null;
                             if (userType == UserType.USER) {
-                                u = new User(username, fullEmail);
+                                u = new User(username, email);
                                 database.getReference().child("users").child(auth.getCurrentUser()
                                         .getUid()).setValue(u);
                             } else if (userType == UserType.MANAGER) {
-                                u = new Manager(username, fullEmail);
+                                u = new Manager(username, email);
                                 database.getReference().child("users").child(auth.getCurrentUser()
                                         .getUid()).setValue(u);
                             } else if (userType == UserType.WORKER) {
-                                u = new Worker(username, fullEmail);
+                                u = new Worker(username, email);
                                 database.getReference().child("users").child(auth.getCurrentUser()
                                         .getUid()).setValue(u);
                             } if (userType == UserType.ADMIN) {
-                                u = new Admin(username, fullEmail);
+                                u = new Admin(username, email);
                                 database.getReference().child("users").child(auth.getCurrentUser()
                                         .getUid()).setValue(u);
                             }
@@ -230,8 +242,8 @@ public class Facade {
                             tuple.setUser(u);
                             Log.d("***", "singleton should be updated");
                             //fixed endless loop
-                            //database.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());//edit
-                            SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + fullEmail + " Registered on firebase");
+                            SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime()
+                                    + " :: " + email + " Registered on firebase");
                             callback.accept(tuple);
 
                         }
@@ -239,117 +251,43 @@ public class Facade {
                 });
     }
 
+    /**
+     * get the user
+     * @return curruser
+     */
     public static User getCurrUser() {
         return currUser;
     }
 
-    public static void setCurrUser(User currUser) { //may use firebase user instead and generate user based on that
+    /**
+     * set user
+     * @param currUser set user
+     */
+    public static void setCurrUser(User currUser) {
         Facade.currUser = currUser;
     }
 
-    public static List<Pin> getPinList() {
-        setPinList();
-        return pinList;
-    }
-
-    public static void setPinList() {
-        //firebase grab pins from db
-    }
-
-    public static List<User> getUserList() {
-        setUserList();
-        return userList;
-    }
-
-    public static void setUserList() {
-        //firebase grab users from db and filter out admins etc.
-    }
-
-    public List<Report> getReports() {
-        setPinList();
-        List<Report> reports = new LinkedList<>();
-        for (Pin p : pinList) {
-            for (Report r : p.getReports()) {
-                reports.add(r);
-            }
-        }
-        return reports;
-    }
-
-    public List<Report> getReports(double lat, double lng) {
-        setPinList();
-        Site site = new Site(lat, lng);
-        List<Report> reports = new LinkedList<>();
-        for (Pin p : pinList) {
-            for (Report r : p.getReports()) {
-                if (r.getSite().closeTo(site)) {
-                    reports.add(r);
-                }
-            }
-        }
-        return reports;
-    }
-
-    public List<Report> getReports(Site site) {
-        return getReports(site.getLat(), site.getLng());
-    }
-
-    public List<PurityReport> getPurityReports() {
-        setPinList();
-        List<PurityReport> purityReports = new LinkedList<>();
-        for (Pin p : pinList) {
-            for (PurityReport pr : p.getPurityReports()) {
-                purityReports.add(pr);
-            }
-        }
-        return purityReports;
-    }
-
-    public List<PurityReport> getPurityReports(double lat, double lng) {
-        setPinList();
-        Site site = new Site(lat, lng);
-        List<PurityReport> purityReports = new LinkedList<>();
-        for (Pin p : pinList) {
-            for (PurityReport pr : p.getPurityReports()) {
-                if (pr.getSite().closeTo(site)) {
-                    purityReports.add(pr);
-                }
-            }
-        }
-        return purityReports;
-    }
-
-    public List<PurityReport> getPurityReports(Site site) {
-        return getPurityReports(site.getLat(), site.getLng());
-    }
-
-    public static /* google Maps map with pins */ void getMap() {
-        getMap(pinList);
-    }
-    public static /* google Maps map with pins */ void getMap(List<Pin> pins) {
-    }
-    public static /*graph*/ void getHistorical(Site site, PurityReport start, PurityReport end) {
-        setPinList();
-        List<PurityReport> relevant = new LinkedList<>();
-        for (Pin p : pinList) {
-            for (int i = p.getPurityReports().indexOf(start); i < p.getPurityReports().indexOf(end); i++) {
-                relevant.add(p.getPurityReports().get(i));
-            }
-        }
-    }
-
-    public static void updateUser(String address, String name, String email, String phone, UserType userType) {
-        if (address != null && address.length() != 0) {
+    /**
+     * update user in fb
+     * @param address new address
+     * @param name new name
+     * @param email new email
+     * @param phone new phone
+     * @param userType new usertype
+     */
+    public static void updateUser(String address, String name, String email, String phone,
+                                  UserType userType) {
+        if (address != null && !address.isEmpty()) {
             currUser.setAddress(address);
         } else {
             currUser.setAddress("no address");
         }
-        if (name != null && name.length() != 0) {
+        if (name != null && !name.isEmpty()) {
             currUser.setName(name);
         } else {
             currUser.setName("no name");
         }
-        if (email != null && email.length() != 0) {
+        if (email != null && !email.isEmpty()) {
             if (email.contains("@")) {
                 currUser.setEmail(email);
                 FirebaseAuth.getInstance().getCurrentUser().updateEmail(currUser.getEmail())
@@ -363,7 +301,7 @@ public class Facade {
                         });
             }
         }
-        if (phone != null && phone.length() != 0) {
+        if (phone != null && !phone.isEmpty()) {
             currUser.setPhone(phone);
         } else {
             currUser.setPhone("###-###-####");
@@ -373,16 +311,25 @@ public class Facade {
 
         FirebaseDatabase.getInstance().getReference().child("users").child(auth.getCurrentUser()
                 .getUid()).setValue(currUser); //***
-        SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: " + currUser.getEmail() + " edited their profile");
+        SecurityLogger.writeNewSecurityLog(Singleton.getInstance().getTime() + " :: "
+                + currUser.getEmail() + " edited their profile");
     }
 
+    /**
+     * create report in fb
+     * @param latitude latitude
+     * @param longitude longitude
+     * @param wt watertype
+     * @param wc watercondition
+     * @param callback callback
+     */
     public static void createReport(String latitude, String longitude, WaterType wt,
                                     WaterCondition wc, Consumer<String> callback) {
         String error = "";
-        if (latitude == null || latitude.length() == 0) {
+        if (latitude == null || latitude.isEmpty()) {
             error += "Enter latitude!";
             callback.accept(error);
-        } else if (longitude == null || longitude.length() == 0) {
+        } else if (longitude == null || longitude.isEmpty()) {
             error += "Enter longitude!";
             callback.accept(error);
         } else {
@@ -395,20 +342,29 @@ public class Facade {
         }
     }
 
+    /**
+     * create purity report in fb
+     * @param latitude lat
+     * @param longitude long
+     * @param v virus
+     * @param c contaminant
+     * @param oc overall condition
+     * @param callback callback
+     */
     public static void createPurityReport(String latitude, String longitude, String v,
                                           String c, OverallCondition oc,
                                           Consumer<String> callback) {
         String error = "";
-        if (latitude == null || latitude.length() == 0) {
+        if (latitude == null || latitude.isEmpty()) {
             error += "Enter latitude!";
             callback.accept(error);
-        } else if (longitude == null || longitude.length() == 0) {
+        } else if (longitude == null || longitude.isEmpty()) {
             error += "Enter longitude!";
             callback.accept(error);
-        } if (v == null || v.length() == 0) {
+        } if (v == null || v.isEmpty()) {
             error += "Enter virus ppm!";
             callback.accept(error);
-        } else if (c == null || c.length() == 0) {
+        } else if (c == null || c.isEmpty()) {
             error += "Enter contaminant ppm!";
             callback.accept(error);
         } else {
@@ -417,17 +373,22 @@ public class Facade {
             double lng = Double.parseDouble(longitude);
             long vppm = Long.parseLong(v);
             long cppm = Long.parseLong(c);
-            PurityReport post = new PurityReport(currUser.getUsername(), lat, lng, new Virus(vppm), new Contaminant(cppm), oc);
+            PurityReport post = new PurityReport(currUser.getUsername(), lat, lng,
+                    new Virus(vppm), new Contaminant(cppm), oc);
             database.getReference().child("purity_reports").push().setValue(post);
             callback.accept(error);
         }
     }
 
+    /**
+     * populate map
+     * @param mMap the map to be populated
+     */
     public static void getLocations(final GoogleMap mMap) {
         database.getReference().child("reports").addChildEventListener(new ChildEventListener() {
             LatLngBounds bounds;
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            TreeMap<Site, Pin> map = new TreeMap<Site, Pin>();
+            final LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            final Map<Site, Pin> map = new TreeMap<>();
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -493,5 +454,96 @@ public class Facade {
 
             }
         });
+    }
+
+    public static RecyclerView.Adapter createReportAdapter(int report_item_layout) {
+        return new FirebaseRecyclerAdapter<Report, ReportHolder>(Report.class,
+                report_item_layout, ReportHolder.class, FirebaseDatabase.getInstance().getReference().child("reports")) {
+            @Override
+            public void populateViewHolder(ReportHolder reportViewHolder, Report report,
+                                           int position) {
+                reportViewHolder.setWaterConditionTV(report.getWaterCondition().toString());
+                reportViewHolder.setWaterTypeTV(report.getWaterType().toString());
+                reportViewHolder.setInfoTV(report.getCreator() + "  "
+                        + report.getDateTime());
+                reportViewHolder.setLocationTV(report.getSite().toString());
+            }
+        };
+    }
+
+    public static void sendResetInstructions(String email, final Consumer<String> callback) {
+        if (email == null || email.isEmpty()) {
+            callback.accept("Enter your registered email id");
+        } else {
+            auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                callback.accept("We have sent you instructions "
+                                        + "to reset your password!");
+                            } else {
+                                callback.accept("Failed to send reset email!");
+                            }
+                        }
+                    });
+        }
+    }
+
+    public static void setGraphListener(final LineGraphSeries<DataPoint> virus_series, final LineGraphSeries<DataPoint> containment_series, final GraphView graph) {
+        FirebaseDatabase.getInstance().getReference().child("purity_reports")
+                .addValueEventListener(
+            new ValueEventListener() {
+
+                int index = 0;
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    virus_series.resetData(new DataPoint[]{});
+                    containment_series.resetData(new DataPoint[]{});
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                        index++;
+                        PurityReport pr = ds.getValue(PurityReport.class);
+
+                        try {
+                            virus_series.appendData(new DataPoint(
+                                    Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()),
+                                    pr.getVirus().getPPM()),true, 100);
+                            containment_series.appendData(new DataPoint(
+                                    Singleton.getInstance().getDateTimeFormat().parse(pr.getDateTime()),
+                                    pr.getContaminant().getPPM()),true, 100);
+                        } catch (ParseException e) {
+                            Log.d("***", Arrays.toString(e.getStackTrace()));
+                        }
+                    }
+                    graph.removeAllSeries();
+                    graph.addSeries(virus_series);
+                    graph.addSeries(containment_series);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+    }
+
+    public static RecyclerView.Adapter createPurityReportAdapter(int preport_item_layout) {
+        return new FirebaseRecyclerAdapter<PurityReport, PurityReportHolder>(PurityReport.class,
+                preport_item_layout, PurityReportHolder.class,
+                database.getReference().child("purity_reports")) {
+            @Override
+            public void populateViewHolder(PurityReportHolder purityReportViewHolder,
+                                           PurityReport purityReport, int position) {
+                purityReportViewHolder.setOverallConditionTV(
+                        purityReport.getOverallCondition().toString());
+                purityReportViewHolder.setInfoTV(purityReport.getCreator() + "  "
+                        + purityReport.getDateTime());
+                purityReportViewHolder.setLocationTV(purityReport.getSite().toString());
+                purityReportViewHolder.setContaminant_PPM_TV("Contaminant PPM: "
+                        + purityReport.getContaminant().getPPM());
+                purityReportViewHolder.setVirus_PPM_TV("Virus PPM: "
+                        + purityReport.getVirus().getPPM());
+            }
+        };
     }
 }

@@ -29,11 +29,11 @@
                 android:showDividers="end">
 
                 <TextView
-                    android:id="@+id/create_preport_btn"
+                    android:id="@+id/create_purity_report_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="New PReport"
+                    android:text="@string/New_Purity_Report"
                     android:textStyle="bold" />
 
                 <TextView
@@ -90,16 +90,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="View Graph"
+            android:text="@string/View_Graph"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/view_preports_button"
+            android:id="@+id/view_purity_reports_button"
             style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="View Purity Reports"
+            android:text="@string/View_Purity_Reports"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView

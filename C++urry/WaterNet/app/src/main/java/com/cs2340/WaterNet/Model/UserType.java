@@ -3,7 +3,7 @@ package com.cs2340.WaterNet.Model;
 import java.io.Serializable;
 
 /**
- * Created by rajatkhanna on 2/20/17.
+ * Created by Rajat Khanna on 2/20/17.
  */
 
 public enum UserType implements Serializable {
@@ -12,7 +12,7 @@ public enum UserType implements Serializable {
     MANAGER("MNG"),
     ADMIN("ADM");
 
-    private String value;
+    private final String value;
     UserType(String value) {
         this.value = value;
     }

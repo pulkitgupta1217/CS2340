@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.cs2340.WaterNet.Controller.SignupActivity">
+    tools:context="com.cs2340.WaterNet.Controller.SignUpActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -17,6 +16,7 @@
 
 
         <ImageView
+            android:contentDescription="@string/logo"
             android:layout_width="@dimen/logo_w_h"
             android:layout_height="@dimen/logo_w_h"
             android:layout_gravity="center_horizontal"
@@ -34,7 +34,6 @@
                 android:hint="@string/email_not_required"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:singleLine="true"
                 android:textColor="@android:color/white" />
 
         </android.support.design.widget.TextInputLayout>
@@ -49,7 +48,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/username"
                 android:maxLines="1"
-                android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:inputType="text" />
 
@@ -69,7 +67,6 @@
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:singleLine="true"
                 android:textColor="@android:color/white" />
 
         </android.support.design.widget.TextInputLayout>

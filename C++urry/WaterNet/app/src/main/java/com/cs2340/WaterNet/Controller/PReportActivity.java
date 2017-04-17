@@ -16,22 +16,23 @@ import android.widget.Toast;
 import com.cs2340.WaterNet.Model.Consumer;
 import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Model.OverallCondition;
-import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * purity report activity
+ */
 public class PReportActivity extends AppCompatActivity {
 
-    private Button create, cancel;
 
-    private EditText latField, longField, cppmField, vppmField;
+
+    private EditText latField, longField, cPPMField, vPPMField;
     private Spinner overallConditionSpinner;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
-    private FirebaseDatabase database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +46,17 @@ public class PReportActivity extends AppCompatActivity {
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
 
         //get current user
-        final FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
-        final User user = (User) (getIntent().getSerializableExtra("user"));
+
+
 //        Log.d("***", user.getUserID() + "");
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser fuser = firebaseAuth.getCurrentUser();
-                if (fuser == null) {
+                FirebaseUser firebase_user = firebaseAuth.getCurrentUser();
+                if (firebase_user == null) {
                     // user auth state is changed - user is null
                     // launch login activity
                     Intent i = new Intent(PReportActivity.this, LoginActivity.class);
@@ -66,17 +66,20 @@ public class PReportActivity extends AppCompatActivity {
             }
         };
 
-        create = (Button) findViewById(R.id.push_report_button);
-        cancel = (Button) findViewById(R.id.cancel_report_button);
+        Button create = (Button) findViewById(R.id.push_report_button);
+        Button cancel = (Button) findViewById(R.id.cancel_report_button);
 
         latField = (EditText) findViewById(R.id.latitude_input);
         longField = (EditText) findViewById(R.id.longitude_input);
-        vppmField = (EditText) findViewById(R.id.vppm_input);
-        cppmField = (EditText) findViewById(R.id.cppm_input);
+        vPPMField = (EditText) findViewById(R.id.virus_ppm_input);
+        cPPMField = (EditText) findViewById(R.id.contaminant_ppm_input);
 
         overallConditionSpinner = (Spinner) findViewById(R.id.oConditionSpinner);
-        ArrayAdapter<OverallCondition> overallConditionSpinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, OverallCondition.values());
-        overallConditionSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<OverallCondition> overallConditionSpinnerAdapter =
+                new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,
+                        OverallCondition.values());
+        overallConditionSpinnerAdapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
         overallConditionSpinner.setAdapter(overallConditionSpinnerAdapter);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -98,16 +101,23 @@ public class PReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Facade.createPurityReport(latField.getText().toString().trim(), longField.getText().toString().trim(),
-                        vppmField.getText().toString().trim(), cppmField.getText().toString().trim(),
-                        (OverallCondition) overallConditionSpinner.getSelectedItem(), new Consumer<String>() {
+                Facade.createPurityReport(latField.getText().toString().trim(),
+                        longField.getText().toString().trim(),
+                        vPPMField.getText().toString().trim(),
+                        cPPMField.getText().toString().trim(),
+                        (OverallCondition) overallConditionSpinner.getSelectedItem(),
+                        new Consumer<String>() {
+                            @Override
                             public void accept(String s) {
                                 if (s.equals("success!")) {
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT)
+                                            .show();
                                     Intent i = new Intent(PReportActivity.this, MainActivity.class);
                                     startActivity(i);
                                     finish();
                                 } else {
-                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT)
+                                            .show();
                                 }
                             }
                         });
@@ -117,7 +127,9 @@ public class PReportActivity extends AppCompatActivity {
 
     }
 
-    //sign out method
+    /**
+     * sign out
+     */
     public void signOut() {
         auth.signOut();
     }

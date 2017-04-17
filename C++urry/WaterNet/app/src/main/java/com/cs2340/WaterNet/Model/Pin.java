@@ -12,15 +12,23 @@ import java.util.List;
  */
 
 public class Pin {
-    private LinkedList<Report> reportList = new LinkedList<>();
-    private Site site;
-    private LinkedList<PurityReport> purityReportList = new LinkedList<>();
+    private final LinkedList<Report> reportList = new LinkedList<>();
+    private final Site site;
+    private final LinkedList<PurityReport> purityReportList = new LinkedList<>();
     private Marker marker;
 
+    /**
+     * get marker
+     * @return the marker
+     */
     public Marker getMarker() {
         return marker;
     }
 
+    /**
+     * set the marker
+     * @param marker the new marker
+     */
     public void setMarker(Marker marker) {
         this.marker = marker;
     }
@@ -122,6 +130,10 @@ public class Pin {
         return purityReportList;
     }
 
+    /**
+     * get the reports in a string
+     * @return reports as a string
+     */
     public String reportListString() {
         String s = "";
         for (Report r: reportList) {

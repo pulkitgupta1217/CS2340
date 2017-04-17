@@ -9,13 +9,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
 import java.util.concurrent.Callable;
 import static org.awaitility.Awaitility.*;
-import static org.awaitility.Duration.*;
 /**
  * Created by Rajat Khanna on 4/11/2017.
  */
@@ -121,6 +119,7 @@ public class RajatUnitTest {
 
     @Test(timeout = 10000)
     public void testPassword1() {
+
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
                 Facade.createUser("", "unitTestUser", "", UserType.USER, new Consumer<AuthTuple>() {
@@ -168,6 +167,7 @@ public class RajatUnitTest {
 
     @Test(timeout = 10000)
     public void testPassword3() {
+
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
                 Facade.createUser("", "unitTestUser", "bad", UserType.USER, new Consumer<AuthTuple>() {
