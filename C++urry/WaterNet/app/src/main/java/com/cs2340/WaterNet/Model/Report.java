@@ -26,9 +26,10 @@ public class Report implements Serializable {
      * @param lat the latitude of the water source being reported on
      * @param lng the longitude of the water source being reported on
      * @param waterType the enum representing the type of water
-     * @param waterCondition the enum representing the wate condition
+     * @param waterCondition the enum representing the water condition
      */
-    public Report(String creator, double lat, double lng, WaterType waterType, WaterCondition waterCondition) {
+    public Report(String creator, double lat, double lng, WaterType waterType,
+                  WaterCondition waterCondition) {
         this.creator = creator;
         site = new Site(lat, lng);
         this.waterType = waterType;
@@ -63,7 +64,7 @@ public class Report implements Serializable {
 
     /**
      * get the site object of the report in order to perform site related operations
-     * @return
+     * @return the site
      */
     public Site getSite() {
         return site;
@@ -103,7 +104,8 @@ public class Report implements Serializable {
 
     public String toString() {
 
-        return creator + " " + dateTime +" " +  waterType.toString() + " " +  waterCondition.toString();
+        return creator + " " + dateTime +" " +  waterType.toString() + " "
+                +  waterCondition.toString();
 
     }
 

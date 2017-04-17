@@ -2,8 +2,6 @@ package com.cs2340.WaterNet.Model;
 
 import android.util.Log;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,15 +15,14 @@ public class Singleton implements Serializable{
 
 
     public long userID;
-    private long reportID;
-    private long purityReportID;
-    private SimpleDateFormat dateTime;
-    private Calendar c;
-    private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    public long reportID;
+    public long purityReportID;
+    private final SimpleDateFormat dateTime;
+    private final Calendar c;
 
     /**
      * the single run constructor that initializes the singleton instance that is stored within
-     * the singleton
+     * the singleton and is required for firebase
      */
     public Singleton(){
         userID = 1;
@@ -55,39 +52,36 @@ public class Singleton implements Serializable{
 
     /**
      * used to set the singleton from the database
-     * @param fromdb the singleton stored in firebase
+     * @param updated the singleton stored in firebase
      */
-    public static void setInstance(Singleton fromdb) {
-        instance = fromdb;
+    public static void setInstance(Singleton updated) {
+        instance = updated;
     }
 
     /**
-     * get an updated userid from the singleton
-     * @return userid++
+     * get an updated user id from the singleton
+     * @return userID++
      */
     public long getUserID() {
         //userID++;
-        pushToDatabase();
         return userID++;
     }
 
     /**
-     * get an updated reportid from the singleton
-     * @return reportid++
+     * get an updated report id from the singleton
+     * @return report id++
      */
     public long getReportID() {
         //reportID++;
-        pushToDatabase();
         return reportID++;
     }
 
     /**
-     * get an updated purityreportid from the singleton
-     * @return purityreportid++
+     * get an updated purity report id from the singleton
+     * @return purity report id++
      */
     public long getPurityReportID() {
         //purityReportID++;
-        pushToDatabase();
         return purityReportID++;
     }
 
@@ -99,7 +93,12 @@ public class Singleton implements Serializable{
         return dateTime.format(c.getTime());
     }
 
-    private void pushToDatabase() {
-        //firebaseDatabase.getInstance().getReference().child("Singleton").setValue(Singleton.getInstance());
+    public SimpleDateFormat getDateTimeFormat() {
+        return dateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "UID: " + userID + " RID: " + reportID + " PRID: " + purityReportID;
     }
 }

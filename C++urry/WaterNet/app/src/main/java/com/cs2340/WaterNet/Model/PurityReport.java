@@ -28,7 +28,8 @@ public class PurityReport {
      * @param contaminant enum for contaminants
      * @param overallCondition enum for overall condition
      */
-    public PurityReport(String creator, double lat, double lng, Virus virus, Contaminant contaminant, OverallCondition overallCondition) {
+    public PurityReport(String creator, double lat, double lng, Virus virus,
+                        Contaminant contaminant, OverallCondition overallCondition) {
         this.creator = creator;
         dateTime = Singleton.getInstance().getTime();
         purityReportID = Singleton.getInstance().getPurityReportID();
@@ -56,7 +57,7 @@ public class PurityReport {
 
     /**
      * get the ID (assigned as it is made)
-     * @return the id of the purityreport
+     * @return the id of the purity report
      */
     public long getPurityReportID() {
         return purityReportID;
@@ -70,7 +71,7 @@ public class PurityReport {
     */
 
     /**
-     * get the Virus enum of the purityreport
+     * get the Virus enum of the purity report
      * @return virus
      */
     public Virus getVirus() {
@@ -86,7 +87,7 @@ public class PurityReport {
     }
 
     /**
-     * get the Contaminant enum of the purityreport
+     * get the Contaminant enum of the purity report
      * @return contaminant
      */
     public Contaminant getContaminant() {
@@ -94,7 +95,7 @@ public class PurityReport {
     }
 
     /**
-     * reassign the Contaminant enum of the purityreport
+     * reassign the Contaminant enum of the purity report
      * @param contaminant the new Contaminant enum
      */
     public void setContaminant(Contaminant contaminant) {
@@ -102,7 +103,7 @@ public class PurityReport {
     }
 
     /**
-     * get the OverallCondition enum of the purityreport
+     * get the OverallCondition enum of the purity report
      * @return overallCondition
      */
     public OverallCondition getOverallCondition() {

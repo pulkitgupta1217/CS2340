@@ -45,8 +45,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/new_name"
             android:inputType="text"
-            android:maxLines="1"
-            android:singleLine="true" />
+            android:maxLines="1"/>
 
         <TextView
             android:text=""
@@ -60,8 +59,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_new_email"
             android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:singleLine="true" />
+            android:maxLines="1"/>
 
         <TextView
             android:text=""
@@ -75,8 +73,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/new_address"
             android:inputType="text"
-            android:maxLines="1"
-            android:singleLine="true" />
+            android:maxLines="1" />
 
         <TextView
             android:text=""
@@ -90,8 +87,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/new_phone"
             android:inputType="number"
-            android:maxLines="1"
-            android:singleLine="true" />
+            android:maxLines="1"/>
 
         <TextView
             android:text=""
@@ -127,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/colorPrimaryDark"
-                android:text="Back"
+                android:text="@string/Back"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 

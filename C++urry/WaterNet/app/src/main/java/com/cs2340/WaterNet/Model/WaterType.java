@@ -1,7 +1,7 @@
 package com.cs2340.WaterNet.Model;
 
 /**
- * Created by pulki on 2/26/2017.
+ * Created by Pulkit Gupta on 2/26/2017.
  */
 
 public enum WaterType {
@@ -12,7 +12,7 @@ public enum WaterType {
     SPRING("Spring"),
     OTHER("Other");
 
-    private String value;
+    private final String value;
 
     /**
      * constructor to make the enum using the string

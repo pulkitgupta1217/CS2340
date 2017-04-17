@@ -7,40 +7,37 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.cs2340.WaterNet.Model.Report;
-import com.cs2340.WaterNet.Model.Site;
-import com.cs2340.WaterNet.Model.User;
+import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Model.UserType;
-import com.cs2340.WaterNet.Model.WaterCondition;
-import com.cs2340.WaterNet.Model.WaterType;
 import com.cs2340.WaterNet.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * main activity/landing page
+ */
 public class MainActivity extends AppCompatActivity {
 
-    private TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn, gotoCreatePurityReportBtn, viewpReports;
+
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
-    private FirebaseDatabase database;
-    private RecyclerView recycler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Singleton.setInstance(Firebase.getSingleton());
         super.onCreate(savedInstanceState);
+
+
+
+        TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn,
+                gotoCreatePurityReportBtn, viewPurityReports, viewGraphBtn;
+        RecyclerView recycler;
 
         setContentView(R.layout.activity_main);
 
@@ -50,10 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
 
-        //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -71,9 +65,10 @@ public class MainActivity extends AppCompatActivity {
         signOut = (TextView) findViewById(R.id.sign_out);
         btnViewProfile = (TextView) findViewById(R.id.view_profile);
         gotoCreateReportBtn = (TextView) findViewById(R.id.create_report_btn);
-        gotoCreatePurityReportBtn = (TextView) findViewById(R.id.create_preport_btn);
+        gotoCreatePurityReportBtn = (TextView) findViewById(R.id.create_purity_report_btn);
         viewMapBtn = (TextView) findViewById(R.id.view_map);
-        viewpReports = (Button) findViewById(R.id.view_preports_button);
+        viewPurityReports = (Button) findViewById(R.id.view_purity_reports_button);
+        viewGraphBtn = (Button) findViewById(R.id.view_graph);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -92,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ProfileActivity.class);
-                i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }
@@ -102,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ReportActivity.class);
-                i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }
@@ -112,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, PReportActivity.class);
-                i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }
@@ -122,47 +114,49 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, MapsActivity.class);
-                i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }
         });
 
 
-        viewpReports.setOnClickListener(new View.OnClickListener() {
+        viewPurityReports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ViewPReportsActivity.class);
-                i.putExtra("user", getIntent().getSerializableExtra("user"));
                 startActivity(i);
                 finish();
             }
         });
-        if (((User)(getIntent().getSerializableExtra("user"))).getUserType() != UserType.MANAGER)
-            viewpReports.setVisibility(View.INVISIBLE);
 
-        if (((User)(getIntent().getSerializableExtra("user"))).getUserType() == UserType.USER)
+        viewGraphBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, GraphActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        //TODO: should this be user?
+        if (Facade.getCurrUser().getUserType() != UserType.MANAGER) {
+            viewPurityReports.setVisibility(View.INVISIBLE);
+            viewGraphBtn.setVisibility(View.INVISIBLE);
+        }
+
+        if (Facade.getCurrUser().getUserType() == UserType.USER) {
             gotoCreatePurityReportBtn.setVisibility(View.INVISIBLE);
+        }
 
         recycler = (RecyclerView) findViewById(R.id.ReportRecyclerView);
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        recycler.setAdapter(
-                new FirebaseRecyclerAdapter<Report, ReportHolder>(Report.class, R.layout.report_item_layout, ReportHolder.class, database.getReference().child("reports")) {
-                    @Override
-                    public void populateViewHolder(ReportHolder reportViewHolder, Report report, int position) {
-                        reportViewHolder.setWaterConditionTV(report.getWaterCondition().toString());
-                        reportViewHolder.setWaterTypeTV(report.getWaterType().toString());
-                        reportViewHolder.setInfoTV(report.getCreator() + "  " + report.getDateTime());
-                        reportViewHolder.setLocationTV(report.getSite().toString());
-                    }
-                }
-        );
+        recycler.setAdapter( Facade.createReportAdapter(R.layout.report_item_layout));
 
     }
 
     //sign out method
-    public void signOut() {
+    private void signOut() {
         auth.signOut();
     }
 
@@ -194,30 +188,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public static class ReportHolder extends RecyclerView.ViewHolder {
-        private final TextView waterTypeTV, waterConditionTV, locationTV, infoTV;
 
-        public ReportHolder(View itemView) {
-            super(itemView);
-            waterTypeTV = (TextView) itemView.findViewById(R.id.watertype_view);
-            waterConditionTV = (TextView) itemView.findViewById(R.id.watercondition_view);
-            locationTV = (TextView) itemView.findViewById(R.id.location_view);
-            infoTV = (TextView) itemView.findViewById(R.id.create_info_view);
-        }
-
-        public void setWaterTypeTV(String name) {
-            waterTypeTV.setText(name);
-        }
-
-        public void setWaterConditionTV(String text) {
-            waterConditionTV.setText(text);
-        }
-
-        public void setLocationTV(String text) {
-            locationTV.setText(text);
-        }
-
-        public void setInfoTV(String text) { infoTV.setText(text); }
-    }
 
 }

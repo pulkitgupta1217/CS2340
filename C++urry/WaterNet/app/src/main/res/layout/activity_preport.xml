@@ -39,8 +39,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/lat"
             android:inputType="number"
-            android:maxLines="1"
-            android:singleLine="true" />
+            android:maxLines="1" />
 
         <EditText
             android:id="@+id/longitude_input"
@@ -48,20 +47,23 @@
             android:layout_height="wrap_content"
             android:hint="@string/lon"
             android:inputType="number"
-            android:maxLines="1"
-            android:singleLine="true" />
+            android:maxLines="1"/>
 
-        <Spinner
+        <EditText
+            android:id="@+id/virus_ppm_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:id="@+id/virusSpinner" />
+            android:hint="@string/Virus_PPM"
+            android:inputType="number"
+            android:maxLines="1" />
 
-        <Spinner
+        <EditText
+            android:id="@+id/contaminant_ppm_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:id="@+id/contaminantSpinner" />
+            android:hint="@string/Contaminant_PPM"
+            android:inputType="number"
+            android:maxLines="1" />
 
         <Spinner
             android:layout_width="match_parent"

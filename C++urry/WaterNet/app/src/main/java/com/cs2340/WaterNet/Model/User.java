@@ -1,13 +1,9 @@
 package com.cs2340.WaterNet.Model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.io.InterruptedIOException;
 import java.io.Serializable;
 
 /**
- * Created by rajatkhanna on 2/18/17.
+ * Created by Rajat Khanna on 2/18/17.
  * Edited by Pulkit Gupta on 2/25/17.
  */
 
@@ -67,15 +63,15 @@ public class User implements Serializable{
 
     /**
      * get the email of the user that is also used for authentication
-     * @return
+     * @return the email
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * get the userid of the user
-     * @return userid
+     * get the user id of the user
+     * @return user id
      */
     public long getUserID() {
         return userID;
@@ -138,8 +134,8 @@ public class User implements Serializable{
     }
 
     /**
-     * set the usertype of the user
-     * @param userType the new usertype
+     * set the user type of the user
+     * @param userType the new user type
      */
     public void setUserType(UserType userType) {
         this.userType = userType;
@@ -150,7 +146,7 @@ public class User implements Serializable{
      * @return true if the user is banned, false otherwise
      */
     public boolean isBanned() {
-        return banned.booleanValue();
+        return banned;
     }
 
     /**
@@ -158,7 +154,23 @@ public class User implements Serializable{
      * @param newStatus the new ban status of the user
      */
     public void setBanned(boolean newStatus) {
-        this.banned = Boolean.valueOf(newStatus);
+        this.banned = newStatus;
     }
 
+    public void setUserID(long userID) {
+        this.userID = userID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        try {
+            User other = (User) o;
+            return other.getUsername().equals(username) && other.getEmail().equals(email);
+        } catch (ClassCastException e) {
+            return false;
+        }
+    }
 }

@@ -1,44 +1,26 @@
 package com.cs2340.WaterNet.Controller;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.cs2340.WaterNet.Model.Pin;
-import com.cs2340.WaterNet.Model.Report;
-import com.cs2340.WaterNet.Model.Site;
+import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
+/**
+ * map activity
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
-    private GoogleMap mMap;
-    private FirebaseAuth auth;
-    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +31,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        database = FirebaseDatabase.getInstance();
     }
 
 
@@ -64,9 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
                 return null;
@@ -94,87 +73,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        displayLocations();
-
+        Facade.getLocations(googleMap);
     }
 
-    private void displayLocations() {
-
-
-        database.getReference().child("reports").addChildEventListener(new ChildEventListener() {
-            LatLngBounds bounds;
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            TreeMap<Site, Pin> map = new TreeMap<Site, Pin>();
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                Report r = dataSnapshot.getValue(Report.class);
-                Pin p;
-                if (map.get(r.getSite()) == null) {
-                    p = new Pin(r);
-                    map.put(r.getSite(), p);
-
-                    double latitude = p.getLat();
-                    double longitude = p.getLng();
-
-                    // Create LatLng for each locations
-                    LatLng mLatlng = new LatLng(latitude, longitude);
-
-                    // Make sure the map boundary contains the location
-                    builder.include(mLatlng);
-                    bounds = builder.build();
-
-                    // Add a marker for each logged location
-                    MarkerOptions mMarkerOption = new MarkerOptions()
-                            .position(mLatlng)
-                            .snippet(p.reportListString())
-                            .title(p.getLat() + " " + p.getLng());
-
-                    Marker m = mMap.addMarker(mMarkerOption);
-                    p.setMarker(m);
-
-
-                } else {
-                    p = map.get(r.getSite());
-                    p.addReport(r);
-                    p.getMarker().setSnippet(p.reportListString());
-
-
-                }
-
-                // Zoom map to the boundary that contains every logged location
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
-                        100));
-
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        startActivity(new Intent(MapsActivity.this, MainActivity.class));
+        finish();
     }
 
 }

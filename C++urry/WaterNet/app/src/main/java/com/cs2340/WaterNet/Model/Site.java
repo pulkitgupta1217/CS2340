@@ -1,5 +1,7 @@
 package com.cs2340.WaterNet.Model;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -8,8 +10,7 @@ import java.io.Serializable;
 
 public class Site implements Serializable, Comparable<Site>{
     private double lat, lng;
-    private static final double closeEnough = 0.1;
-
+    private static final double closeEnough = 1.0/3600;
     /**
      * default constructor required by firebase
      */
@@ -28,7 +29,7 @@ public class Site implements Serializable, Comparable<Site>{
 
     /**
      * set the latitude of this site if it needs to be changed
-     * @param lat the new latitde
+     * @param lat the new latitude
      */
     public void setLat(double lat) {
         this.lat = lat;
@@ -63,7 +64,7 @@ public class Site implements Serializable, Comparable<Site>{
      * @param site the site to compare to
      * @return true if the site is within closeEnough variable
      */
-    public boolean closeTo(Site site) {
+    private boolean closeTo(Site site) {
         if (Math.abs(lat - site.getLat()) < closeEnough) {
             if (Math.abs(lng - site.getLng()) < closeEnough) {
                 return true;
@@ -77,14 +78,17 @@ public class Site implements Serializable, Comparable<Site>{
         return lat + " " + lng;
     }
 
-    public boolean equals(Site s) {
-        if (closeTo(s)) {
-            return true;
-        }
-        return false;
+    private boolean equals(Site s) {
+        return closeTo(s);
     }
 
-    public int compareTo(Site s) {
+    /**
+     * default compareTo method
+     * @param s object being compared
+     * @return the result of comparison
+     */
+    @Override
+    public int compareTo(@NonNull Site s) {
         if (equals(s)) {
             return 0;
         }
