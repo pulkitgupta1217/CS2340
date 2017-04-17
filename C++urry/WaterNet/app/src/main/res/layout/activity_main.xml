@@ -19,14 +19,16 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimaryDark"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:weightSum="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="end"
                 android:orientation="horizontal"
-                android:showDividers="end">
+                android:showDividers="end"
+                android:layout_weight="1.06">
 
                 <TextView
                     android:id="@+id/create_purity_report_btn"
