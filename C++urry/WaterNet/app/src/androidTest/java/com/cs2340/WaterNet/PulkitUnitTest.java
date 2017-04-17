@@ -34,7 +34,7 @@ public class PulkitUnitTest  {
 
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void loginTest() throws Exception {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -57,7 +57,7 @@ public class PulkitUnitTest  {
 
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testUsername() {
         //test null username/email
         await().until(new Callable< Boolean>() {
@@ -80,7 +80,7 @@ public class PulkitUnitTest  {
 
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testUserName2() {
         //test empty username/email
         await().until(new Callable<Boolean>() {
@@ -103,7 +103,7 @@ public class PulkitUnitTest  {
 
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testPasssword() {
         //test null password
         await().until(new Callable<Boolean>() {
@@ -126,7 +126,7 @@ public class PulkitUnitTest  {
 
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testPassword2() {
         //test empty password
         await().until(new Callable<Boolean>() {

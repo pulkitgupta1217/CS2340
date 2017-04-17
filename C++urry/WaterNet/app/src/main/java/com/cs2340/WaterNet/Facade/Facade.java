@@ -413,8 +413,8 @@ public class Facade {
             callback.accept(error);
         } else {
             error += "success!";
-            int lat = Integer.parseInt(latitude);
-            int lng = Integer.parseInt(longitude);
+            double lat = Double.parseDouble(latitude);
+            double lng = Double.parseDouble(longitude);
             long vppm = Long.parseLong(v);
             long cppm = Long.parseLong(c);
             PurityReport post = new PurityReport(currUser.getUsername(), lat, lng, new Virus(vppm), new Contaminant(cppm), oc);

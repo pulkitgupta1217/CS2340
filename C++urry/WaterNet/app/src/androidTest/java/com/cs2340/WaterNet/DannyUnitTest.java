@@ -48,7 +48,7 @@ public class DannyUnitTest {
         } catch (Exception e) {}
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testCreatePurityReport() {
         Facade.createPurityReport("12.0", "10.0", "100", "15", OverallCondition.SAFE, new Consumer<String>() {
             @Override
@@ -60,7 +60,7 @@ public class DannyUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testLat1() {
         Facade.createPurityReport("", "10.0", "100", "15", OverallCondition.SAFE, new Consumer<String>() {
             @Override
@@ -72,7 +72,7 @@ public class DannyUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testLat2() {
         Facade.createPurityReport(null, "10.0", "100", "15", OverallCondition.SAFE, new Consumer<String>() {
             @Override
@@ -84,7 +84,7 @@ public class DannyUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testLong1() {
         Facade.createPurityReport("12.0", "", "100", "15", OverallCondition.SAFE, new Consumer<String>() {
             @Override
@@ -96,7 +96,7 @@ public class DannyUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testLong2() {
         Facade.createPurityReport("12.0", null, "100", "15", OverallCondition.SAFE, new Consumer<String>() {
             @Override
@@ -108,7 +108,7 @@ public class DannyUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testVPPM1() {
         Facade.createPurityReport("12.0", "10.0", "", "15", OverallCondition.SAFE, new Consumer<String>() {
             @Override
@@ -120,7 +120,7 @@ public class DannyUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testVPPM2() {
         Facade.createPurityReport("12.0", "10.0", null, "15", OverallCondition.SAFE, new Consumer<String>() {
             @Override
@@ -132,7 +132,7 @@ public class DannyUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testCPPM1() {
         Facade.createPurityReport("12.0", "10.0", "100", "", OverallCondition.SAFE, new Consumer<String>() {
             @Override
@@ -144,7 +144,7 @@ public class DannyUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testCPPM2() {
         Facade.createPurityReport("12.0", "10.0", "100", null, OverallCondition.SAFE, new Consumer<String>() {
             @Override

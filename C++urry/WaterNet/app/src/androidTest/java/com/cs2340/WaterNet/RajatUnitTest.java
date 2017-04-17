@@ -17,7 +17,7 @@ import java.util.concurrent.Callable;
 import static org.awaitility.Awaitility.*;
 import static org.awaitility.Duration.*;
 /**
- * Created by Pulkit Gupta on 4/11/2017.
+ * Created by Rajat Khanna on 4/11/2017.
  */
 
 public class RajatUnitTest {
@@ -43,7 +43,7 @@ public class RajatUnitTest {
     /**
      * a second test
      */
-    @Test
+    @Test(timeout = 10000)
     public void createUser() {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -55,6 +55,7 @@ public class RajatUnitTest {
                         } catch (Exception e) {
                             //fail("Should not have thrown exception");
                         }
+                        finished = true;
                         assertTrue(tuple.getSuccess());
                         assertTrue(tuple.getErrorMessage().equals("success!"));
                         User u = tuple.getUser();
@@ -71,7 +72,7 @@ public class RajatUnitTest {
         //Test for valid user creation
     }
 
-    @Test
+    /*@Test(timeout = 10000)
     public void testUsername1() {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -95,7 +96,7 @@ public class RajatUnitTest {
 
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testUsername2() {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -118,7 +119,7 @@ public class RajatUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testPassword1() {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -142,7 +143,7 @@ public class RajatUnitTest {
 
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testPassword2() {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -165,7 +166,7 @@ public class RajatUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testPassword3() {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -186,5 +187,5 @@ public class RajatUnitTest {
                 return finished;
             }
         });
-    }
+    }*/
 }

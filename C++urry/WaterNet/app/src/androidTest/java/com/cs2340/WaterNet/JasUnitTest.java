@@ -46,7 +46,7 @@ public class JasUnitTest {
         } catch (Exception e) {}
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void testCreateReport() {
         Facade.createReport("12.0", "10.0", WaterType.BOTTLED, WaterCondition.POTABLE, new Consumer<String>() {
             public void accept(String s) {
@@ -57,7 +57,7 @@ public class JasUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void testLat1() {
         Facade.createReport("", "10.0", WaterType.BOTTLED, WaterCondition.POTABLE, new Consumer<String>() {
             public void accept(String s) {
@@ -68,7 +68,7 @@ public class JasUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void testLat2() {
         Facade.createReport(null, "10.0", WaterType.BOTTLED, WaterCondition.POTABLE, new Consumer<String>() {
             public void accept(String s) {
@@ -79,7 +79,7 @@ public class JasUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void testLong1() {
         Facade.createReport("12.0", "", WaterType.BOTTLED, WaterCondition.POTABLE, new Consumer<String>() {
             public void accept(String s) {
@@ -90,7 +90,7 @@ public class JasUnitTest {
         });
     }
 
-    @Test
+    @Test(timeout = 1000)
     public void testLong2() {
         Facade.createReport("12.0", null, WaterType.BOTTLED, WaterCondition.POTABLE, new Consumer<String>() {
             public void accept(String s) {

@@ -41,7 +41,7 @@ public class BrendonUnitTest {
         } catch (Exception e) {}
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testProfile() {
         Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
             @Override
@@ -65,7 +65,7 @@ public class BrendonUnitTest {
         assertTrue(u.getUserType() == UserType.USER);
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testAddress1() {
         Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
             @Override
@@ -88,7 +88,7 @@ public class BrendonUnitTest {
         assertTrue(u.getUserType() == UserType.USER);
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testAddress2() {
         Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
             @Override
@@ -111,7 +111,7 @@ public class BrendonUnitTest {
         assertTrue(u.getUserType() == UserType.USER);
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testName1() {
         Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
             @Override
@@ -135,7 +135,7 @@ public class BrendonUnitTest {
         assertTrue(u.getUserType() == UserType.USER);
     }
 
-    @Test
+    @Test(timeout = 10000)
     public void testName2() {
         Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
             @Override
@@ -159,6 +159,7 @@ public class BrendonUnitTest {
         assertTrue(u.getUserType() == UserType.USER);
     }
 
+    @Test(timeout = 10000)
     public void testPhone() {
         Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
             @Override
@@ -182,6 +183,7 @@ public class BrendonUnitTest {
         assertTrue(u.getUserType() == UserType.USER);
     }
 
+    @Test(timeout = 10000)
     public void testPhone2() {
         Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
             @Override
@@ -205,6 +207,7 @@ public class BrendonUnitTest {
         assertTrue(u.getUserType() == UserType.USER);
     }
 
+    @Test(timeout = 10000)
     public void testUserType() {
         Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
             @Override
