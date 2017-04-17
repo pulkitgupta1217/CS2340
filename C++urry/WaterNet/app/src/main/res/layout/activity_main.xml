@@ -34,7 +34,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/New_Purity_Report"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
 
 
                 <TextView
@@ -43,7 +44,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/new_report"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/view_map"
@@ -51,7 +53,8 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/view_map"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/view_profile"
@@ -59,7 +62,8 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                      android:text="@string/view_profile"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/sign_out"
@@ -67,7 +71,8 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_sign_out"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
