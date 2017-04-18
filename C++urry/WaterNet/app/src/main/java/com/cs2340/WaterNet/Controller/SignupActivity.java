@@ -76,21 +76,21 @@ public class SignUpActivity extends AppCompatActivity {
                 Facade.createUser(tempEmail, username, password, userType,
                         new Consumer<AuthTuple>() {
 
-                    @Override
-                    public void accept(AuthTuple tuple) {
-                        progressBar.setVisibility(View.GONE);
-                        if (tuple.getErrorMessage().length() != 0) {
-                            Toast.makeText(getApplicationContext(), tuple.getErrorMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        if (tuple.getSuccess()) {
-                            Intent i = new Intent(SignUpActivity.this, MainActivity.class);
-                            startActivity(i);
-                            finish();
-                        }
-                    }
+                            @Override
+                            public void accept(AuthTuple tuple) {
+                                progressBar.setVisibility(View.GONE);
+                                if (tuple.getErrorMessage().length() != 0) {
+                                    Toast.makeText(getApplicationContext(), tuple.getErrorMessage(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                                if (tuple.getSuccess()) {
+                                    Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            }
 
-                });
+                        });
 
 
 
