@@ -48,6 +48,7 @@ public final class Facade {
     private static User currUser = null;
     private static final FirebaseAuth auth = FirebaseAuth.getInstance();
     private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static int loginAttempts;
 
 
     private Facade(){
@@ -249,6 +250,13 @@ public final class Facade {
                         }
                     }
                 });
+    }
+
+    public static void signOut() {
+        try {
+            loginAttempts = 0;
+            FirebaseAuth.getInstance().signOut();
+        } catch (Exception e) {}
     }
 
     /**

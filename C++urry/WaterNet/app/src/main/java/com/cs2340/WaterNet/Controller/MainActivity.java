@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signOut();
+                Facade.signOut();
             }
         });
 
