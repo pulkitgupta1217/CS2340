@@ -39,5 +39,6 @@
     <string name="Virus_PPM">Virus PPM</string>
     <string name="Contaminant_PPM">Containment PPM</string>
     <string name="Back">Back</string>
+    <string name="title_activity_view_users">viewUsersActivity</string>
 
 </resources>

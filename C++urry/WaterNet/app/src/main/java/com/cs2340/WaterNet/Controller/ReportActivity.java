@@ -120,13 +120,6 @@ public class ReportActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * sign out from firebase
-     */
-    public void signOut() {
-        auth.signOut();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();

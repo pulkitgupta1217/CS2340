@@ -48,6 +48,7 @@ public final class Facade {
     private static User currUser = null;
     private static final FirebaseAuth auth = FirebaseAuth.getInstance();
     private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static int loginAttempts = 0;
 
 
     private Facade(){
@@ -111,6 +112,12 @@ public final class Facade {
             callback.accept(tuple);
         } else {
 
+            loginAttempts++;
+            if (loginAttempts > 3) {
+                callback.accept(new AuthTuple(false, "too many login attempts, "
+                        + "this device has been banned"));
+                return;
+            }
             if (!email.contains("@")) {
                 email += "@water.net";
             }
@@ -208,7 +215,6 @@ public final class Facade {
                         String error = "";
                         //CODE ADDED BY PULKIT FOR SINGLETON
 
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -249,6 +255,13 @@ public final class Facade {
                         }
                     }
                 });
+    }
+
+    public static void signOut() {
+        try {
+            loginAttempts = 0;
+            FirebaseAuth.getInstance().signOut();
+        } catch (Exception e) {}
     }
 
     /**

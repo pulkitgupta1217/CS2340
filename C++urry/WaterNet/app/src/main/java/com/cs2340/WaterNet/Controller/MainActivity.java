@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signOut();
+                Facade.signOut();
             }
         });
 
@@ -155,10 +155,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //sign out method
-    private void signOut() {
-        auth.signOut();
-    }
 
     @Override
     protected void onResume() {
