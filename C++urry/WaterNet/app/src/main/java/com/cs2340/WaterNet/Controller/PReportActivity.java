@@ -127,12 +127,6 @@ public class PReportActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * sign out
-     */
-    public void signOut() {
-        auth.signOut();
-    }
 
     @Override
     protected void onResume() {
