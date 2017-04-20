@@ -308,7 +308,7 @@ public final class Facade {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Log.d("***", "User email address updated.");
+                                    Log.d("***", "email address updated.");
                                 }
                             }
                         });
