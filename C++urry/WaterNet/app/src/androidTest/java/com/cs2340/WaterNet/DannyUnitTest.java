@@ -1,11 +1,10 @@
 package com.cs2340.WaterNet;
 
-import android.content.pm.LauncherApps;
 import android.util.Log;
 
 import com.cs2340.WaterNet.Facade.AuthTuple;
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Model.Consumer;
+import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.Model.OverallCondition;
 import com.google.firebase.auth.FirebaseAuth;
 

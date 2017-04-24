@@ -29,6 +29,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -308,7 +310,7 @@ public final class Facade {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Log.d("***", "User email address updated.");
+                                    Log.d("***", "email address updated.");
                                 }
                             }
                         });
@@ -558,5 +560,23 @@ public final class Facade {
                         + purityReport.getVirus().getPPM());
             }
         };
+    }
+
+    public static void getUserList(final Consumer<Map<String, User>> callback) {
+        FirebaseDatabase.getInstance().getReference().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String, User> users = new HashMap<String, User>();
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    users.put(ds.getKey(), (User) ds.getValue());
+                }
+                callback.accept(users);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

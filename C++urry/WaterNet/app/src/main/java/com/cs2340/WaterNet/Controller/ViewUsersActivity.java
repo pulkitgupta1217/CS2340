@@ -1,13 +1,21 @@
 package com.cs2340.WaterNet.Controller;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.cs2340.WaterNet.Facade.Consumer;
+import com.cs2340.WaterNet.Facade.Facade;
+import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.R;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 
 public class ViewUsersActivity extends AppCompatActivity {
 
@@ -17,15 +25,23 @@ public class ViewUsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_users);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        final ListView userListView = (ListView) findViewById(R.id.user_list);
+        final List<User> userList = new LinkedList<>();
+        Facade.getUserList(new Consumer<Map<String, User>>() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void accept(Map<String, User> map) {
+                if (map == null) {
+                    Toast.makeText(ViewUsersActivity.this, "no users found", Toast.LENGTH_SHORT).show();
+                } else {
+                    userList.addAll(map.values());
+                    ArrayAdapter<User> adapter = new ArrayAdapter<>(ViewUsersActivity.this, R.layout.user_entry, userList);
+                    userListView.setAdapter(adapter);
+                }
             }
         });
+
+
+
     }
 
 }
