@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.cs2340.WaterNet.Controller.MainActivity;
 import com.cs2340.WaterNet.Controller.SignUpActivity;
 import com.cs2340.WaterNet.Facade.AuthTuple;
-import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.R;
 
 /**

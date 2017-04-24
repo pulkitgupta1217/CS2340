@@ -1,4 +1,4 @@
-package com.cs2340.WaterNet.Facade;
+package com.cs2340.WaterNet.Factory;
 
 /**
  * an interface designed to replace java.util.function.Consumer as java.util.function cannot be

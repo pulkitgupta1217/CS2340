@@ -95,6 +95,10 @@ public class ViewPReportsActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
 
 }

@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.cs2340.WaterNet.Controller.MainActivity;
 import com.cs2340.WaterNet.Controller.ReportActivity;
-import com.cs2340.WaterNet.Facade.Consumer;
 
 /**
  * Created by pulki on 4/24/2017.

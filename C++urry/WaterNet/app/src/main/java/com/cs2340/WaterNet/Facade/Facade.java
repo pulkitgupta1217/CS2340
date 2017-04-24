@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cs2340.WaterNet.Factory.Consumer;
 import com.cs2340.WaterNet.Model.*;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,7 +34,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 

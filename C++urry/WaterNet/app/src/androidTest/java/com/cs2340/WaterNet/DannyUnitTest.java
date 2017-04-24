@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.cs2340.WaterNet.Facade.AuthTuple;
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Facade.Consumer;
+import com.cs2340.WaterNet.Factory.Consumer;
 import com.cs2340.WaterNet.Model.OverallCondition;
 import com.google.firebase.auth.FirebaseAuth;
 

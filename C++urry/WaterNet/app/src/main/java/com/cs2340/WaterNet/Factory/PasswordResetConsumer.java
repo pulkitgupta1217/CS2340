@@ -3,12 +3,9 @@ package com.cs2340.WaterNet.Factory;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.cs2340.WaterNet.Controller.LoginActivity;
 import com.cs2340.WaterNet.Controller.ResetPasswordActivity;
-import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.R;
 
 /**

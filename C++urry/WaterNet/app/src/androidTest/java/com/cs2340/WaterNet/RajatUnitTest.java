@@ -1,6 +1,7 @@
 package com.cs2340.WaterNet;
 
 import com.cs2340.WaterNet.Facade.*;
+import com.cs2340.WaterNet.Factory.Consumer;
 import com.cs2340.WaterNet.Model.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

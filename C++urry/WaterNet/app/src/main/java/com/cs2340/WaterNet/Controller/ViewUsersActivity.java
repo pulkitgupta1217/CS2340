@@ -4,19 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Factory.ConsumerFactory;
-import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.R;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 
 public class ViewUsersActivity extends AppCompatActivity {

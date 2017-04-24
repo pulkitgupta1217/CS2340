@@ -1,9 +1,11 @@
 package com.cs2340.WaterNet.Controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Facade.Consumer;
+import com.cs2340.WaterNet.Factory.Consumer;
 import com.cs2340.WaterNet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -83,6 +85,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 
 }

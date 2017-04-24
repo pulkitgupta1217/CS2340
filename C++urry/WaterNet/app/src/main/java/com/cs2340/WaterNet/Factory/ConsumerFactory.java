@@ -3,8 +3,6 @@ package com.cs2340.WaterNet.Factory;
 import android.content.Context;
 import android.content.Intent;
 
-import com.cs2340.WaterNet.Facade.Consumer;
-
 /**
  * Created by pulki on 4/23/2017.
  */

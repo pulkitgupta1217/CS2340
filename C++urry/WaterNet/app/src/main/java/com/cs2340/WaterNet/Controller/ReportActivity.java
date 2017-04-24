@@ -11,9 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Factory.ConsumerFactory;
 import com.cs2340.WaterNet.Model.WaterCondition;
@@ -142,5 +140,11 @@ public class ReportActivity extends AppCompatActivity {
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

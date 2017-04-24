@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.cs2340.WaterNet.Facade.*;
+import com.cs2340.WaterNet.Factory.Consumer;
 import com.cs2340.WaterNet.Model.*;
 import com.google.firebase.auth.FirebaseAuth;
 

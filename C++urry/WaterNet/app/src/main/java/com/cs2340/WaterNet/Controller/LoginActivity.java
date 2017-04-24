@@ -9,11 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Facade.AuthTuple;
-import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.Factory.ConsumerFactory;
 import com.cs2340.WaterNet.R;
 
