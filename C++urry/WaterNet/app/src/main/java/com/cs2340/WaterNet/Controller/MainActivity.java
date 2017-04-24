@@ -183,6 +183,13 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed() {
+        Facade.signOut();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
 
 
 
