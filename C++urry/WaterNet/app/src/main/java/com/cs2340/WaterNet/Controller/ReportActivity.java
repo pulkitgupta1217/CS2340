@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.cs2340.WaterNet.Model.Consumer;
+import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Model.WaterCondition;
 import com.cs2340.WaterNet.Model.WaterType;
@@ -118,13 +118,6 @@ public class ReportActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    /**
-     * sign out from firebase
-     */
-    public void signOut() {
-        auth.signOut();
     }
 
     @Override

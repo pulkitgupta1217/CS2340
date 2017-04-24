@@ -68,11 +68,6 @@ public class ViewPReportsActivity extends AppCompatActivity {
 
     }
 
-    //sign out method
-    public void signOut() {
-        auth.signOut();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();

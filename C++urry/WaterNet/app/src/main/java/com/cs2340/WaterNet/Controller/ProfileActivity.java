@@ -186,12 +186,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * sign out
-     */
-    public void signOut() {
-        auth.signOut();
-    }
 
     @Override
     protected void onResume() {
