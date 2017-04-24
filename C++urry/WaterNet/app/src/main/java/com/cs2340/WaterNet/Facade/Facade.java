@@ -265,6 +265,9 @@ public final class Facade {
     public static void signOut() {
         try {
             loginAttempts = 0;
+            SecurityLogger.writeNewSecurityLog(
+                    Singleton.getInstance().getTime() + " :: "
+                            + currUser.getUsername() + " signed out");
             FirebaseAuth.getInstance().signOut();
         } catch (Exception e) {}
     }

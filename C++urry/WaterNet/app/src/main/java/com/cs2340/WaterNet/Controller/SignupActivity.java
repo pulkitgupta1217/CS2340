@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.cs2340.WaterNet.Facade.AuthTuple;
 import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.Facade.Facade;
+import com.cs2340.WaterNet.Factory.ConsumerFactory;
 import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.R;
 
@@ -74,7 +75,10 @@ public class SignUpActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 Facade.createUser(tempEmail, username, password, userType,
-                        new Consumer<AuthTuple>() {
+                        ConsumerFactory.getConsumer(
+                                new Intent(SignUpActivity.this, MainActivity.class),
+                                SignUpActivity.this));
+                        /*new Consumer<AuthTuple>() {
 
                             @Override
                             public void accept(AuthTuple tuple) {
@@ -90,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 }
                             }
 
-                        });
+                        });*/
 
 
 
