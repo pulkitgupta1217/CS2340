@@ -15,6 +15,13 @@
 		<link rel="stylesheet" href="assets/css/form-elements.css">
         <link rel="stylesheet" href="assets/css/style.css">
 
+        <!-- Javascript -->
+        <script src="assets/js/jquery-3.2.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="https://raw.githubusercontent.com/jquery-backstretch/jquery-backstretch/master/jquery.backstretch.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+        <script src="assets/js/jquery.cookie.js"></script>
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -29,16 +36,65 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
  -->
+        <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+        <!-- <script>
+          var config = {
+            apiKey: "AIzaSyBcQ9Ov2gvYJ_2eyU1e8L6OjOWk2mEqsD4",
+            authDomain: "webapp-17b1d.firebaseapp.com",
+            databaseURL: "https://webapp-17b1d.firebaseio.com",
+            projectId: "webapp-17b1d",
+            storageBucket: "webapp-17b1d.appspot.com",
+            messagingSenderId: "430866029306"
+          };
+          firebase.initializeApp(config);
+        </script> -->
         <SCRIPT LANGUAGE="JavaScript">
+            window.onload = function() {
+                var config = {
+                  apiKey: "AIzaSyDfYeM4BeryxToCYet_xfVjwcFz4oqaRtI",
+                  authDomain: "waternet-9ed81.firebaseapp.com",
+                  databaseURL: "https://waternet-9ed81.firebaseio.com",
+                  projectId: "webapp-17b1d",
+                  storageBucket: "waternet-9ed81.appspot.com"
+                };
+                firebase.initializeApp(config);
+            };
+
             function validateForm (form) {
                 enteredPassword = form.password.value;
-                enteredUsername = form.username.value;
-                if (enteredUsername == "brendon" && enteredPassword == "has a massive cok") {
+                enteredUsername = form.username.value  + "@water.net";
+                // if (enteredUsername == "brendon" && enteredPassword == "has a massive cok") {
+                //     window.location.href = "dashboard.html";
+                // } else {
+                //     alert ("Wrong password");
+                // }
+                
+
+                firebase.auth().signInWithEmailAndPassword(enteredUsername, enteredPassword).catch(function(error) {
+                  // Handle Errors here.
+                  var errorCode = error.code;
+                  var errorMessage = error.message;
+                  // [START_EXCLUDE]
+                  if (errorCode === 'auth/wrong-password') {
+                    alert('Wrong password.');
+                  } else {
+                    alert(errorMessage);
+                  }
+                  console.log(error);
+                  document.getElementById('quickstart-sign-in').disabled = false;
+                  // [END_EXCLUDE]
+                }).then(function() {
+                    addCookie(enteredUsername);
                     window.location.href = "dashboard.html";
-                } else {
-                    alert ("Wrong password");
                 }
+                );
                 return false;
+            }
+
+            function addCookie(obj) {
+                $.cookie(
+                'user', obj, { expires: 7, path: '/' });
+                alert($.cookie('user'));
             }
         </SCRIPT>
     </head>
@@ -104,11 +160,7 @@
         </div>
 
 
-        <!-- Javascript -->
-        <script src="assets/js/jquery-3.2.1.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="https://raw.githubusercontent.com/jquery-backstretch/jquery-backstretch/master/jquery.backstretch.min.js"></script>
-        <script src="assets/js/scripts.js"></script>
+        
 
         <!--[if lt IE 10]>
             <script src="assets/js/placeholder.js"></script>
