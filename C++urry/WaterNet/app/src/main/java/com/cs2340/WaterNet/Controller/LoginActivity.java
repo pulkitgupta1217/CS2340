@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.cs2340.WaterNet.Facade.Facade;
 import com.cs2340.WaterNet.Facade.AuthTuple;
-import com.cs2340.WaterNet.Model.Consumer;
+import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.R;
 
 /**
@@ -85,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         if (tuple.getSuccess()) {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            //startActivity(authenticated.getIntent());
                             startActivity(intent);
                             finish();
                         }
