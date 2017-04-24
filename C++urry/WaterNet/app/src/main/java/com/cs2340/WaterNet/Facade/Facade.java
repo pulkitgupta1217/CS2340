@@ -1,8 +1,11 @@
 package com.cs2340.WaterNet.Facade;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.cs2340.WaterNet.Model.*;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -579,4 +582,38 @@ public final class Facade {
             }
         });
     }
+
+    public static void updateSecurityLogView(final LinearLayout linearLayout, final Context context) {
+
+        FirebaseDatabase.getInstance().getReference().child("securityLog").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                TextView textView = new TextView(context);
+                textView.setText(dataSnapshot.getValue().toString());
+                linearLayout.addView(textView);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 }

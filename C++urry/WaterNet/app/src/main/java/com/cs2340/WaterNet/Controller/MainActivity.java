@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn,
-                gotoCreatePurityReportBtn, viewPurityReports, viewGraphBtn;
+                gotoCreatePurityReportBtn;
+        Button viewGraphBtn, viewPurityReports, goToAdminMenu;
         RecyclerView recycler;
 
         setContentView(R.layout.activity_main);
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         viewMapBtn = (TextView) findViewById(R.id.view_map);
         viewPurityReports = (Button) findViewById(R.id.view_purity_reports_button);
         viewGraphBtn = (Button) findViewById(R.id.view_graph);
+        goToAdminMenu = (Button) findViewById(R.id.admin_menu_button);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -114,6 +116,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        goToAdminMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, AdminActivity.class);
                 startActivity(i);
                 finish();
             }

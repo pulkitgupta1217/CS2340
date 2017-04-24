@@ -104,10 +104,19 @@
         <Button
             android:id="@+id/view_purity_reports_button"
             style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/View_Purity_Reports"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/admin_menu_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/view_admin_menu"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
