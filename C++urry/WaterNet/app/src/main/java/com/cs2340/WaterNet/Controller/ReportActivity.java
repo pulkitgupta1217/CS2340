@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.Facade.Facade;
+import com.cs2340.WaterNet.Factory.ConsumerFactory;
 import com.cs2340.WaterNet.Model.WaterCondition;
 import com.cs2340.WaterNet.Model.WaterType;
 import com.cs2340.WaterNet.R;
@@ -100,7 +101,10 @@ public class ReportActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Facade.createReport(latField.getText().toString().trim(), longField.getText().toString().trim(),
-                        (WaterType) waterTypeSpinner.getSelectedItem(), (WaterCondition) conditionTypeSpinner.getSelectedItem(), new Consumer<String>() {
+                        (WaterType) waterTypeSpinner.getSelectedItem(), (WaterCondition) conditionTypeSpinner.getSelectedItem(),
+                        ConsumerFactory.getConsumer(new Intent(ReportActivity.this, MainActivity.class), ReportActivity.this));
+
+                        /*new Consumer<String>() {
                             public void accept(String s) {
                                 if (s.equals("success!")) {
                                     Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
@@ -111,7 +115,7 @@ public class ReportActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
+                        });*/
 
 
 

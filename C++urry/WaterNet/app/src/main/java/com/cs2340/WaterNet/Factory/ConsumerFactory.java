@@ -2,7 +2,6 @@ package com.cs2340.WaterNet.Factory;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.cs2340.WaterNet.Facade.Consumer;
 
@@ -23,6 +22,14 @@ public class ConsumerFactory {
             return new LoginConsumer(i, c);
         } else if (start.contains("PReportActivity")) {
             return new PReportConsumer(i, c);
+        } else if (start.contains("ReportActivity")) {
+            return new ReportConsumer(i, c);
+        } else if (start.contains("ResetPasswordActivity")) {
+            return new PasswordResetConsumer(i, c);
+        } else if (start.contains("SignUpActivity")) {
+            return new SignUpConsumer(i, c);
+        } else if (start.contains("ViewUsersActivity")) {
+            return new ViewUsersConsumer(i, c);
         }
         throw new IllegalArgumentException("invalid intent or context");
     }

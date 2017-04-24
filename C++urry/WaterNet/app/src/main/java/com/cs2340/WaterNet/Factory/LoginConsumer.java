@@ -37,6 +37,7 @@ class LoginConsumer implements Consumer<AuthTuple> {
                     .show();
         }
         if (tuple.getSuccess()) {
+            Log.d("starting", "main activity");
             context.startActivity(intent);
             ((LoginActivity) context).finish();
         }
