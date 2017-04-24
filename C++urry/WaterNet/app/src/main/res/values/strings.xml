@@ -40,5 +40,6 @@
     <string name="Contaminant_PPM">Containment PPM</string>
     <string name="Back">Back</string>
     <string name="title_activity_view_users">viewUsersActivity</string>
+    <string name="view_admin_menu">Admin Menu</string>
 
 </resources>
