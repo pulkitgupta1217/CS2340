@@ -20,7 +20,7 @@
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="https://raw.githubusercontent.com/jquery-backstretch/jquery-backstretch/master/jquery.backstretch.min.js"></script>
         <script src="assets/js/scripts.js"></script>
-        <script src="assets/js/jquery.cookie.js"></script>
+        <script src="assets/js/cookie.js"></script>
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -62,7 +62,7 @@
 
             function validateForm (form) {
                 enteredPassword = form.password.value;
-                enteredUsername = form.username.value  + "@water.net";
+                enteredUsername = form.username.value;
                 // if (enteredUsername == "brendon" && enteredPassword == "has a massive cok") {
                 //     window.location.href = "dashboard.html";
                 // } else {
@@ -70,7 +70,7 @@
                 // }
                 
 
-                firebase.auth().signInWithEmailAndPassword(enteredUsername, enteredPassword).catch(function(error) {
+                firebase.auth().signInWithEmailAndPassword(enteredUsername  + "@water.net", enteredPassword).catch(function(error) {
                   // Handle Errors here.
                   var errorCode = error.code;
                   var errorMessage = error.message;
@@ -92,14 +92,14 @@
             }
 
             function addCookie(obj) {
-                $.cookie(
-                'user', obj, { expires: 7, path: '/' });
-                alert($.cookie('user'));
+                Cookies.set('user', obj, {path: "/", expires: 30});
+                // $.cookie("visits", 10);
+                // alert($.cookie("visits"));
             }
         </SCRIPT>
     </head>
 
-    <body>
+    <body class = "tint">
 
         <!-- Top content -->
         <div class="top-content tint">
