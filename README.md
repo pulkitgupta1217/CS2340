@@ -7,8 +7,8 @@ Singleton : 1
 Factory : 3
 Command : 5
 
-Facade/MVP/Mediator : ????
-Branding/theming : 3 - 10 ????
+Facade/MVP/Mediator : ???? 2+
+Branding/theming : 3 - 10 ???? 3+
 Networked MultiUser : 10 - 20
 Email Integration : 5 - 10
 Lockout after 3 tries - 5

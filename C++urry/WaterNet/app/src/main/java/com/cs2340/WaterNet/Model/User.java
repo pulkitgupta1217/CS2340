@@ -10,7 +10,6 @@ import java.io.Serializable;
 public class User implements Serializable{
 
     private String username, email, name = "", address = "", phone = "";
-    //private static int userCount;
     private Long userID;
     private Boolean banned;
     UserType userType = UserType.USER;
@@ -170,6 +169,8 @@ public class User implements Serializable{
             User other = (User) o;
             return other.getUsername().equals(username) && other.getEmail().equals(email);
         } catch (ClassCastException e) {
+            return false;
+        } catch (Exception e) {
             return false;
         }
     }
