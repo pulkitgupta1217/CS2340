@@ -1,7 +1,7 @@
 package com.cs2340.WaterNet;
 
 import com.cs2340.WaterNet.Facade.*;
-import com.cs2340.WaterNet.Factory.Consumer;
+import com.cs2340.WaterNet.Command.Command;
 import com.cs2340.WaterNet.Model.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,7 +46,7 @@ public class RajatUnitTest {
     public void createUser() {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
-                Facade.createUser("", "unitTestUser", "password", UserType.USER, new Consumer<AuthTuple>() {
+                Facade.createUser("", "unitTestUser", "password", UserType.USER, new Command<AuthTuple>() {
                     public void accept(AuthTuple tuple) {
                         FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
                         try {
@@ -75,7 +75,7 @@ public class RajatUnitTest {
     public void testUsername1() {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
-                Facade.createUser("", null, "password", UserType.USER, new Consumer<AuthTuple>() {
+                Facade.createUser("", null, "password", UserType.USER, new Command<AuthTuple>() {
                     public void accept(AuthTuple tuple) {
                         assertFalse(tuple.getSuccess());
                         assertTrue(tuple.getErrorMessage().equals("Enter username!"));
@@ -99,7 +99,7 @@ public class RajatUnitTest {
     public void testUsername2() {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
-                Facade.createUser("", "", "password", UserType.USER, new Consumer<AuthTuple>() {
+                Facade.createUser("", "", "password", UserType.USER, new Command<AuthTuple>() {
                     public void accept(AuthTuple tuple) {
                         assertFalse(tuple.getSuccess());
                         assertTrue(tuple.getErrorMessage().equals("Enter username!"));
@@ -123,7 +123,7 @@ public class RajatUnitTest {
 
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
-                Facade.createUser("", "unitTestUser", "", UserType.USER, new Consumer<AuthTuple>() {
+                Facade.createUser("", "unitTestUser", "", UserType.USER, new Command<AuthTuple>() {
                     public void accept(AuthTuple tuple) {
                         assertFalse(tuple.getSuccess());
                         assertTrue(tuple.getErrorMessage().equals("Enter password!"));
@@ -147,7 +147,7 @@ public class RajatUnitTest {
     public void testPassword2() {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
-                Facade.createUser("", "unitTestUser", null, UserType.USER, new Consumer<AuthTuple>() {
+                Facade.createUser("", "unitTestUser", null, UserType.USER, new Command<AuthTuple>() {
                     public void accept(AuthTuple tuple) {
                         assertFalse(tuple.getSuccess());
                         assertTrue(tuple.getErrorMessage().equals("Enter password!"));
@@ -171,7 +171,7 @@ public class RajatUnitTest {
 
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
-                Facade.createUser("", "unitTestUser", "bad", UserType.USER, new Consumer<AuthTuple>() {
+                Facade.createUser("", "unitTestUser", "bad", UserType.USER, new Command<AuthTuple>() {
                     public void accept(AuthTuple tuple) {
                         assertFalse(tuple.getSuccess());
                         assertTrue(tuple.getErrorMessage().equals("Password too short, enter minimum 6 characters!"));

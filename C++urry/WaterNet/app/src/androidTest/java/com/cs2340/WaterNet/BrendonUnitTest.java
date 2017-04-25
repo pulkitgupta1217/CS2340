@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.cs2340.WaterNet.Facade.AuthTuple;
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Factory.Consumer;
+import com.cs2340.WaterNet.Command.Command;
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.Model.UserType;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +43,7 @@ public class BrendonUnitTest {
 
     @Test(timeout = 10000)
     public void testProfile() {
-        Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+        Facade.validateLogin("user", "password", new Command<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
                 Log.d("***", "finished start auth");
@@ -67,7 +67,7 @@ public class BrendonUnitTest {
 
     @Test(timeout = 10000)
     public void testAddress1() {
-        Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+        Facade.validateLogin("user", "password", new Command<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
                 Log.d("***", "finished start auth");
@@ -90,7 +90,7 @@ public class BrendonUnitTest {
 
     @Test(timeout = 10000)
     public void testAddress2() {
-        Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+        Facade.validateLogin("user", "password", new Command<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
                 Log.d("***", "finished start auth");
@@ -113,7 +113,7 @@ public class BrendonUnitTest {
 
     @Test(timeout = 10000)
     public void testName1() {
-        Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+        Facade.validateLogin("user", "password", new Command<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
                 Log.d("***", "finished start auth");
@@ -137,7 +137,7 @@ public class BrendonUnitTest {
 
     @Test(timeout = 10000)
     public void testName2() {
-        Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+        Facade.validateLogin("user", "password", new Command<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
                 Log.d("***", "finished start auth");
@@ -161,7 +161,7 @@ public class BrendonUnitTest {
 
     @Test(timeout = 10000)
     public void testPhone() {
-        Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+        Facade.validateLogin("user", "password", new Command<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
                 Log.d("***", "finished start auth");
@@ -185,7 +185,7 @@ public class BrendonUnitTest {
 
     @Test(timeout = 10000)
     public void testPhone2() {
-        Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+        Facade.validateLogin("user", "password", new Command<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
                 Log.d("***", "finished start auth");
@@ -209,7 +209,7 @@ public class BrendonUnitTest {
 
     @Test(timeout = 10000)
     public void testUserType() {
-        Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+        Facade.validateLogin("user", "password", new Command<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
                 Log.d("***", "finished start auth");

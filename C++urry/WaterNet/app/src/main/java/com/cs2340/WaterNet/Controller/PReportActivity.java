@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Factory.ConsumerFactory;
+import com.cs2340.WaterNet.Factory.CommandFactory;
 import com.cs2340.WaterNet.Model.OverallCondition;
 import com.cs2340.WaterNet.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -105,9 +105,9 @@ public class PReportActivity extends AppCompatActivity {
                         vPPMField.getText().toString().trim(),
                         cPPMField.getText().toString().trim(),
                         (OverallCondition) overallConditionSpinner.getSelectedItem(),
-                        ConsumerFactory.getConsumer(new Intent(PReportActivity.this, MainActivity.class), PReportActivity.this));
+                        CommandFactory.getConsumer(new Intent(PReportActivity.this, MainActivity.class), PReportActivity.this));
 
-                /*new Consumer<String>() {
+                /*new Command<String>() {
                             @Override
                             public void accept(String s) {
                                 if (s.equals("success!")) {

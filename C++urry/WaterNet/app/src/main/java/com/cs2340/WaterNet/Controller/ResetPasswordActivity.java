@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Factory.Consumer;
+import com.cs2340.WaterNet.Command.Command;
 import com.cs2340.WaterNet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,7 +49,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 progressBar.setVisibility(View.VISIBLE);
-                Facade.sendResetInstructions(inputEmail.getText().toString().trim(), new Consumer<String>() {
+                Facade.sendResetInstructions(inputEmail.getText().toString().trim(), new Command<String>() {
                     public void accept(String s) {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(ResetPasswordActivity.this, s, Toast.LENGTH_SHORT).show();

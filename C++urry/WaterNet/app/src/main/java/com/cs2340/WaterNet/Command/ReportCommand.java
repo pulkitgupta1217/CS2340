@@ -1,4 +1,4 @@
-package com.cs2340.WaterNet.Factory;
+package com.cs2340.WaterNet.Command;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,10 +11,10 @@ import com.cs2340.WaterNet.Controller.ReportActivity;
  * Created by pulki on 4/24/2017.
  */
 
-class ReportConsumer implements Consumer<String> {
+public class ReportCommand implements Command<String> {
     Intent intent;
     Context context;
-    public ReportConsumer(Intent i, Context c) {
+    public ReportCommand(Intent i, Context c) {
         intent = i;
         context = c;
     }

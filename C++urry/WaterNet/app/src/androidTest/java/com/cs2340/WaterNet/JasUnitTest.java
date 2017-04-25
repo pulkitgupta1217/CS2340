@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.cs2340.WaterNet.Facade.*;
-import com.cs2340.WaterNet.Factory.Consumer;
+import com.cs2340.WaterNet.Command.Command;
 import com.cs2340.WaterNet.Model.*;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -26,7 +26,7 @@ public class JasUnitTest {
     @Before
     public void start() {
         Facade.start();
-        Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+        Facade.validateLogin("user", "password", new Command<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
                 Log.d("***", "finished start auth");
@@ -49,7 +49,7 @@ public class JasUnitTest {
 
     @Test(timeout = 1000)
     public void testCreateReport() {
-        Facade.createReport("12.0", "10.0", WaterType.BOTTLED, WaterCondition.POTABLE, new Consumer<String>() {
+        Facade.createReport("12.0", "10.0", WaterType.BOTTLED, WaterCondition.POTABLE, new Command<String>() {
             public void accept(String s) {
                 if (!s.equals("success!")) {
                     fail("Should have succeeded");
@@ -60,7 +60,7 @@ public class JasUnitTest {
 
     @Test(timeout = 1000)
     public void testLat1() {
-        Facade.createReport("", "10.0", WaterType.BOTTLED, WaterCondition.POTABLE, new Consumer<String>() {
+        Facade.createReport("", "10.0", WaterType.BOTTLED, WaterCondition.POTABLE, new Command<String>() {
             public void accept(String s) {
                 if (!s.equals("Enter latitude!")) {
                     fail("Should have gotten this error");
@@ -71,7 +71,7 @@ public class JasUnitTest {
 
     @Test(timeout = 1000)
     public void testLat2() {
-        Facade.createReport(null, "10.0", WaterType.BOTTLED, WaterCondition.POTABLE, new Consumer<String>() {
+        Facade.createReport(null, "10.0", WaterType.BOTTLED, WaterCondition.POTABLE, new Command<String>() {
             public void accept(String s) {
                 if (!s.equals("Enter latitude!")) {
                     fail("Should have gotten this error");
@@ -82,7 +82,7 @@ public class JasUnitTest {
 
     @Test(timeout = 1000)
     public void testLong1() {
-        Facade.createReport("12.0", "", WaterType.BOTTLED, WaterCondition.POTABLE, new Consumer<String>() {
+        Facade.createReport("12.0", "", WaterType.BOTTLED, WaterCondition.POTABLE, new Command<String>() {
             public void accept(String s) {
                 if (!s.equals("Enter longitude!")) {
                     fail("Should have gotten this error");
@@ -93,7 +93,7 @@ public class JasUnitTest {
 
     @Test(timeout = 1000)
     public void testLong2() {
-        Facade.createReport("12.0", null, WaterType.BOTTLED, WaterCondition.POTABLE, new Consumer<String>() {
+        Facade.createReport("12.0", null, WaterType.BOTTLED, WaterCondition.POTABLE, new Command<String>() {
             public void accept(String s) {
                 if (!s.equals("Enter longitude!")) {
                     fail("Should have gotten this error");

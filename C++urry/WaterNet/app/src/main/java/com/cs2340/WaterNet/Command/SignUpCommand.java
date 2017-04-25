@@ -1,4 +1,4 @@
-package com.cs2340.WaterNet.Factory;
+package com.cs2340.WaterNet.Command;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import com.cs2340.WaterNet.R;
  * Created by pulki on 4/24/2017.
  */
 
-class SignUpConsumer implements Consumer<AuthTuple> {
+public class SignUpCommand implements Command<AuthTuple> {
     private Intent intent;
     private Context context;
-    SignUpConsumer(Intent i, Context c) {
+    public SignUpCommand(Intent i, Context c) {
         intent = i;
         context = c;
     }

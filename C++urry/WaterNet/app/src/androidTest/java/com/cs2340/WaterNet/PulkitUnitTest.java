@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.cs2340.WaterNet.Facade.*;
-import com.cs2340.WaterNet.Factory.Consumer;
+import com.cs2340.WaterNet.Command.Command;
 import com.cs2340.WaterNet.Model.*;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -40,7 +40,7 @@ public class PulkitUnitTest  {
     public void loginTest() throws Exception {
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
-                Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+                Facade.validateLogin("user", "password", new Command<AuthTuple>() {
                     @Override
                     public void accept(AuthTuple authTuple) {
                         assertTrue(authTuple.getSuccess());
@@ -64,7 +64,7 @@ public class PulkitUnitTest  {
         //test null username/email
         await().until(new Callable< Boolean>() {
             public Boolean call() throws Exception{
-                Facade.validateLogin(null, "password", new Consumer<AuthTuple>() {
+                Facade.validateLogin(null, "password", new Command<AuthTuple>() {
                     @Override
                     public void accept(AuthTuple authTuple) {
                         assertFalse(authTuple.getSuccess());
@@ -87,7 +87,7 @@ public class PulkitUnitTest  {
         //test empty username/email
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
-                Facade.validateLogin("", "password", new Consumer<AuthTuple>() {
+                Facade.validateLogin("", "password", new Command<AuthTuple>() {
                     @Override
                     public void accept(AuthTuple authTuple) {
                         assertFalse(authTuple.getSuccess());
@@ -110,7 +110,7 @@ public class PulkitUnitTest  {
         //test null password
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
-                Facade.validateLogin("username", null, new Consumer<AuthTuple>() {
+                Facade.validateLogin("username", null, new Command<AuthTuple>() {
                     @Override
                     public void accept(AuthTuple authTuple) {
                         assertFalse(authTuple.getSuccess());
@@ -133,7 +133,7 @@ public class PulkitUnitTest  {
         //test empty password
         await().until(new Callable<Boolean>() {
             public Boolean call() throws Exception {
-                Facade.validateLogin("username", "", new Consumer<AuthTuple>() {
+                Facade.validateLogin("username", "", new Command<AuthTuple>() {
                     @Override
                     public void accept(AuthTuple authTuple) {
                         assertFalse(authTuple.getSuccess());

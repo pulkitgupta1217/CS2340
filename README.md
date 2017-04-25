@@ -5,9 +5,10 @@ Extra_Credit
 Database : 8 - 15
 Singleton : 1
 Factory : 3
-Facade : 2
-MVP: ?????
-Branding/theming : 3 - 10
+Command : 5
+
+Facade/MVP/Mediator : ????
+Branding/theming : 3 - 10 ????
 Networked MultiUser : 10 - 20
 Email Integration : 5 - 10
 Lockout after 3 tries - 5

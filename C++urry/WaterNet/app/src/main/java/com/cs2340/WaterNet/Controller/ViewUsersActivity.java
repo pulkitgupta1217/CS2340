@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Factory.ConsumerFactory;
+import com.cs2340.WaterNet.Factory.CommandFactory;
 import com.cs2340.WaterNet.R;
 
 
@@ -21,8 +21,8 @@ public class ViewUsersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         final ListView userListView = (ListView) findViewById(R.id.user_list);
         //Todo: need filler intent here
-        Facade.getUserList(ConsumerFactory.getConsumer(new Intent(ViewUsersActivity.this, ViewUsersActivity.class), ViewUsersActivity.this));
-        /*new Consumer<Map<String, User>>() {
+        Facade.getUserList(CommandFactory.getConsumer(new Intent(ViewUsersActivity.this, ViewUsersActivity.class), ViewUsersActivity.this));
+        /*new Command<Map<String, User>>() {
             @Override
             public void accept(Map<String, User> map) {
                 if (map == null) {

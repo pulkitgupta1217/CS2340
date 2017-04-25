@@ -7,7 +7,7 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.cs2340.WaterNet.Factory.Consumer;
+import com.cs2340.WaterNet.Command.Command;
 import com.cs2340.WaterNet.Model.*;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -99,7 +99,7 @@ public final class Facade {
      * @param callback callback
      */
     public static void validateLogin(String email, final String password,
-                                     final Consumer<AuthTuple> callback) {
+                                     final Command<AuthTuple> callback) {
         Log.d("FACADE: ", Thread.currentThread().getName());
         String errorMessage = "";
         final AuthTuple tuple;
@@ -190,7 +190,7 @@ public final class Facade {
      * @param callback callback
      */
     public static void createUser(String tempEmail, final String username, String password,
-                                  final UserType userType, final Consumer<AuthTuple> callback) {
+                                  final UserType userType, final Command<AuthTuple> callback) {
 
         String errorMessage = "";
         final String email;
@@ -346,7 +346,7 @@ public final class Facade {
      * @param callback callback
      */
     public static void createReport(String latitude, String longitude, WaterType wt,
-                                    WaterCondition wc, Consumer<String> callback) {
+                                    WaterCondition wc, Command<String> callback) {
         String error = "";
         if (latitude == null || latitude.isEmpty()) {
             error += "Enter latitude!";
@@ -375,7 +375,7 @@ public final class Facade {
      */
     public static void createPurityReport(String latitude, String longitude, String v,
                                           String c, OverallCondition oc,
-                                          Consumer<String> callback) {
+                                          Command<String> callback) {
         String error = "";
         if (latitude == null || latitude.isEmpty()) {
             error += "Enter latitude!";
@@ -493,7 +493,7 @@ public final class Facade {
         };
     }
 
-    public static void sendResetInstructions(String email, final Consumer<String> callback) {
+    public static void sendResetInstructions(String email, final Command<String> callback) {
         if (email == null || email.isEmpty()) {
             callback.accept("Enter your registered email id");
         } else {
@@ -569,11 +569,11 @@ public final class Facade {
         };
     }
 
-    public static void getUserList(final Consumer<Map<String, User>> callback) {
+    public static void getUserList(final Command<Map<String, User>> callback) {
         FirebaseDatabase.getInstance().getReference().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, User> users = new HashMap<String, User>();
+                Map<String, User> users = new HashMap<>();
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     users.put(ds.getKey(), (User) ds.getValue());
                 }
