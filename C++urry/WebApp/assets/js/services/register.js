@@ -1,10 +1,12 @@
 var newUsername = document.getElementById('newUser');
 var newPassword = document.getElementById('newPass');
 var registerSubmit = document.getElementById('newReg');
+var userType = document.getElementById('newUserType');
 
 function registerClick() {
     var user = newUsername.value;
     var pass = newPassword.value;
+    var userType = newUserType.value;
 
     firebase.auth().createUserWithEmailAndPassword(user, pass).catch(function(error) {
     // Handle Errors here.
@@ -19,5 +21,6 @@ function registerClick() {
         window.location.href = "index.html";
     });
     return false;
+
 }
 
