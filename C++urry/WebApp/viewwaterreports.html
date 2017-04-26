@@ -38,15 +38,12 @@
                 alert("swag");
               } else if (Cookies.get("user") == null) {
                 alert("You are not logged in");
-                window.location = "index.html";
+                window.location = "login.html";
               } else if (Cookies.get("user") != null) {
                 alert(Cookies.get('user'));
               }
             };
 
-            function signout() {
-              Cookies.remove("user", {path: '/'});
-            };
         </script>
     </head>
     <body onload = "greeting(); return false;">
@@ -97,7 +94,7 @@
         <button type="submit" class="btn btn-default">Submit</button>
       </form> -->
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="index.html" onclick="signout()">Sign Out</a></li>
+        <li><a href="login.html" onclick="signout()">Sign Out</a></li>
         <!-- <li><a href="#">Link</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>

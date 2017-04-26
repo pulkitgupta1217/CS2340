@@ -1,16 +1,10 @@
 function validateForm (form) {
                 enteredPassword = form.password.value;
                 enteredUsername = form.username.value;
-                // if (enteredUsername == "brendon" && enteredPassword == "has a massive cok") {
-                //     window.location.href = "dashboard.html";
-                // } else {
-                //     alert ("Wrong password");
-                // }
                 
                 if (enteredUsername.indexOf("@") <= 0) {
                     enteredUsername += "@water.net";
                 }
-                alert(enteredUsername);
                 firebase.auth().signInWithEmailAndPassword(enteredUsername , enteredPassword).catch(function(error) {
                   // Handle Errors here.
                   var errorCode = error.code;
@@ -26,15 +20,15 @@ function validateForm (form) {
                   // [END_EXCLUDE]
                 }).then(function() {
                     var user = firebase.auth().currentUser;
+                    valid = user != null;
 
-
-                    if (user) {
+                    if (valid) {
                       addCookie(user);
                     } else {
                       // No user is signed in.
                     }
                     
-                    window.location.href = "dashboard.html";
+                    window.location.href = "viewwaterreports.html";
 
                     
                 }
@@ -44,6 +38,29 @@ function validateForm (form) {
 
             function addCookie(obj) {
                 Cookies.set('user', obj, {path: "/", expires: 30});
-                // $.cookie("visits", 10);
-                // alert($.cookie("visits"));
+            }
+
+            function isNotBanned(user) {
+                var uid = user.uid;
+
+                var ref = firebase.database().ref("users/" + uid);
+                alert(ref);
+                ref.once("value")
+                  .then(function(snapshot) {
+                    var banned = snapshot.child("banned").val(); // "last"
+                    // alert(banned);
+                    // var banned = snapshot.toJson().banned;
+                    // var banned = 1 == snapshot.getInt("banned");
+                    alert(banned);
+                  });
+                if (banned == false) {
+                    return true;
+                }
+
+                return false;
+            }
+
+
+            function signout() {
+              Cookies.remove("user", {path: '/'});
             }

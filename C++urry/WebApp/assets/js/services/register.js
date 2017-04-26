@@ -21,7 +21,7 @@ function registerClick() {
                         alert('Successfully registered.');
             }
     }).then(function() {
-        window.location.href = "index.html";
+        window.location.href = "login.html";
     });
     return false;
 
