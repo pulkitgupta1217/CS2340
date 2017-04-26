@@ -7,6 +7,9 @@ function registerClick() {
     var user = newUsername.value;
     var pass = newPassword.value;
     var userType = newUserType.value;
+    if (user.indexOf("@") <= 0) {
+                    user += "@water.net";
+    }
 
     firebase.auth().createUserWithEmailAndPassword(user, pass).catch(function(error) {
     // Handle Errors here.

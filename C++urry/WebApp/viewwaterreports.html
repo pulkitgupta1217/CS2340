@@ -39,6 +39,8 @@
               } else if (Cookies.get("user") == null) {
                 alert("You are not logged in");
                 window.location = "index.html";
+              } else if (Cookies.get("user") != null) {
+                alert(Cookies.get('user'));
               }
             };
 
