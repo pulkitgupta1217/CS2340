@@ -1,4 +1,5 @@
-window.onload = function() {
+window.onload = init();
+function init() {
     var config = {
         apiKey: "AIzaSyDfYeM4BeryxToCYet_xfVjwcFz4oqaRtI",
         authDomain: "waternet-9ed81.firebaseapp.com",

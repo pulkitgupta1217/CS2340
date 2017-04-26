@@ -21,26 +21,8 @@
         <script src="assets/js/scripts.js"></script>
         <script src="assets/js/cookie.js"></script>
         <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
-    
-        <script LANGUAGE = "javascript">
-            
-
-            function greeting() {
-              if (Cookies.get("user") == "user") {
-                alert("plebian");
-              } else if (Cookies.get("user") == "admin") {
-                alert("swag");
-              } else if (Cookies.get("user") == null) {
-                alert("You are not logged in");
-                window.location = "login.html";
-              } else if (Cookies.get("user") != null) {
-                alert(Cookies.get('user'));
-              }
-            };
-
-        </script>
     </head>
-    <body onload = "greeting(); return false;">
+    <body>
         <nav class="navbar navbar-default">
     <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -80,7 +62,7 @@
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account Settings<span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="viewprofile.html">View Profile</a></li>
-                <li><a href="login.html" onclick="signout()">Sign Out</a></li>
+                <li><a onclick="signout();" href="login.html">Sign Out</a></li>
             </ul>
         </li>
         </ul>
@@ -99,6 +81,7 @@
   </tr>
 </table>
 <script src="assets/js/services/init.js"></script>
+<script src="assets/js/services/login.js"></script>
 <script src="assets/js/services/viewwaterreports.js"></script>
 </body>
 </html>

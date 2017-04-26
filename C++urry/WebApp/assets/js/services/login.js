@@ -23,7 +23,7 @@ function validateForm (form) {
                     valid = user != null;
 
                     if (valid) {
-                      addCookie(user);
+                      addCookie(user, enteredUsername, enteredPassword);
                     } else {
                       // No user is signed in.
                     }
@@ -36,8 +36,10 @@ function validateForm (form) {
                 return false;
             }
 
-            function addCookie(obj) {
+            function addCookie(obj, email, pword) {
                 Cookies.set('user', obj, {path: "/", expires: 30});
+                Cookies.set('email', email);
+                Cookies.set('password', pword);
             }
 
             function isNotBanned(user) {
@@ -63,4 +65,12 @@ function validateForm (form) {
 
             function signout() {
               Cookies.remove("user", {path: '/'});
+              firebase.auth().signOut();
             }
+
+            function checkSignedIn() {
+              if (Cookies.get("user") == null) {
+                alert("You are not logged in");
+                window.location = "login.html";
+              }
+            };

@@ -1,4 +1,7 @@
-window.onload = function() {
+window.onload = populateReports();
+
+function populateReports() {
+	checkSignedIn();
     var rootRef = firebase.database().ref().child("reports");
     rootRef.on("child_added", snap => {
         var key = snap.getKey();
