@@ -1,4 +1,4 @@
-package com.cs2340.WaterNet.Factory;
+package com.cs2340.WaterNet.Command;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cs2340.WaterNet.Controller.ViewUsersActivity;
-import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.Model.User;
 import com.cs2340.WaterNet.R;
 
@@ -18,10 +17,10 @@ import java.util.Map;
  * Created by pulki on 4/24/2017.
  */
 
-class ViewUsersConsumer implements Consumer<Map<String, User>> {
+public class ViewUsersCommand implements Command<Map<String, User>> {
     private Intent intent;
     private Context context;
-    ViewUsersConsumer(Intent i, Context c) {
+    public ViewUsersCommand(Intent i, Context c) {
         intent = i;
         context = c;
     }

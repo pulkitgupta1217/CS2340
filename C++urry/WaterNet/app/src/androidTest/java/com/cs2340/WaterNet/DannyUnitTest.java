@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.cs2340.WaterNet.Facade.AuthTuple;
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Facade.Consumer;
+import com.cs2340.WaterNet.Command.Command;
 import com.cs2340.WaterNet.Model.OverallCondition;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -26,7 +26,7 @@ public class DannyUnitTest {
     @Before
     public void start() {
         Facade.start();
-        Facade.validateLogin("user", "password", new Consumer<AuthTuple>() {
+        Facade.validateLogin("user", "password", new Command<AuthTuple>() {
             @Override
             public void accept(AuthTuple authTuple) {
                 Log.d("***", "finished start auth");
@@ -49,7 +49,7 @@ public class DannyUnitTest {
 
     @Test(timeout = 10000)
     public void testCreatePurityReport() {
-        Facade.createPurityReport("12.0", "10.0", "100", "15", OverallCondition.SAFE, new Consumer<String>() {
+        Facade.createPurityReport("12.0", "10.0", "100", "15", OverallCondition.SAFE, new Command<String>() {
             @Override
             public void accept(String s) {
                 if (!s.equals("success!")){
@@ -61,7 +61,7 @@ public class DannyUnitTest {
 
     @Test(timeout = 10000)
     public void testLat1() {
-        Facade.createPurityReport("", "10.0", "100", "15", OverallCondition.SAFE, new Consumer<String>() {
+        Facade.createPurityReport("", "10.0", "100", "15", OverallCondition.SAFE, new Command<String>() {
             @Override
             public void accept(String s) {
                 if (!s.equals("Enter latitude!")) {
@@ -73,7 +73,7 @@ public class DannyUnitTest {
 
     @Test(timeout = 10000)
     public void testLat2() {
-        Facade.createPurityReport(null, "10.0", "100", "15", OverallCondition.SAFE, new Consumer<String>() {
+        Facade.createPurityReport(null, "10.0", "100", "15", OverallCondition.SAFE, new Command<String>() {
             @Override
             public void accept(String s) {
                 if (!s.equals("Enter latitude!")) {
@@ -85,7 +85,7 @@ public class DannyUnitTest {
 
     @Test(timeout = 10000)
     public void testLong1() {
-        Facade.createPurityReport("12.0", "", "100", "15", OverallCondition.SAFE, new Consumer<String>() {
+        Facade.createPurityReport("12.0", "", "100", "15", OverallCondition.SAFE, new Command<String>() {
             @Override
             public void accept(String s) {
                 if (!s.equals("Enter longitude!")){
@@ -97,7 +97,7 @@ public class DannyUnitTest {
 
     @Test(timeout = 10000)
     public void testLong2() {
-        Facade.createPurityReport("12.0", null, "100", "15", OverallCondition.SAFE, new Consumer<String>() {
+        Facade.createPurityReport("12.0", null, "100", "15", OverallCondition.SAFE, new Command<String>() {
             @Override
             public void accept(String s) {
                 if (!s.equals("Enter longitude!")){
@@ -109,7 +109,7 @@ public class DannyUnitTest {
 
     @Test(timeout = 10000)
     public void testVPPM1() {
-        Facade.createPurityReport("12.0", "10.0", "", "15", OverallCondition.SAFE, new Consumer<String>() {
+        Facade.createPurityReport("12.0", "10.0", "", "15", OverallCondition.SAFE, new Command<String>() {
             @Override
             public void accept(String s) {
                 if (!s.equals("Enter virus ppm!")){
@@ -121,7 +121,7 @@ public class DannyUnitTest {
 
     @Test(timeout = 10000)
     public void testVPPM2() {
-        Facade.createPurityReport("12.0", "10.0", null, "15", OverallCondition.SAFE, new Consumer<String>() {
+        Facade.createPurityReport("12.0", "10.0", null, "15", OverallCondition.SAFE, new Command<String>() {
             @Override
             public void accept(String s) {
                 if (!s.equals("Enter virus ppm!")){
@@ -133,7 +133,7 @@ public class DannyUnitTest {
 
     @Test(timeout = 10000)
     public void testCPPM1() {
-        Facade.createPurityReport("12.0", "10.0", "100", "", OverallCondition.SAFE, new Consumer<String>() {
+        Facade.createPurityReport("12.0", "10.0", "100", "", OverallCondition.SAFE, new Command<String>() {
             @Override
             public void accept(String s) {
                 if (!s.equals("Enter contaminant ppm!")){
@@ -145,7 +145,7 @@ public class DannyUnitTest {
 
     @Test(timeout = 10000)
     public void testCPPM2() {
-        Facade.createPurityReport("12.0", "10.0", "100", null, OverallCondition.SAFE, new Consumer<String>() {
+        Facade.createPurityReport("12.0", "10.0", "100", null, OverallCondition.SAFE, new Command<String>() {
             @Override
             public void accept(String s) {
                 if (!s.equals("Enter contaminant ppm!")){

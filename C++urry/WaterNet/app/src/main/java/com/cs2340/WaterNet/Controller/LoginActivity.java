@@ -9,12 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Facade.AuthTuple;
-import com.cs2340.WaterNet.Facade.Consumer;
-import com.cs2340.WaterNet.Factory.ConsumerFactory;
+import com.cs2340.WaterNet.Factory.CommandFactory;
 import com.cs2340.WaterNet.R;
 
 /**
@@ -73,9 +70,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                Facade.validateLogin(email, password, ConsumerFactory.getConsumer(new Intent(LoginActivity.this, MainActivity.class), LoginActivity.this));
+                Facade.validateLogin(email, password, CommandFactory.getConsumer(new Intent(LoginActivity.this, MainActivity.class), LoginActivity.this));
 
-                /*Facade.validateLogin(email, password, new Consumer<AuthTuple>() {
+                /*Facade.validateLogin(email, password, new Command<AuthTuple>() {
                     @Override
                     public void accept(AuthTuple tuple) {
 

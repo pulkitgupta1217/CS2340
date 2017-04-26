@@ -9,12 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.cs2340.WaterNet.Facade.AuthTuple;
-import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Factory.ConsumerFactory;
+import com.cs2340.WaterNet.Factory.CommandFactory;
 import com.cs2340.WaterNet.Model.UserType;
 import com.cs2340.WaterNet.R;
 
@@ -75,10 +72,10 @@ public class SignUpActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 Facade.createUser(tempEmail, username, password, userType,
-                        ConsumerFactory.getConsumer(
+                        CommandFactory.getConsumer(
                                 new Intent(SignUpActivity.this, MainActivity.class),
                                 SignUpActivity.this));
-                        /*new Consumer<AuthTuple>() {
+                        /*new Command<AuthTuple>() {
 
                             @Override
                             public void accept(AuthTuple tuple) {
@@ -106,5 +103,11 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 }

@@ -1,14 +1,11 @@
-package com.cs2340.WaterNet.Factory;
+package com.cs2340.WaterNet.Command;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.cs2340.WaterNet.Controller.LoginActivity;
 import com.cs2340.WaterNet.Controller.ResetPasswordActivity;
-import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.R;
 
 /**
@@ -16,10 +13,10 @@ import com.cs2340.WaterNet.R;
  * Created by pulki on 4/24/2017.
  */
 
-class PasswordResetConsumer implements Consumer<String> {
+public class PasswordResetCommand implements Command<String> {
     Intent intent;
     Context context;
-    public PasswordResetConsumer(Intent i, Context c) {
+    public PasswordResetCommand(Intent i, Context c) {
         intent = i;
         context = c;
     }

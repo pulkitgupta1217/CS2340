@@ -206,4 +206,10 @@ public class ProfileActivity extends AppCompatActivity {
             auth.removeAuthStateListener(authListener);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
 }

@@ -1,21 +1,19 @@
-package com.cs2340.WaterNet.Factory;
+package com.cs2340.WaterNet.Command;
 
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.cs2340.WaterNet.Controller.MainActivity;
 import com.cs2340.WaterNet.Controller.PReportActivity;
-import com.cs2340.WaterNet.Facade.Consumer;
 
 /**
  * Created by pulki on 4/23/2017.
  */
 
-class PReportConsumer implements Consumer<String> {
+public class PReportCommand implements Command<String> {
     private Intent intent;
     private Context context;
-    public PReportConsumer(Intent i, Context c) {
+    public PReportCommand(Intent i, Context c) {
         intent = i;
         context = c;
     }

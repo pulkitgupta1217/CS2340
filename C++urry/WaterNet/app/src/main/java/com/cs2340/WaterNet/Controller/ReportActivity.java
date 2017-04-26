@@ -11,11 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.cs2340.WaterNet.Facade.Consumer;
 import com.cs2340.WaterNet.Facade.Facade;
-import com.cs2340.WaterNet.Factory.ConsumerFactory;
+import com.cs2340.WaterNet.Factory.CommandFactory;
 import com.cs2340.WaterNet.Model.WaterCondition;
 import com.cs2340.WaterNet.Model.WaterType;
 import com.cs2340.WaterNet.R;
@@ -102,9 +100,9 @@ public class ReportActivity extends AppCompatActivity {
 
                 Facade.createReport(latField.getText().toString().trim(), longField.getText().toString().trim(),
                         (WaterType) waterTypeSpinner.getSelectedItem(), (WaterCondition) conditionTypeSpinner.getSelectedItem(),
-                        ConsumerFactory.getConsumer(new Intent(ReportActivity.this, MainActivity.class), ReportActivity.this));
+                        CommandFactory.getConsumer(new Intent(ReportActivity.this, MainActivity.class), ReportActivity.this));
 
-                        /*new Consumer<String>() {
+                        /*new Command<String>() {
                             public void accept(String s) {
                                 if (s.equals("success!")) {
                                     Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
@@ -142,5 +140,11 @@ public class ReportActivity extends AppCompatActivity {
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }
