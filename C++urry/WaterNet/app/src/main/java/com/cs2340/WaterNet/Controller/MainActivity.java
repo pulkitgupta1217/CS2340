@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView btnViewProfile, signOut, gotoCreateReportBtn, viewMapBtn,
                 gotoCreatePurityReportBtn;
-        Button viewGraphBtn, viewPurityReports, goToAdminMenu;
+        Button viewGraphBtn, viewPurityReports, adminMenuBtn;
         RecyclerView recycler;
 
         setContentView(R.layout.activity_main);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         viewMapBtn = (TextView) findViewById(R.id.view_map);
         viewPurityReports = (Button) findViewById(R.id.view_purity_reports_button);
         viewGraphBtn = (Button) findViewById(R.id.view_graph);
-        goToAdminMenu = (Button) findViewById(R.id.admin_menu_button);
+        adminMenuBtn = (Button) findViewById(R.id.admin_menu_button);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        goToAdminMenu.setOnClickListener(new View.OnClickListener() {
+        adminMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, AdminActivity.class);
@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         if (Facade.getCurrUser().getUserType() != UserType.MANAGER) {
             viewPurityReports.setVisibility(View.GONE);
             viewGraphBtn.setVisibility(View.GONE);
+            adminMenuBtn.setVisibility(View.GONE);
         }
 
         if (Facade.getCurrUser().getUserType() == UserType.USER) {
