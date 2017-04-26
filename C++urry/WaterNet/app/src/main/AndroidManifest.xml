@@ -36,6 +36,10 @@
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Controller.SignUpActivity"
+            android:label="SignUpActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Controller.ResetPasswordActivity"
             android:label="@string/title_activity_reset_password"
             android:theme="@style/AppTheme.NoActionBar" />
