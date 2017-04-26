@@ -41,5 +41,9 @@
     <string name="Back">Back</string>
     <string name="title_activity_view_users">viewUsersActivity</string>
     <string name="view_admin_menu">Admin Menu</string>
+    <string name="ban_user">Ban A User</string>
+    <string name="unban_user">Unban A User</string>
+    <string name="title_activity_admin_menu">AdminActivity</string>
+    <string name="enter_username">Enter the Username</string>
 
 </resources>

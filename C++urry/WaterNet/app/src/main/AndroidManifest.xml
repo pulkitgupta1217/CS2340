@@ -79,7 +79,9 @@
             android:label="@string/title_activity_view_users"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".Controller.AdminActivity" />
+        <activity android:name=".Controller.AdminActivity"
+            android:label="@string/title_activity_admin_menu"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 
