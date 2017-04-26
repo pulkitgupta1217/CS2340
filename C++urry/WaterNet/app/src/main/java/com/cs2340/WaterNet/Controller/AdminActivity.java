@@ -50,7 +50,7 @@ public class AdminActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogBox, int id) {
                                 String userToBeBanned = userInputDialogEditText.getText().toString();
                                 //get user object here
-                                final User u;
+                                final User u = null;
                                 new AlertDialog.Builder(getApplicationContext())
                                         .setMessage("Are you sure you want to ban " + userToBeBanned + "?")
                                         .setCancelable(false)
@@ -95,7 +95,7 @@ public class AdminActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogBox, int id) {
                                 String userToBeBanned = userInputDialogEditText.getText().toString();
                                 //get user object here
-                                final User u;
+                                final User u = null;
                                 new AlertDialog.Builder(getApplicationContext())
                                         .setMessage("Are you sure you want to unban " + userToBeBanned + "?")
                                         .setCancelable(false)

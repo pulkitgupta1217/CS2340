@@ -120,8 +120,8 @@ public final class Facade {
 
             loginAttempts++;
             if (loginAttempts > 3) {
-                callback.accept(new AuthTuple(false, "too many login attempts, "
-                        + "this device has been banned"));
+                callback.accept(new AuthTuple(false, "Too many login attempts, "
+                        + "this device has been banned."));
                 return;
             }
             if (!email.contains("@")) {
@@ -146,7 +146,7 @@ public final class Facade {
                                             + "and password or sign up");
                                 } else {
                                     tuple.setErrorMessage(tuple.getErrorMessage()
-                                            + "authentication failed");
+                                            + "Authentication Failed!");
                                 }
                                 tuple.setSuccess(false);
                                 callback.accept(tuple);

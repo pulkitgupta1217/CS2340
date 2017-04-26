@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("SIGNUP", "going to signup");
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
             }
         });
