@@ -150,9 +150,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //TODO: should this be user?
-        if (Facade.getCurrUser().getUserType() != UserType.MANAGER) {
+        UserType currType = Facade.getCurrUser().getUserType();
+        if (!(currType == UserType.MANAGER || currType == UserType.ADMIN)) {
             viewPurityReports.setVisibility(View.GONE);
             viewGraphBtn.setVisibility(View.GONE);
+        }
+
+        if (Facade.getCurrUser().getUserType() != UserType.ADMIN) {
             adminMenuBtn.setVisibility(View.GONE);
         }
 
