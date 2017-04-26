@@ -104,7 +104,6 @@ public class SignUpActivity extends AppCompatActivity {
         super.onResume();
         progressBar.setVisibility(View.GONE);
     }
-<<<<<<< HEAD:C++urry/WaterNet/app/src/main/java/com/cs2340/WaterNet/Controller/SignupActivity.java
 
     @Override
     public void onBackPressed() {
@@ -112,6 +111,3 @@ public class SignUpActivity extends AppCompatActivity {
         finish();
     }
 }
-=======
-}
->>>>>>> 0d8b053ecb3fda5ec4365f91159da057a0433021:C++urry/WaterNet/app/src/main/java/com/cs2340/WaterNet/Controller/SignUpActivity.java
