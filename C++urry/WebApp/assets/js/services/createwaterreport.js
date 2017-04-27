@@ -1,23 +1,26 @@
 checkSignedIn();
 
 function submitWaterReport() {
-    alert("43235");
+    var creator = Cookies.getJSON('user').uid;
+    var lat = $("#lat").value;
+    var lng = $("#lng").value;
+    var waterCondition = $("#waterCondition").value;
+    var waterType = $("#waterType").value;
+    
     var newWaterReport = {
-        creator: "Dan",
+        creator: creator,
         dateTime: "2017-04-25 23:45:10",
-        lat: 5,
-        lng: 5,
+        lat: lat,
+        lng: lng,
         site: {
-            lat: 5,
-            lng: 5
+            lat: lat,
+            lng: lng
         },
         reportID: 455,
-        waterCondition: "TREATABLE_MUDDY",
-        waterType: "WELL"
+        waterCondition: waterCondition,
+        waterType: waterType
     }
-    alert("json created");
     var newWaterReportKey = firebase.database().ref().child("reports").push().key;
-    alert("added");
     firebase.database().ref('reports/' + newWaterReportKey).set(newWaterReport).then(
         function () {
             alert("Water Report Submitted");
