@@ -1,12 +1,14 @@
 var newUsername = document.getElementById('newUser');
 var newPassword = document.getElementById('newPass');
 var registerSubmit = document.getElementById('newReg');
+var nameForm = document.getElementById('newName');
 var userType = document.getElementById('newUserType');
 
 function registerClick() {
     var user = newUsername.value;
     var pass = newPassword.value;
     var userType = newUserType.value;
+    var name = nameForm.value;
     if (user.indexOf("@") <= 0) {
                     user += "@water.net";
     }
@@ -50,10 +52,15 @@ function registerClick() {
                         "address": "NO ADDRESS",
                         "phone": "PHONE",
                         "username": Cookies.getJSON('user').email,
-                        "name": "newName"
+                        "name": name,
+                        "userType": userType.toUpperCase(),
+                        "userID": Math.floor(Math.random()*10000)
                     };
-                    alert(data);
-                    firebase.database().ref('users/' + key).set(data).then(
+                    firebase.database().ref('users/' + key).set(data).catch(
+                        function(error) {
+                            alert(error.message);
+                        }
+                        ).then(
                         function() {
                             lit();
                         });
@@ -72,7 +79,7 @@ function addCookie(obj, email, pword) {
     Cookies.set('user', obj, {path: "/", expires: 30});
     Cookies.set('email', email);
     Cookies.set('password', pword);
-    alert("set");
+    alert("cookies set");
 }
 
 function lit() {
