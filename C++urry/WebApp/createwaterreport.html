@@ -60,20 +60,20 @@
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">View Reports<span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="viewwaterreports.html">View Water Reports</a></li>
-                <li><a href="viewpurityreports.html">View Purity Reports</a></li>
+                <li id="viewPurityReports"><a href="viewpurityreports.html">View Purity Reports</a></li>
             </ul>
         </li>
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><b>Create Reports</b><span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a><b>Create Water Report</b></a></li>
-                <li><a href="createpurityreport.html">Create Purity Report</a></li>
+                <li id="createPurityReport"><a href="createpurityreport.html">Create Purity Report</a></li>
             </ul>
         </li>
         <li><a href="viewmap.html">View Map</a></li>
-        <li><a href="viewgraph.html">View Graph</a></li>
-        <li><a href="viewaccounts.html">View Accounts</a></li>
-        <li><a href="viewsecuritylog.html">View Security Log</a></li>
+        <li id="viewGraph"><a href="viewgraph.html">View Graph</a></li>
+        <li id="viewAccounts"><a href="viewaccounts.html">View Accounts</a></li>
+        <li id="viewSecurityLog"><a href="viewsecuritylog.html">View Security Log</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -95,8 +95,8 @@
   Water Condition:<br>
   <select id="waterCondition" class="select">
     <option value="WASTE">WASTE</option>
-    <option value="TREATABLE_CLEAR">TREATABLE-CLEAR</option>
-    <option value="TREATABLE_MUDDY">TREATABLE-MUDDY</option>
+    <option value="TREATABLE_CLEAR">TREATABLE_CLEAR</option>
+    <option value="TREATABLE_MUDDY">TREATABLE_MUDDY</option>
     <option value="POTABLE">POTABLE</option>
   </select></br>
   Water Type:<br>
@@ -108,10 +108,11 @@
     <option value="SPRING">SPRING</option>
     <option value="OTHER">OTHER</option>
   </select></br>
-  <button id="submit" onclick="submitWaterReport()">SUBMIT</button>
+  <button id="submit" onclick="submitWaterReport(); return false;">SUBMIT</button>
 </form>
 <script src="assets/js/services/init.js"></script>
 <script src="assets/js/services/login.js"></script>
 <script src="assets/js/services/createwaterreport.js"></script>
+<script src="assets/js/services/tabs.js"></script>
 </body>
 </html>

@@ -29,14 +29,14 @@ function hide(uType) {
 		hideTab("viewAccounts");
 		hideTab("createPurityReport");
 		hideTab("viewPurityReports");
-		hideTab("viewSecurityLogs");
+		hideTab("viewSecurityLog");
 	} else if (uType == "WORKER") {
 		hideTab("viewAccounts");
 		hideTab("viewGraph");
-		hideTab("viewSecurityLogs");
+		hideTab("viewSecurityLog");
 	} else if (uType == "MANAGER") {
 		hideTab("viewAccounts");
-		hideTab("viewSecurityLogs");
+		hideTab("viewSecurityLog");
 	}
 }
 
