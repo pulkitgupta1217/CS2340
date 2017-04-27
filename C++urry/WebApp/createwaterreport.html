@@ -73,6 +73,7 @@
         <li><a href="viewmap.html">View Map</a></li>
         <li><a href="viewgraph.html">View Graph</a></li>
         <li><a href="viewaccounts.html">View Accounts</a></li>
+        <li><a href="viewsecuritylog.html">View Security Log</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -86,7 +87,31 @@
     </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<form class="form">
+  Latitude:<br>
+  <input id="lat" type="number" class="input"></br>
+  Longitude:<br>
+  <input id="lng" type="number" class="input"></br>
+  Water Condition:<br>
+  <select id="waterCondition" class="select">
+    <option value="WASTE">WASTE</option>
+    <option value="TREATABLE_CLEAR">TREATABLE-CLEAR</option>
+    <option value="TREATABLE_MUDDY">TREATABLE-MUDDY</option>
+    <option value="POTABLE">POTABLE</option>
+  </select></br>
+  Water Type:<br>
+  <select id="waterType" class="select">
+    <option value="BOTTLED">BOTTLED</option>
+    <option value="WELL">WELL</option>
+    <option value="STREAM">STREAM</option>
+    <option value="LAKE">LAKE</option>
+    <option value="SPRING">SPRING</option>
+    <option value="OTHER">OTHER</option>
+  </select></br>
+  <button id="submit" onclick="submitWaterReport()">SUBMIT</button>
+</form>
 <script src="assets/js/services/init.js"></script>
+<script src="assets/js/services/login.js"></script>
 <script src="assets/js/services/createwaterreport.js"></script>
 </body>
 </html>
